@@ -84,6 +84,6 @@ public class TfPcapPacketHandler implements PcapPacketHandler<Map<String, TreeMa
 
         }
 
-        System.out.println("Finished Processing 1 packet");
+//        System.out.println("Finished Processing 1 packet");
     }
 }

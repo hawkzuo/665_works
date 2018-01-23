@@ -67,7 +67,7 @@ public class ClassicPcapExampleOfflineCapture {
             public void nextPacket(PcapPacket packet, String user) {
 
                 System.out.printf("Received at %s caplen=%-4d len=%-4d %s\n",
-                        new Date(packet.getCaptureHeader().timestampInMillis()),
+                        new Date(packet.getCaptureHeader().timestampInMicros()),
                         packet.getCaptureHeader().caplen(), // Length actually captured
                         packet.getCaptureHeader().wirelen(), // Original length
                         user // User supplied object

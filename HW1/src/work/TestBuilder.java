@@ -68,7 +68,21 @@ public class TestBuilder {
             // 0 on cnt exhausted
             // -2 on pcap_breakloop() call
             int statusCode = pcap.loop(Integer.MAX_VALUE, packetHandler, holder);
-            System.out.println("StatusCode: "+ statusCode);
+            if (statusCode != 0) {
+                System.err.print("Error while processing packets");
+            }
+
+            for(String connectionPairs : holder.keySet()) {
+                TreeMap<Long, Session> connectionsMap = holder.get(connectionPairs);
+
+                for(Long sessionStartTime: connectionsMap.keySet()) {
+                    Session instance = connectionsMap.get(sessionStartTime);
+                    Util.prettyPrintSession(instance);
+
+                }
+
+            }
+
         } finally {
             /***************************************************************************
              * Last thing to do is close the pcap handle
@@ -79,7 +93,7 @@ public class TestBuilder {
 
 
 
-        System.out.println("Successfully opened local file: " +fileName);
+//        System.out.println("Successfully opened local file: " +fileName);
 
     }
 
