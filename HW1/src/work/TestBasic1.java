@@ -3,8 +3,7 @@ package work;
 import org.jnetpcap.Pcap;
 import org.jnetpcap.PcapIf;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by Amos on 2018/1/22.
@@ -44,8 +43,8 @@ public class TestBasic1 {
 
         final StringBuilder errorBuffer = new StringBuilder(); // For any error msgs
 
-//        final String fileName = "HW1/test/tfsession.pcap";
-        final String fileName = "HW1/test/test-l2tp.pcap";
+        final String fileName = "HW1/test/tfsession.pcap";
+//        final String fileName = "HW1/test/test-ipreassembly.pcap";
 
         final Pcap pcap = Pcap.openOffline(fileName, errorBuffer);
 
@@ -56,14 +55,19 @@ public class TestBasic1 {
             return;
         }
 
-        TfPcapPacketHandler<String> packetHandler = new TfPcapPacketHandler<>();
+        TfPcapPacketHandler packetHandler = new TfPcapPacketHandler();
+
+        Map<String, TreeMap<Long, Session>> holder = new HashMap<>();
+
+
+
 
         try {
             // statusCode:
             // -1 on ERROR
             // 0 on cnt exhausted
             // -2 on pcap_breakloop() call
-            int statusCode = pcap.loop(10000, packetHandler, "testing");
+            int statusCode = pcap.loop(Integer.MAX_VALUE, packetHandler, holder);
             System.out.println("StatusCode: "+ statusCode);
         } finally {
             /***************************************************************************
