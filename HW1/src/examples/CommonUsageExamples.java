@@ -1,4 +1,5 @@
-package examples; /**
+package examples;
+/**
  * Created by Amos on 2018/1/22.
  */
 

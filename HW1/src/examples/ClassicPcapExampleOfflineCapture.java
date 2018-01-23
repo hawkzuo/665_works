@@ -43,7 +43,7 @@ public class ClassicPcapExampleOfflineCapture {
          * First we setup error buffer and name for our file
          **************************************************************************/
         final StringBuilder errbuf = new StringBuilder(); // For any error msgs
-        final String file = "HW1/test/tfsession.pcap";
+        final String file = "HW1/test/test-l2tp.pcap";
 
         System.out.printf("Opening file for reading: %s%n", file);
 
