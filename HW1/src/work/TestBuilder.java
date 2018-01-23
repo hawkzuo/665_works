@@ -8,7 +8,7 @@ import java.util.*;
 /**
  * Created by Amos on 2018/1/22.
  */
-public class TestBasic1 {
+public class TestBuilder {
 
     public static void references() {
         // Fetch all Internet Interfaces into List ifs
