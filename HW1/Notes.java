@@ -23,7 +23,12 @@ Telnet:
     Details: http://www.pcvr.nl/tcpip/telnet.htm#26_0
     Options: https://www.iana.org/assignments/telnet-options/telnet-options.xhtml#telnet-options-4
     Wiki: https://en.wikipedia.org/wiki/Telnet
+    RFC: https://tools.ietf.org/html/rfc854 {Tomorrow will look at it in details}
 
+    Key Points:
+        - Translate Commands & Combine Messages
+        - Design A DS to filter out the Options the session is on
+        
 
 
 FTP:    Server always port 21, data is sent through port 20

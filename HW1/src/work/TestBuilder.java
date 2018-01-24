@@ -43,7 +43,8 @@ public class TestBuilder {
 
         final StringBuilder errorBuffer = new StringBuilder(); // For any error msgs
 
-        final String fileName = "HW1/test/httpsession.pcap";
+        final String fileName = "HW1/test/tfsession.pcap";
+//        final String fileName = "HW1/test/httpsession.pcap";
 //        final String fileName = "HW1/test/test-ipreassembly.pcap";
 
         final Pcap pcap = Pcap.openOffline(fileName, errorBuffer);
@@ -77,7 +78,7 @@ public class TestBuilder {
 
                 for(Long sessionStartTime: connectionsMap.keySet()) {
                     Session instance = connectionsMap.get(sessionStartTime);
-                    Util.prettyPrintSession(instance);
+                    Util.prettyPrintFTPSession(instance);
 
                 }
 

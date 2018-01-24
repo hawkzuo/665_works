@@ -47,7 +47,7 @@ public class ClassicPcapExample {
          **************************************************************************/
         int r = Pcap.findAllDevs(alldevs, errbuf);
         if (r == Pcap.NOT_OK || alldevs.isEmpty()) {
-            System.err.printf("Can't read list of devices, error is %s", errbuf
+            System.err.printf("Can'telnetCommands read list of devices, error is %s", errbuf
                     .toString());
             return;
         }

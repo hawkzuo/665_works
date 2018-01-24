@@ -1,6 +1,5 @@
 package work;
 
-import org.jnetpcap.nio.JBuffer;
 import org.jnetpcap.packet.Payload;
 import org.jnetpcap.packet.PcapPacket;
 import org.jnetpcap.protocol.lan.Ethernet;
@@ -13,6 +12,8 @@ import java.util.Date;
 import java.util.List;
 
 import static work.Util.supportedApplicationTypes;
+import static work.Util.telnetCommands;
+import static work.Util.telnetOptions;
 
 /**
  * Created by Amos on 2018/1/23.
@@ -69,7 +70,7 @@ public class Session {
         this.serverPacketNumber = 0;
     }
 
-    // 1st Version: Don't check ACK & SEQ numbers
+    // 1st Version: Don'telnetCommands check ACK & SEQ numbers
 
 
     public int addPacket(PcapPacket element, Tcp tcp, Ip4 ip4 , Ethernet eth) {
@@ -125,6 +126,102 @@ public class Session {
                         // This is a packet from client
                         sb.append("\nCLIENT Timestamp: ");
                     }
+                    sb.append( new Date(element.getCaptureHeader().timestampInMillis()).toString());
+                    sb.append(" Context: \n");
+
+                    int[] data = Util.byteToDec(payload.data());
+
+                    // Convert the data into String
+                    StringBuilder operation = new StringBuilder();
+                    boolean pureTextMode = false; boolean nextCharCommand = false;
+                    int nextCharOption = 0;
+                    int operationNumber = -1; boolean firstSubOption = false;
+                    for (int i = 0; i < data.length; i++) {
+                        int step = data[i];
+                        if (nextCharCommand) {
+
+                            String command = telnetCommands[step];
+                            operation.append(command);
+                            operation.append(' ');
+                            nextCharCommand = false;
+                            switch (command) {
+                                case "SB":
+                                    nextCharOption = 2;
+                                    break;
+                                case "SE":
+                                    nextCharOption = 0;
+                                    break;
+                                default:
+                                    nextCharOption = 1;
+                                    break;
+                            }
+                            pureTextMode = false;
+                        } else if (nextCharOption == 2) {
+                            String option = telnetOptions[step];
+                            operation.append(option);
+                            operation.append(' ');
+                            nextCharOption = 11;
+                        } else if (nextCharOption == 1) {
+                            // Normal Option comes here
+                            String option = telnetOptions[step];
+                            operation.append(option);
+                            operation.append(' ');
+                            nextCharOption = 0;
+                        } else if (nextCharOption == 11) {
+                            // Separate subCommand "SB" case here
+                            String command = telnetCommands[step];
+                            operation.append(command);
+                            operation.append(' ');
+                            nextCharOption = 0;
+                            // Record the operation number here
+                            operationNumber = data[i-1];
+                            firstSubOption = true;
+                        } else {
+                            if (step == 255) {
+                                // IAC encountered
+                                if (pureTextMode) {
+                                    operation.append(' ');
+                                }
+                                operation.append(telnetCommands[255]);
+                                operation.append(' ');
+                                nextCharCommand = true;
+                                pureTextMode = false;
+                            } else {
+                                // Normal char
+                                if (operationNumber == 10 || operationNumber == 11 || operationNumber == 12 ||
+                                        operationNumber == 13 || operationNumber == 14 || operationNumber == 15 ||
+                                        operationNumber == 16 || operationNumber == 17 || operationNumber == 26) {
+                                    // Those modes just need to convert to Hex
+                                    // NAOCRD NAOHTS NAOHTD NAOFFD NAOVTS NAOVTD NAOLFD EXTEND-ASCII TUID modes,
+                                    // should append this 8-bit value instead of converting to char
+                                    operation.append(Util.byteToHexString(payload.data()[i]));
+                                } else if (operationNumber == 28){
+                                    // Those modes separate the first character & rest
+                                    if (firstSubOption) {
+                                        // TTYLOC fist is <format>
+                                        operation.append( step);
+                                    } else {
+                                        operation.append(Util.byteToHexString(payload.data()[i]));
+                                    }
+
+                                    firstSubOption = false;
+                                } else{
+                                    if (step <= 4) {
+                                        // Use a map to get the special char
+                                        switch (operationNumber) {
+
+                                        }
+                                    } else {
+                                        operation.append((char) step);
+                                    }
+                                }
+                                nextCharCommand = false;
+                                pureTextMode = true;
+                            }
+                        }
+                    }
+                    operationsList.add(operation.toString());
+
 
                     System.out.println();
 
@@ -187,13 +284,13 @@ public class Session {
 
     public String getClientPhysicalInformation() {
         return String.format("Client Physical Information:\nMAC Address: %s IP Address: %s Port Number: %d",
-                Util.byteToHex(clientMacAddress),
-                Util.byteToDec(clientIP), clientPort);
+                Util.byteToHexString(clientMacAddress),
+                Util.byteToDecString(clientIP), clientPort);
     }
     public String getServerPhysicalInformation() {
         return String.format("Server Physical Information:\nMAC Address: %s IP Address: %s Port Number: %d",
-                Util.byteToHex(serverMacAddress),
-                Util.byteToDec(serverIP), serverPort);
+                Util.byteToHexString(serverMacAddress),
+                Util.byteToDecString(serverIP), serverPort);
     }
 
 
