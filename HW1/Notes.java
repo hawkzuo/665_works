@@ -40,4 +40,21 @@ FTP:    Server always port 21, data is sent through port 20
 
 
 
+    public static void references() {
+        // Fetch all Internet Interfaces into List ifs
+        StringBuilder errbuf = new StringBuilder();
+        List<PcapIf> ifs = new ArrayList<PcapIf>();
+        int statusCode = Pcap.findAllDevs(ifs, errbuf);
+        if (statusCode != Pcap.OK) {
+            System.out.println("Error occured: " + errbuf.toString());
+            return;
+        }
+
+        // Select one of the interface
+        for (int i = 0; i < ifs.size(); i++) {
+            System.out.println("#" + i + ": " + ifs.get(i).getName());
+        }
+        Integer i = 0;
+        PcapIf netInterface = ifs.get(i);
+    }
 

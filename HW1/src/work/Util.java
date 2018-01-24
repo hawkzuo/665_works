@@ -1,9 +1,6 @@
 package work;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-
+import java.util.*;
 
 
 /**
@@ -17,6 +14,8 @@ public class Util {
 
     public static Map<Integer, String[]> telnetSubOptions;
 
+    public static Set<Integer> telnetEscapeCharacters;
+    public static Map<Integer, String> telnetSpecialCharacters;
 
 
     static {
@@ -50,6 +49,16 @@ public class Util {
         // 20 -> DET
         // 22 -> SUPDUP-OUTPUT
         // 27 -> OUTMRK
+
+        telnetEscapeCharacters = new HashSet<>();
+        telnetEscapeCharacters.add(91);    telnetEscapeCharacters.add(59);
+        for(int i=48; i<=57; i++) {
+            telnetEscapeCharacters.add(i);
+        }
+        telnetSpecialCharacters = new HashMap<>();
+        telnetSpecialCharacters.put(0, "NUL");
+        telnetSpecialCharacters.put(7, "BEL");
+        telnetSpecialCharacters.put(11, "VT");
 
 
         telnetCommands = new String[256];
@@ -91,33 +100,60 @@ public class Util {
         return res;
     }
 
-    public static String unEscapeString(String s){
+    public static String unEscapeExceptNT(String s){
         StringBuilder sb = new StringBuilder();
         for (int i=0; i<s.length(); i++)
             switch (s.charAt(i)){
-                case '\t': sb.append("\\telnetCommands"); break;
                 case '\b': sb.append("\\b"); break;
-                case '\n': sb.append("\\n"); break;
+                case '\n': sb.append("\\n\n"); break;
                 case '\r': sb.append("\\r"); break;
                 case '\f': sb.append("\\f"); break;
                 case '\'': sb.append("\\'"); break;
                 // ... rest of escape characters
+//                case '\t': sb.append("\\t"); break;
                 default: sb.append(s.charAt(i));
             }
         return sb.toString();
     }
+
+
+
     /* Add the Telnet Parsing Function Here in Util */
     public static void prettyPrintTelnetSession(Session session) {
+        if (session == null) {
+            return;
+        }
+        // Print out some information
+        System.out.println("******************************************************");
+        System.out.println("******************New Session Details*****************");
+        System.out.println("******************************************************");
 
+        System.out.println("Session Application Type: " + session.getApplicationType());
+        System.out.println("Session Start Time: " + new Date(session.getSessionStartTimestamp()).toString());
+        System.out.println("Session End Time: " + new Date(session.getSessionEndTimestamp()).toString());
+        System.out.println("Total Packets Transferred: " + session.getTotalPacketNumber());
+        System.out.println("Client-side Packets: " + session.getClientPacketNumber());
+        System.out.println("Server-side Packets: " + session.getServerPacketNumber());
+        System.out.println(session.getClientPhysicalInformation());
+        System.out.println(session.getServerPhysicalInformation());
+
+
+        System.out.println("Application-level Contents:");
+        for (String str: session.unionOperationsForTelnet()) {
+            System.out.print(str);
+        }
+        System.out.println();
+        System.out.println();
     }
+
     public static void prettyPrintFTPSession(Session session) {
         if (session == null) {
             return;
         }
         // Print out some information
-        System.out.println("********************************************");
-        System.out.println("*************New Session Details************");
-        System.out.println("********************************************");
+        System.out.println("******************************************************");
+        System.out.println("****************  New Session Details  ***************");
+        System.out.println("******************************************************");
 
         System.out.println("Session Application Type: " + session.getApplicationType());
         System.out.println("Session Start Time: " + new Date(session.getSessionStartTimestamp()).toString());
@@ -135,5 +171,17 @@ public class Util {
         System.out.println();
     }
 
-
+    public static void showNotes() {
+        System.out.println("Some Notes on this program: ");
+        System.out.println("\tTelnet Special Characters are defined as follows: 0 -> NUL, 7 -> BEL, 11 -> VT");
+        System.out.println("\tOther Special Characters are ASCII normal characters, which will be in explicit form.");
+        System.out.println("\tFor example, TAB will be printed as '\\t' and CR will be printed as '\\r', etc.");
+        System.out.println("\tActually, for better layouts, the LF is replaced by '\\n' plus a real line feed.");
+        System.out.println("\tOtherwise, the data will be squeezed into only 1 line.");
+        System.out.println("\tThis becomes severe on TELNET/HTTP application scenarios");
+        System.out.println("\tBesides, this program is able to catch the escaped sequences used in Telnet application");
+        System.out.println("\tHowever, those are used to adjust font properties, which would influence the general");
+        System.out.println("\tlayout of the messages. Thus, they are omitted mostly. ");
+        System.out.println("\tThere's only 1 valid parsing for it, which is at the end of TELNET session.");
+    }
 }

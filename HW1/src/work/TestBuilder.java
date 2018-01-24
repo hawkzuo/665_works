@@ -10,27 +10,6 @@ import java.util.*;
  */
 public class TestBuilder {
 
-    public static void references() {
-        // Fetch all Internet Interfaces into List ifs
-        StringBuilder errbuf = new StringBuilder();
-        List<PcapIf> ifs = new ArrayList<PcapIf>();
-        int statusCode = Pcap.findAllDevs(ifs, errbuf);
-        if (statusCode != Pcap.OK) {
-            System.out.println("Error occured: " + errbuf.toString());
-            return;
-        }
-
-        // Select one of the interface
-        for (int i = 0; i < ifs.size(); i++) {
-            System.out.println("#" + i + ": " + ifs.get(i).getName());
-        }
-        Integer i = 0;
-        PcapIf netInterface = ifs.get(i);
-
-
-    }
-
-
 
     public static void main(String[] args) {
         // Start point of jNetPCap is class Pcap
@@ -39,7 +18,6 @@ public class TestBuilder {
         // openLive: Live Network
         // openOffline: From File
         // openDead: Dummy Pcap Session
-
 
         final StringBuilder errorBuffer = new StringBuilder(); // For any error msgs
 
@@ -57,13 +35,11 @@ public class TestBuilder {
         }
 
         TfPcapPacketHandler packetHandler = new TfPcapPacketHandler();
-
         Map<String, TreeMap<Long, Session>> holder = new HashMap<>();
 
-
-
-
         try {
+            Util.showNotes();
+
             // statusCode:
             // -1 on ERROR
             // 0 on cnt exhausted
@@ -78,25 +54,23 @@ public class TestBuilder {
 
                 for(Long sessionStartTime: connectionsMap.keySet()) {
                     Session instance = connectionsMap.get(sessionStartTime);
-                    Util.prettyPrintFTPSession(instance);
-
+                    switch (instance.getApplicationType()) {
+                        case "FTP":
+                            Util.prettyPrintFTPSession(instance);
+                            break;
+                        case "TELNET":
+                            Util.prettyPrintTelnetSession(instance);
+                            break;
+                        default:
+                            break;
+                    }
                 }
-
             }
 
         } finally {
-            /***************************************************************************
-             * Last thing to do is close the pcap handle
-             **************************************************************************/
             pcap.close();
         }
 
-
-
-
 //        System.out.println("Successfully opened local file: " +fileName);
-
     }
-
-
 }

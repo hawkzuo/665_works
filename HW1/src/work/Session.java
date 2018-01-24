@@ -23,6 +23,11 @@ import static work.Util.telnetOptions;
 public class Session {
 
     private List<String> operationsList;
+
+    // server: positive     client: negative
+    private List<Integer> operationsFlag;
+
+    private List<PcapPacket> packets;
     private byte[] serverIP;
     private byte[] clientIP;
     private int serverPort;
@@ -49,6 +54,7 @@ public class Session {
 
     Session(PcapPacket head, Tcp tcp, Ip4 ip4 , Ethernet eth) {
         this.operationsList = new ArrayList<>();
+        this.operationsFlag = new ArrayList<>();
         this.connectionEstablished = false;
 
         // This field is for Application Level usage
@@ -68,12 +74,15 @@ public class Session {
 
         this.clientPacketNumber = 1;
         this.serverPacketNumber = 0;
+
+
+
+        this.packets = new ArrayList<>();
+
     }
 
-    // 1st Version: Don'telnetCommands check ACK & SEQ numbers
-
-
     public int addPacket(PcapPacket element, Tcp tcp, Ip4 ip4 , Ethernet eth) {
+        packets.add(element);
         sessionEndTimestamp = Math.max(element.getCaptureHeader().timestampInMillis(), sessionEndTimestamp);
         if (tcp.source() == serverPort) {
             // This is a packet from the server
@@ -108,13 +117,14 @@ public class Session {
                     sb.append( new Date(element.getCaptureHeader().timestampInMillis()).toString());
                     sb.append(" Context: \n");
                     try {
-                        sb.append(Util.unEscapeString(new String(payload.data(), "UTF-8")));
+                        sb.append(Util.unEscapeExceptNT(new String(payload.data(), "UTF-8")));
                     } catch (UnsupportedEncodingException e) {
                         e.printStackTrace();
                     }
                     operationsList.add(sb.toString());
                 }
             } else if (applicationType.equals("TELNET")) {
+                // Client-side message is terminated by '\r' ?
                 Payload payload = new Payload();
                 if (element.hasHeader(payload) || tcp.flags() == 24) {
                     // A PSH+ACK packet
@@ -133,13 +143,21 @@ public class Session {
 
                     // Convert the data into String
                     StringBuilder operation = new StringBuilder();
-                    boolean pureTextMode = false; boolean nextCharCommand = false;
+                    // Used to add essential space between text data & the commands
+                    boolean pureTextMode = true;
+                    // Set if next char is a IAC command
+                    boolean nextCharCommand = false;
+                    // 1 if next char is normal option, 2 if next char is a sub option (With "SB" proceed)
                     int nextCharOption = 0;
-                    int operationNumber = -1; boolean firstSubOption = false;
-                    for (int i = 0; i < data.length; i++) {
+                    // Set to the optionNumber of a sub option, which will be used to parse this specific option type
+                    // With format "IAC SB optionNumber ? <data> IAC SE"
+                    int optionNumber = -1;
+                    // Set if next char is the first char of a sub option data fields
+                    boolean firstSubOption = false;
+                    int i = 0;
+                    while (i < data.length) {
                         int step = data[i];
                         if (nextCharCommand) {
-
                             String command = telnetCommands[step];
                             operation.append(command);
                             operation.append(' ');
@@ -156,30 +174,32 @@ public class Session {
                                     break;
                             }
                             pureTextMode = false;
+                            // Always update
+                            optionNumber = -1;
                         } else if (nextCharOption == 2) {
+                            // Change strategy, let "IS SEND" done by parsing text
                             String option = telnetOptions[step];
                             operation.append(option);
                             operation.append(' ');
-                            nextCharOption = 11;
+                            nextCharOption = 0;
+                            // Record the operation number here
+                            optionNumber = data[i];
+                            firstSubOption = true;
+
                         } else if (nextCharOption == 1) {
                             // Normal Option comes here
                             String option = telnetOptions[step];
                             operation.append(option);
                             operation.append(' ');
                             nextCharOption = 0;
-                        } else if (nextCharOption == 11) {
-                            // Separate subCommand "SB" case here
-                            String command = telnetCommands[step];
-                            operation.append(command);
-                            operation.append(' ');
-                            nextCharOption = 0;
-                            // Record the operation number here
-                            operationNumber = data[i-1];
-                            firstSubOption = true;
+
+                            optionNumber = -1;
                         } else {
-                            if (step == 255) {
-                                // IAC encountered
-                                if (pureTextMode) {
+                            // Double IAC should be taken care of
+
+                            if (step == 255 && (i+1 < data.length) && data[i+1] != 255) {
+                                // IAC encountered & not doubled
+                                if (pureTextMode && i != 0) {
                                     operation.append(' ');
                                 }
                                 operation.append(telnetCommands[255]);
@@ -188,50 +208,244 @@ public class Session {
                                 pureTextMode = false;
                             } else {
                                 // Normal char
-                                if (operationNumber == 10 || operationNumber == 11 || operationNumber == 12 ||
-                                        operationNumber == 13 || operationNumber == 14 || operationNumber == 15 ||
-                                        operationNumber == 16 || operationNumber == 17 || operationNumber == 26) {
+
+                                // First check if optionNumber is -1 to distinguish either SB or real normal char
+                                if (optionNumber == -1) {
+                                    // This is a real normal char
+                                    if (step == 27) {
+                                        // we encountered a ESC char, escape
+                                        i ++;
+                                        StringBuilder sequence = new StringBuilder();
+                                        while (i < data.length) {
+                                            if (Util.telnetEscapeCharacters.contains(data[i])) {
+                                                sequence.append((char) data[i]);
+                                                i++;
+                                            } else {
+                                                sequence.append((char) data[i]);
+                                                break;
+                                            }
+                                        }
+                                        // Reference: http://ascii-table.com/ansi-escape-sequences.php
+                                        // Already detected escape sequences, but due to beautiful layouts, omit showing
+                                        if (sequence.toString().equals("[H")) {
+                                            operation.append("MOVE-CURSOR-TOP-LEFT ");
+                                        } else if (sequence.toString().equals("[2J")) {
+                                            operation.append("ERASE-DISPLAY ");
+                                        }
+                                    } else if ( Util.telnetSpecialCharacters.containsKey(step)) {
+                                        operation.append(Util.telnetSpecialCharacters.get(step));
+                                    } else {
+                                        operation.append((char) step);
+                                    }
+
+
+
+
+                                } else if (optionNumber == 10 || optionNumber == 11 || optionNumber == 12 ||
+                                        optionNumber == 13 || optionNumber == 14 || optionNumber == 15 ||
+                                        optionNumber == 16 || optionNumber == 17 || optionNumber == 26) {
                                     // Those modes just need to convert to Hex
                                     // NAOCRD NAOHTS NAOHTD NAOFFD NAOVTS NAOVTD NAOLFD EXTEND-ASCII TUID modes,
                                     // should append this 8-bit value instead of converting to char
                                     operation.append(Util.byteToHexString(payload.data()[i]));
-                                } else if (operationNumber == 28){
-                                    // Those modes separate the first character & rest
+                                } else if (optionNumber == 28){
+                                    // TTYLOC fist is <format> <64-bit>
                                     if (firstSubOption) {
-                                        // TTYLOC fist is <format>
-                                        operation.append( step);
-                                    } else {
-                                        operation.append(Util.byteToHexString(payload.data()[i]));
-                                    }
-
-                                    firstSubOption = false;
-                                } else{
-                                    if (step <= 4) {
-                                        // Use a map to get the special char
-                                        switch (operationNumber) {
-
+                                        // Format Bit
+                                        operation.append(String.format("Format: %d ", step));
+                                        // Rest 64-bits
+                                        if(i + 8 >= data.length) {
+                                            operation.append("ERROR-FORMATTED-TTYLOC");
+                                        } else {
+                                            int counter = 0;
+                                            while (counter < 8) {
+                                                operation.append(Util.byteToHexString(payload.data()[++i]));
+                                                counter ++;
+                                            }
                                         }
+                                    }
+                                } else if (optionNumber == 29) {
+                                    // 3270-REGIME
+                                    if (firstSubOption) {
+                                        switch (step) {
+                                            case 0:
+                                                operation.append("IS ");
+                                                break;
+                                            case 1:
+                                                operation.append("ARE ");
+                                                break;
+                                            default:
+                                                operation.append("ERROR-FORMATTED-3270-REGIME");
+                                                break;
+                                        }
+                                    } else {
+                                        // REGIME normal char
+                                        operation.append((char) step);
+                                    }
+                                } else if (optionNumber == 30) {
+                                    // X.3-PAD
+                                    if (firstSubOption) {
+                                        switch (step) {
+                                            case 0:
+                                                operation.append("SET ");
+                                                break;
+                                            case 1:
+                                                operation.append("RESPONSE-SET ");
+                                                break;
+                                            case 2:
+                                                operation.append("IS ");
+                                                break;
+                                            case 3:
+                                                operation.append("RESPONSE-IS ");
+                                                break;
+                                            case 4:
+                                                operation.append("SEND ");
+                                                break;
+                                            default:
+                                                operation.append("ERROR-FORMATTED-3270-REGIME");
+                                                break;
+                                        }
+                                    } else {
+                                        // <param1> <value1>
+                                        operation.append(step);
+                                        operation.append(" ");
+                                    }
+                                } else if (optionNumber == 31) {
+                                    // IAC SB NAWS <16-bit value> <16-bit value> IAC SE
+                                    if(i + 4 >= data.length) {
+                                        operation.append("ERROR-FORMATTED-NAWS");
+                                    } else {
+                                        int widthHigh = step;
+                                        int widthLow = data[++i];
+                                        int heightHigh = data[++i];
+                                        int heightLow = data[++i];
+
+                                        int width = widthHigh * 256 + widthLow;
+                                        int height = heightHigh * 256 + heightLow;
+                                        operation.append(String.format("WIDTH-%d HEIGHT-%d", width, height));
+                                    }
+                                } else if (optionNumber == 32) {
+                                    // TERMINAL-SPEED
+                                    if (firstSubOption) {
+                                        switch (step) {
+                                            case 0:
+                                                operation.append("IS ");
+                                                break;
+                                            case 1:
+                                                operation.append("SEND ");
+                                                break;
+                                            default:
+                                                operation.append("ERROR-FORMATTED-TERMINAL-SPEED");
+                                                break;
+                                        }
+                                    } else {
+                                        // ASCII char
+                                        operation.append((char) step);
+                                    }
+                                } else if (optionNumber == 33) {
+                                    // TOGGLE-FLOW-CONTROL
+                                    // Only 1 byte
+                                    if (firstSubOption) {
+                                        switch (step) {
+                                            case 0:
+                                                operation.append("OFF");
+                                                break;
+                                            case 1:
+                                                operation.append("ON");
+                                                break;
+                                            case 2:
+                                                operation.append("RESTART-ANY");
+                                                break;
+                                            case 3:
+                                                operation.append("RESTART-XON");
+                                                break;
+                                            default:
+                                                operation.append("ERROR-FORMATTED-TOGGLE-FLOW-CONTROL");
+                                                break;
+                                        }
+                                    }
+                                } else if (optionNumber == 34) {
+                                    // LINEMODE complex
+
+                                } else if (optionNumber == 35) {
+                                    // X-DISPLAY-LOCATION
+                                    if (firstSubOption) {
+                                        switch (step) {
+                                            case 0:
+                                                operation.append("IS ");
+                                                break;
+                                            case 1:
+                                                operation.append("SEND");
+                                                break;
+                                            default:
+                                                operation.append("ERROR-FORMATTED-X-DISPLAY-LOCATION");
+                                                break;
+                                        }
+                                    } else {
+                                        // <host>:<dispnum> ASCII char
+                                        operation.append((char) step);
+                                    }
+                                } else if (optionNumber == 36) {
+                                    // ENVIRON complex
+
+                                } else if (optionNumber == 37) {
+                                    // AUTHENTICATION complex
+
+                                } else if (optionNumber == 38) {
+                                    // ENCRYPT complex model
+
+                                }
+//                                else if (optionNumber == 39) {
+//                                    // NEW-ENVIRON complex model recursive
+//
+//                                }
+                                else if (optionNumber == 40) {
+                                    // TN3270 complex model recursive
+
+                                } else if (optionNumber == 42) {
+                                    // CHARSET complex but easier
+
+                                } else if (optionNumber == 44) {
+                                    // COM-PORT-OPTION
+                                } else if (optionNumber == 47) {
+                                    // KERMIT
+                                }
+                                else{
+                                    // Default number routing here
+                                    if (firstSubOption) {
+                                        String command = telnetCommands[step];
+                                        operation.append(command);
                                     } else {
                                         operation.append((char) step);
                                     }
                                 }
                                 nextCharCommand = false;
                                 pureTextMode = true;
+                                // Always set this to false
+                                firstSubOption = false;
+
+                                // Normal char needs to take care of Double IAC case
+                                if (step == 255) {
+                                    // Skip 1 IAC
+                                    i++;
+                                }
+
                             }
                         }
+                        i++;
                     }
                     operationsList.add(operation.toString());
+                    if (tcp.source() == serverPort) {
+                        operationsFlag.add(1);
+                    } else {
+                        operationsFlag.add(-1);
+                    }
 
-
-                    System.out.println();
-
+//                    System.out.println();
                 }
-
-
-                System.out.println();
+//                System.out.println();
             } else {
-                System.out.println();
-
+//                System.out.println();
             }
         }
 
@@ -257,6 +471,140 @@ public class Session {
     public List<String> getOperationsList() {
         return operationsList;
     }
+
+    public List<String> unionOperationsForTelnet() {
+        List<String> result = new ArrayList<>();
+
+        int clientCursor = -1;
+        int serverCursor = -1;
+
+        for (int i=0; i<operationsList.size(); i++) {
+            String operation = operationsList.get(i);
+            StringBuilder step = new StringBuilder();
+
+            if (this.operationsFlag.get(i) > 0) {
+                // Server
+                if (i > serverCursor) {
+                    step.append(operation);
+                    if (operation.length() == 1) {
+                        // Start unionning
+                        int j = i + 1;
+                        while (j < operationsList.size()) {
+                            if (operationsFlag.get(j) > 0) {
+                                step.append(operationsList.get(j));
+                                if (operationsList.get(j).equals("\r\n")) {
+                                    serverCursor = j;
+                                    break;
+                                }
+                            }
+                            j++;
+                        }
+                    } else {
+                        int j = i + 1;
+                        while (j < operationsList.size() && operationsFlag.get(j) > 0) {
+                            step.append(operationsList.get(j));
+                            serverCursor = j;
+                            j++;
+                        }
+                    }
+                    result.add("\nSERVER:\n" + Util.unEscapeExceptNT(step.toString()));
+                }
+            } else {
+                // client
+                if (i > clientCursor) {
+                    step.append(operation);
+                    if (operation.length() == 1) {
+                        // Start unionning
+                        int j = i + 1;
+                        while (j < operationsList.size()) {
+                            if (operationsFlag.get(j) < 0) {
+                                step.append(operationsList.get(j));
+                                if (operationsList.get(j).equals("\rNUL")) {
+                                    clientCursor = j;
+                                    break;
+                                }
+                            }
+                            j++;
+                        }
+                    } else {
+                        int j = i + 1;
+                        while (j < operationsList.size() && operationsFlag.get(j) < 0) {
+                            step.append(operationsList.get(j));
+                            clientCursor = j;
+                            j++;
+                        }
+                    }
+                    result.add("\nCLIENT:\n" + Util.unEscapeExceptNT(step.toString()));
+                }
+            }
+        }
+
+
+
+//        for (int i=0; i<this.operationsList.size(); i++) {
+//            String operation = operationsList.get(i);
+//            StringBuilder step = new StringBuilder();
+//            if (this.operationsFlag.get(i) > 0) {
+//                // Server
+//                if (i <= serverCursor) {
+//                    continue;
+//                }
+//                step.append("\nSERVER:\n");
+//                if (operation.length() == 1) {
+//                    // Start unionning
+//                    step.append(operation);
+//                    int j = i + 1;
+//                    while (j < operationsList.size()) {
+//                        if (operationsFlag.get(j) > 0) {
+//                            step.append(operationsList.get(j));
+//                            if (operationsList.get(j).equals("\r\n")) {
+//                                serverCursor = j;
+//                                break;
+//                            }
+//                        }
+//                        j++;
+//                    }
+//                } else {
+//                    step.append(operation);
+//                }
+//                result.add(step.toString());
+//            } else {
+//                // Client
+//                if (i <= clientCursor) {
+//                    continue;
+//                }
+//                step.append("\nCLIENT:\n");
+//                if (operation.length() == 1) {
+//                    // Start unionning
+//                    step.append(operation);
+//                    int j = i + 1;
+//                    while (j < operationsList.size()) {
+//                        if (operationsFlag.get(j) < 0) {
+//                            step.append(operationsList.get(j));
+//                            if (operationsList.get(j).equals("\rNUL")) {
+//                                clientCursor = j;
+//                                break;
+//                            }
+//                        }
+//                        j++;
+//                    }
+//                } else {
+//                    step.append(operation);
+//                }
+//                result.add(step.toString());
+//            }
+//        }
+
+
+
+
+
+
+
+
+        return result;
+    }
+
 
     public String getApplicationType() {
         return applicationType;
