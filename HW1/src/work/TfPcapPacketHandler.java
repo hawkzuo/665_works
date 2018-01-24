@@ -71,14 +71,14 @@ public class TfPcapPacketHandler implements PcapPacketHandler<Map<String, TreeMa
             TreeMap<Long, Session> sessionsForConnection = map.get(connectionKey);
             if(sessionsForConnection == null) {
                 System.err.println("Error");
-//                return;
-                exit(1);
+                return;
+//                exit(1);
             }
             Long sessionStartTimestamp = sessionsForConnection.floorKey(connectionTimestamp);
             if(sessionStartTimestamp == null) {
                 System.err.println("Error");
-//                return;
-                exit(1);
+                return;
+//                exit(1);
             }
             sessionsForConnection.get(sessionStartTimestamp).addPacket(packet, tcp, ip4, eth);
 

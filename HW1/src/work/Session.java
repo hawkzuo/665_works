@@ -91,10 +91,10 @@ public class Session {
             connectionEstablished = flags[0] && flags[1];
         } else {
             if(applicationType.equals("FTP")) {
-                if (tcp.flags() == 24) {
+                Payload payload = new Payload();
+//                element.hasHeader(payload);
+                if (element.hasHeader(payload) || tcp.flags() == 24) {
                     // A PSH+ACK packet
-                    Payload payload = new Payload();
-                    element.hasHeader(payload);
                     StringBuilder sb = new StringBuilder();
 
                     if (tcp.source() == serverPort) {
@@ -113,6 +113,28 @@ public class Session {
                     }
                     operationsList.add(sb.toString());
                 }
+            } else if (applicationType.equals("TELNET")) {
+                Payload payload = new Payload();
+                if (element.hasHeader(payload) || tcp.flags() == 24) {
+                    // A PSH+ACK packet
+                    StringBuilder sb = new StringBuilder();
+                    if (tcp.source() == serverPort) {
+                        // This is a packet from the server
+                        sb.append("\nSERVER Timestamp: ");
+                    } else {
+                        // This is a packet from client
+                        sb.append("\nCLIENT Timestamp: ");
+                    }
+
+                    System.out.println();
+
+                }
+
+
+                System.out.println();
+            } else {
+                System.out.println();
+
             }
         }
 
