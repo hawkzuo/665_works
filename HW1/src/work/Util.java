@@ -137,6 +137,9 @@ public class Util {
         System.out.println(session.getClientPhysicalInformation());
         System.out.println(session.getServerPhysicalInformation());
 
+        for (String option : session.learnOptionsForTelnet()) {
+            System.out.println(option);
+        }
 
         System.out.println("Application-level Contents:");
         for (String str: session.unionOperationsForTelnet()) {

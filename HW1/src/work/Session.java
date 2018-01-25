@@ -7,9 +7,7 @@ import org.jnetpcap.protocol.network.Ip4;
 import org.jnetpcap.protocol.tcpip.Tcp;
 
 import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 import static work.Util.supportedApplicationTypes;
 import static work.Util.telnetCommands;
@@ -21,13 +19,11 @@ import static work.Util.telnetOptions;
  * Timestamp is in micro seconds
  */
 public class Session {
-
-    private List<String> operationsList;
-
     // server: positive     client: negative
     private List<Integer> operationsFlag;
+    private List<String> operationsHeadersList;
+    private List<String> operationsList;
 
-    private List<PcapPacket> packets;
     private byte[] serverIP;
     private byte[] clientIP;
     private int serverPort;
@@ -35,112 +31,96 @@ public class Session {
     private byte[] serverMacAddress;
     private byte[] clientMacAddress;
 
-    private int clientPacketNumber;
-    private int serverPacketNumber;
-
-
-
-    // Application level fields
     private long sessionStartTimestamp;
     private long sessionEndTimestamp;
     private String applicationType;
 
+    private int clientPacketNumber;
+    private int serverPacketNumber;
     private boolean connectionEstablished;
-    private boolean[] flags = new boolean[2];
-
-
-
-
+    private boolean[] connectionEstablishingFlags = new boolean[2];
 
     Session(PcapPacket head, Tcp tcp, Ip4 ip4 , Ethernet eth) {
         this.operationsList = new ArrayList<>();
         this.operationsFlag = new ArrayList<>();
-        this.connectionEstablished = false;
+        this.operationsHeadersList = new ArrayList<>();
 
-        // This field is for Application Level usage
-        this.sessionStartTimestamp = head.getCaptureHeader().timestampInMillis();
-        this.sessionEndTimestamp = sessionStartTimestamp;
-
+        // Physical Info
         this.clientIP = ip4.source();
         this.clientPort = tcp.source();
         this.clientMacAddress = eth.source();
         this.serverIP = ip4.destination();
         this.serverPort = tcp.destination();
         this.serverMacAddress = eth.destination();
-
-//        supportedApplicationTypes
+        // TimeStamps
+        this.sessionStartTimestamp = head.getCaptureHeader().timestampInMillis();
+        this.sessionEndTimestamp = sessionStartTimestamp;
+        // Application Type
         this.applicationType = supportedApplicationTypes.get(clientPort) == null ?
                 supportedApplicationTypes.get(serverPort) : supportedApplicationTypes.get(clientPort);
 
         this.clientPacketNumber = 1;
         this.serverPacketNumber = 0;
-
-
-
-        this.packets = new ArrayList<>();
-
+        this.connectionEstablished = false;
     }
 
-    public int addPacket(PcapPacket element, Tcp tcp, Ip4 ip4 , Ethernet eth) {
-        packets.add(element);
+    // Helpers
+
+
+    private StringBuilder generateHeaderForOperation(PcapPacket element, Tcp tcp) {
+        StringBuilder sb = new StringBuilder();
+        if (tcp.source() == serverPort) {
+            sb.append("\nSERVER Timestamp: ");
+        } else {
+            sb.append("\nCLIENT Timestamp: ");
+        }
+        sb.append(new Date(element.getCaptureHeader().timestampInMillis()).toString());
+        sb.append(" Context: \n");
+        return sb;
+    }
+
+    private void generateOperationForFTP(PcapPacket element, Tcp tcp) {
+        Payload payload = new Payload();
+        if (element.hasHeader(payload) || tcp.flags() == 24) {
+            // A PSH+ACK packet
+            StringBuilder sb = generateHeaderForOperation(element, tcp);
+            try {
+                sb.append(Util.unEscapeExceptNT(new String(payload.data(), "UTF-8")));
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
+            operationsList.add(sb.toString());
+        }
+    }
+
+
+    public void addPacket(PcapPacket element, Tcp tcp, Ip4 ip4 , Ethernet eth) {
+        // Global updates
         sessionEndTimestamp = Math.max(element.getCaptureHeader().timestampInMillis(), sessionEndTimestamp);
         if (tcp.source() == serverPort) {
-            // This is a packet from the server
             serverPacketNumber ++;
         } else {
-            // This is a packet from client
             clientPacketNumber ++;
         }
 
         if (!connectionEstablished) {
             if (tcp.flags() == 18) {
-                flags[0] = true;
+                connectionEstablishingFlags[0] = true;
             } else if (tcp.flags() == 16) {
-                flags[1] = true;
+                connectionEstablishingFlags[1] = true;
             }
-            connectionEstablished = flags[0] && flags[1];
+            connectionEstablished = connectionEstablishingFlags[0] && connectionEstablishingFlags[1];
         } else {
             if(applicationType.equals("FTP")) {
-                Payload payload = new Payload();
-//                element.hasHeader(payload);
-                if (element.hasHeader(payload) || tcp.flags() == 24) {
-                    // A PSH+ACK packet
-                    StringBuilder sb = new StringBuilder();
-
-                    if (tcp.source() == serverPort) {
-                        // This is a packet from the server
-                        sb.append("\nSERVER Timestamp: ");
-                    } else {
-                        // This is a packet from client
-                        sb.append("\nCLIENT Timestamp: ");
-                    }
-                    sb.append( new Date(element.getCaptureHeader().timestampInMillis()).toString());
-                    sb.append(" Context: \n");
-                    try {
-                        sb.append(Util.unEscapeExceptNT(new String(payload.data(), "UTF-8")));
-                    } catch (UnsupportedEncodingException e) {
-                        e.printStackTrace();
-                    }
-                    operationsList.add(sb.toString());
-                }
+                generateOperationForFTP(element, tcp);
             } else if (applicationType.equals("TELNET")) {
                 // Client-side message is terminated by '\r' ?
                 Payload payload = new Payload();
                 if (element.hasHeader(payload) || tcp.flags() == 24) {
                     // A PSH+ACK packet
-                    StringBuilder sb = new StringBuilder();
-                    if (tcp.source() == serverPort) {
-                        // This is a packet from the server
-                        sb.append("\nSERVER Timestamp: ");
-                    } else {
-                        // This is a packet from client
-                        sb.append("\nCLIENT Timestamp: ");
-                    }
-                    sb.append( new Date(element.getCaptureHeader().timestampInMillis()).toString());
-                    sb.append(" Context: \n");
+                    StringBuilder operationHeader = generateHeaderForOperation(element, tcp);
 
                     int[] data = Util.byteToDec(payload.data());
-
                     // Convert the data into String
                     StringBuilder operation = new StringBuilder();
                     // Used to add essential space between text data & the commands
@@ -315,12 +295,11 @@ public class Session {
                                     if(i + 4 >= data.length) {
                                         operation.append("ERROR-FORMATTED-NAWS");
                                     } else {
-                                        int widthHigh = step;
                                         int widthLow = data[++i];
                                         int heightHigh = data[++i];
                                         int heightLow = data[++i];
 
-                                        int width = widthHigh * 256 + widthLow;
+                                        int width = step * 256 + widthLow;
                                         int height = heightHigh * 256 + heightLow;
                                         operation.append(String.format("WIDTH-%d HEIGHT-%d", width, height));
                                     }
@@ -434,14 +413,14 @@ public class Session {
                         }
                         i++;
                     }
+
+                    operationsHeadersList.add(operationHeader.toString());
                     operationsList.add(operation.toString());
                     if (tcp.source() == serverPort) {
                         operationsFlag.add(1);
                     } else {
                         operationsFlag.add(-1);
                     }
-
-//                    System.out.println();
                 }
 //                System.out.println();
             } else {
@@ -449,9 +428,7 @@ public class Session {
             }
         }
 
-        return  0;
     }
-
 
 
     @Override
@@ -459,19 +436,10 @@ public class Session {
         return "Session: " + this.hashCode();
     }
 
-    public byte[] getServerIP() {
-        return serverIP;
-    }
-
-    public byte[] getClientIP() {
-        return clientIP;
-    }
-
-
-    public List<String> getOperationsList() {
-        return operationsList;
-    }
-
+    /**
+     * Comprise consequent and echo messages during Telnet transmission for higher level view purposes
+     * @return Union Operations of Telnet session
+     */
     public List<String> unionOperationsForTelnet() {
         List<String> result = new ArrayList<>();
 
@@ -507,7 +475,7 @@ public class Session {
                             j++;
                         }
                     }
-                    result.add("\nSERVER:\n" + Util.unEscapeExceptNT(step.toString()));
+                    result.add(operationsHeadersList.get(i) + Util.unEscapeExceptNT(step.toString()));
                 }
             } else {
                 // client
@@ -534,77 +502,123 @@ public class Session {
                             j++;
                         }
                     }
-                    result.add("\nCLIENT:\n" + Util.unEscapeExceptNT(step.toString()));
+                    result.add(operationsHeadersList.get(i) + Util.unEscapeExceptNT(step.toString()));
                 }
             }
         }
 
-
-
-//        for (int i=0; i<this.operationsList.size(); i++) {
-//            String operation = operationsList.get(i);
-//            StringBuilder step = new StringBuilder();
-//            if (this.operationsFlag.get(i) > 0) {
-//                // Server
-//                if (i <= serverCursor) {
-//                    continue;
-//                }
-//                step.append("\nSERVER:\n");
-//                if (operation.length() == 1) {
-//                    // Start unionning
-//                    step.append(operation);
-//                    int j = i + 1;
-//                    while (j < operationsList.size()) {
-//                        if (operationsFlag.get(j) > 0) {
-//                            step.append(operationsList.get(j));
-//                            if (operationsList.get(j).equals("\r\n")) {
-//                                serverCursor = j;
-//                                break;
-//                            }
-//                        }
-//                        j++;
-//                    }
-//                } else {
-//                    step.append(operation);
-//                }
-//                result.add(step.toString());
-//            } else {
-//                // Client
-//                if (i <= clientCursor) {
-//                    continue;
-//                }
-//                step.append("\nCLIENT:\n");
-//                if (operation.length() == 1) {
-//                    // Start unionning
-//                    step.append(operation);
-//                    int j = i + 1;
-//                    while (j < operationsList.size()) {
-//                        if (operationsFlag.get(j) < 0) {
-//                            step.append(operationsList.get(j));
-//                            if (operationsList.get(j).equals("\rNUL")) {
-//                                clientCursor = j;
-//                                break;
-//                            }
-//                        }
-//                        j++;
-//                    }
-//                } else {
-//                    step.append(operation);
-//                }
-//                result.add(step.toString());
-//            }
-//        }
-
-
-
-
-
-
-
-
         return result;
     }
 
+    /**
+     * Use Algorithm to learn what options have been adopted in the Session
+     * @return Options adopted for this Telnet session
+     */
+    public List<String> learnOptionsForTelnet() {
+        List<String> res = new ArrayList<>();
+
+        // WONT series are not necessary
+        Set<String> clientSelfWantEnables = new HashSet<>();
+        Set<String> clientDemandEnables = new HashSet<>();
+        Set<String> clientDemandWontEnables = new HashSet<>();
+        Set<String> serverSelfWantEnables = new HashSet<>();
+        Set<String> serverDemandEnables = new HashSet<>();
+        Set<String> serverDemandWontEnables = new HashSet<>();
+
+        for( int i=0; i<operationsList.size(); i++) {
+            String operation = operationsList.get(i);
+            boolean isServer = operationsFlag.get(i) > 0;
+
+            if (operation.length() > 3 && operation.substring(0,3).equals("IAC")) {
+                // Enter decoding mode
+                if (isServer) {
+                    String[] operators = operation.split(" ");
+                    int j=0;
+                    while (j<operators.length) {
+                        if (operators[j].equals("IAC")) {
+                            if (j+2 >= operators.length) {
+                                j ++;
+                                continue;
+                            }
+                            j++;
+                            switch (operators[j]) {
+                                case "WILL":
+                                    serverSelfWantEnables.add(operators[++j]);
+                                    break;
+                                case "DO":
+                                    serverDemandEnables.add(operators[++j]);
+                                    break;
+                                case "DONT":
+                                    serverDemandWontEnables.add(operators[++j]);
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }
+                        j++;
+                    }
+                } else {
+                    // Client
+                    String[] operators = operation.split(" ");
+                    int j=0;
+                    while (j<operators.length) {
+                        if (operators[j].equals("IAC")) {
+                            if (j+2 >= operators.length) {
+                                j++;
+                                continue;
+                            }
+                            j++;
+                            switch (operators[j]) {
+                                case "WILL":
+                                    clientSelfWantEnables.add(operators[++j]);
+                                    break;
+                                case "DO":
+                                    clientDemandEnables.add(operators[++j]);
+                                    break;
+                                case "DONT":
+                                    clientDemandWontEnables.add(operators[++j]);
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }
+                        j++;
+                    }
+                }
+            }
+        }
+
+        Set<String> clientEnables = new HashSet<>();
+        // Intersect clientWill with serverDemand, then exclude serverDemandWont
+        for(String option : clientSelfWantEnables) {
+            if (serverDemandEnables.contains(option) && !serverDemandWontEnables.contains(option)) {
+                clientEnables.add(option);
+            }
+        }
+        StringBuilder clientOptions = new StringBuilder();
+        clientOptions.append("Client Enabled Options: ");
+        for (String str: clientEnables) {
+            clientOptions.append(str);
+            clientOptions.append("\t");
+        }
+
+        Set<String> serverEnables = new HashSet<>();
+        // Intersect serverWill with clientDemand, then exclude clientDemandWont
+        for(String option : serverSelfWantEnables) {
+            if (clientDemandEnables.contains(option) && !clientDemandWontEnables.contains(option)) {
+                serverEnables.add(option);
+            }
+        }
+        StringBuilder serverOptions = new StringBuilder();
+        serverOptions.append("Server Enabled Options: ");
+        for (String str: serverEnables) {
+            serverOptions.append(str);
+            serverOptions.append("\t");
+        }
+
+        res.add(clientOptions.toString());  res.add(serverOptions.toString());
+        return res;
+    }
 
     public String getApplicationType() {
         return applicationType;
@@ -635,12 +649,15 @@ public class Session {
                 Util.byteToHexString(clientMacAddress),
                 Util.byteToDecString(clientIP), clientPort);
     }
+
     public String getServerPhysicalInformation() {
         return String.format("Server Physical Information:\nMAC Address: %s IP Address: %s Port Number: %d",
                 Util.byteToHexString(serverMacAddress),
                 Util.byteToDecString(serverIP), serverPort);
     }
 
-
+    public List<String> getOperationsList() {
+        return operationsList;
+    }
 
 }

@@ -1,9 +1,10 @@
 package work;
 
 import org.jnetpcap.Pcap;
-import org.jnetpcap.PcapIf;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.TreeMap;
 
 /**
  * Created by Amos on 2018/1/22.
@@ -60,6 +61,7 @@ public class TestBuilder {
                             break;
                         case "TELNET":
                             Util.prettyPrintTelnetSession(instance);
+                            instance.learnOptionsForTelnet();
                             break;
                         default:
                             break;
