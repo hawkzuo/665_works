@@ -47,7 +47,7 @@ public class Session {
 
     // HTTP parser useful fields
     private Map<String, String> clientHTTPFields;
-    Map<String, String> serverHTTPFields;
+    private Map<String, String> serverHTTPFields;
     private String serverCharset;
     private ByteArrayOutputStream HTTPPayloadBuffer;
 
@@ -533,74 +533,56 @@ public class Session {
         return "Session: " + this.hashCode();
     }
 
+    private int unionSingleOperationForTelnet(int oldCursor, int i, List<String> result, boolean isServer) {
+        StringBuilder step = new StringBuilder();
+        String operation = operationsList.get(i);
+        step.append(operationsList.get(i));
+        int newServerCursor = oldCursor;
+
+        if (operation.length() == 1) {
+            // Start unionning
+            int j = i + 1;
+            while (j < operationsList.size()) {
+                if ((isServer && operationsFlag.get(j) > 0) ||
+                        (!isServer && operationsFlag.get(j) < 0)) {
+                    step.append(operationsList.get(j));
+                    if ( (isServer && operationsList.get(j).equals("\r\n")) ||
+                            (!isServer && operationsList.get(j).equals("\rNUL")) ) {
+                        newServerCursor = j;
+                        break;
+                    }
+                }
+                j++;
+            }
+        } else {
+            int j = i + 1;
+            while ( (j < operationsList.size()) &&
+                    ( (isServer && operationsFlag.get(j) > 0) || (!isServer && operationsFlag.get(j) < 0) )  ) {
+                step.append(operationsList.get(j));
+                newServerCursor = j;
+                j++;
+            }
+        }
+
+        result.add(operationsHeadersList.get(i) + Util.unEscapeExceptNT(step.toString()));
+        return newServerCursor;
+    }
+
     /**
      * Comprise consequent and echo messages during Telnet transmission for higher level view purposes
      * @return Union Operations of Telnet session
      */
     public List<String> unionOperationsForTelnet() {
         List<String> result = new ArrayList<>();
-
-        int clientCursor = -1;
-        int serverCursor = -1;
+        int clientCursor = -1;  int serverCursor = -1;
 
         for (int i=0; i<operationsList.size(); i++) {
-            String operation = operationsList.get(i);
-            StringBuilder step = new StringBuilder();
-
             if (this.operationsFlag.get(i) > 0) {
                 // Server
-                if (i > serverCursor) {
-                    step.append(operation);
-                    if (operation.length() == 1) {
-                        // Start unionning
-                        int j = i + 1;
-                        while (j < operationsList.size()) {
-                            if (operationsFlag.get(j) > 0) {
-                                step.append(operationsList.get(j));
-                                if (operationsList.get(j).equals("\r\n")) {
-                                    serverCursor = j;
-                                    break;
-                                }
-                            }
-                            j++;
-                        }
-                    } else {
-                        int j = i + 1;
-                        while (j < operationsList.size() && operationsFlag.get(j) > 0) {
-                            step.append(operationsList.get(j));
-                            serverCursor = j;
-                            j++;
-                        }
-                    }
-                    result.add(operationsHeadersList.get(i) + Util.unEscapeExceptNT(step.toString()));
-                }
+                if (i > serverCursor) serverCursor = unionSingleOperationForTelnet(serverCursor, i, result, true);
             } else {
                 // client
-                if (i > clientCursor) {
-                    step.append(operation);
-                    if (operation.length() == 1) {
-                        // Start unionning
-                        int j = i + 1;
-                        while (j < operationsList.size()) {
-                            if (operationsFlag.get(j) < 0) {
-                                step.append(operationsList.get(j));
-                                if (operationsList.get(j).equals("\rNUL")) {
-                                    clientCursor = j;
-                                    break;
-                                }
-                            }
-                            j++;
-                        }
-                    } else {
-                        int j = i + 1;
-                        while (j < operationsList.size() && operationsFlag.get(j) < 0) {
-                            step.append(operationsList.get(j));
-                            clientCursor = j;
-                            j++;
-                        }
-                    }
-                    result.add(operationsHeadersList.get(i) + Util.unEscapeExceptNT(step.toString()));
-                }
+                if (i > clientCursor) clientCursor = unionSingleOperationForTelnet(clientCursor, i, result, false);
             }
         }
 
@@ -611,14 +593,14 @@ public class Session {
      * Use Algorithm to learn what options have been adopted in the Session
      * @return Options adopted for this Telnet session
      */
-    public List<String> learnOptionsForTelnet() {
-        List<String> res = new ArrayList<>();
+    public String learnOptionsForTelnet() {
+        StringBuilder res = new StringBuilder();
 
         // WONT series are not necessary
-        Set<String> clientSelfWantEnables = new HashSet<>();
+        Set<String> clientEnables = new HashSet<>();
         Set<String> clientDemandEnables = new HashSet<>();
         Set<String> clientDemandWontEnables = new HashSet<>();
-        Set<String> serverSelfWantEnables = new HashSet<>();
+        Set<String> serverEnables = new HashSet<>();
         Set<String> serverDemandEnables = new HashSet<>();
         Set<String> serverDemandWontEnables = new HashSet<>();
 
@@ -629,92 +611,64 @@ public class Session {
             if (operation.length() > 3 && operation.substring(0,3).equals("IAC")) {
                 // Enter decoding mode
                 if (isServer) {
-                    String[] operators = operation.split(" ");
-                    int j=0;
-                    while (j<operators.length) {
-                        if (operators[j].equals("IAC")) {
-                            if (j+2 >= operators.length) {
-                                j ++;
-                                continue;
-                            }
-                            j++;
-                            switch (operators[j]) {
-                                case "WILL":
-                                    serverSelfWantEnables.add(operators[++j]);
-                                    break;
-                                case "DO":
-                                    serverDemandEnables.add(operators[++j]);
-                                    break;
-                                case "DONT":
-                                    serverDemandWontEnables.add(operators[++j]);
-                                    break;
-                                default:
-                                    break;
-                            }
-                        }
-                        j++;
-                    }
+                    buildTelnetOptionsSet(serverEnables, serverDemandEnables, serverDemandWontEnables, operation);
                 } else {
-                    // Client
-                    String[] operators = operation.split(" ");
-                    int j=0;
-                    while (j<operators.length) {
-                        if (operators[j].equals("IAC")) {
-                            if (j+2 >= operators.length) {
-                                j++;
-                                continue;
-                            }
-                            j++;
-                            switch (operators[j]) {
-                                case "WILL":
-                                    clientSelfWantEnables.add(operators[++j]);
-                                    break;
-                                case "DO":
-                                    clientDemandEnables.add(operators[++j]);
-                                    break;
-                                case "DONT":
-                                    clientDemandWontEnables.add(operators[++j]);
-                                    break;
-                                default:
-                                    break;
-                            }
-                        }
-                        j++;
-                    }
+                    buildTelnetOptionsSet(clientEnables, clientDemandEnables, clientDemandWontEnables, operation);
                 }
             }
         }
 
-        Set<String> clientEnables = new HashSet<>();
-        // Intersect clientWill with serverDemand, then exclude serverDemandWont
-        for(String option : clientSelfWantEnables) {
-            if (serverDemandEnables.contains(option) && !serverDemandWontEnables.contains(option)) {
-                clientEnables.add(option);
-            }
-        }
-        StringBuilder clientOptions = new StringBuilder();
-        clientOptions.append("Client Enabled Options: ");
-        for (String str: clientEnables) {
-            clientOptions.append(str);
-            clientOptions.append("\t");
-        }
+        res.append(buildTelnetOptionsString(clientEnables, serverDemandEnables, serverDemandWontEnables, false ));
+        res.append("\n");
+        res.append(buildTelnetOptionsString(serverEnables, clientDemandEnables, clientDemandWontEnables, true ));
+        return res.toString();
+    }
 
-        Set<String> serverEnables = new HashSet<>();
+    private String buildTelnetOptionsString(Set<String> selfWant, Set<String> otherDemand, Set<String> otherDemandWont, boolean isServer) {
+        if (selfWant == null || otherDemand == null || otherDemandWont == null ) {    return ""; }
+        Set<String> selfEnables = new HashSet<>();
         // Intersect serverWill with clientDemand, then exclude clientDemandWont
-        for(String option : serverSelfWantEnables) {
-            if (clientDemandEnables.contains(option) && !clientDemandWontEnables.contains(option)) {
-                serverEnables.add(option);
+        for(String option : selfWant) {
+            if (otherDemand.contains(option) && !otherDemandWont.contains(option)) {
+                selfEnables.add(option);
             }
         }
-        StringBuilder serverOptions = new StringBuilder();
-        serverOptions.append("Server Enabled Options: ");
-        for (String str: serverEnables) {
-            serverOptions.append(str);
-            serverOptions.append("\t");
-        }
+        StringBuilder selfOptions = new StringBuilder();
 
-        res.add(clientOptions.toString());  res.add(serverOptions.toString());
-        return res;
+        selfOptions.append(isServer ? "Server " : "Client ").append("Enabled Options:\n");
+        for (String str: selfEnables) {
+            selfOptions.append("\t").append(str).append("\n");
+        }
+        return selfOptions.deleteCharAt(selfOptions.length()-1).toString();
+    }
+
+    private void buildTelnetOptionsSet (Set<String> self, Set<String> demand, Set<String> demandWont, String operation) {
+        if (self == null || demand == null || demandWont == null || operation == null) {    return; }
+        String[] operators = operation.split(" ");
+        int j=0;
+        while (j<operators.length) {
+            if (operators[j].equals("IAC")) {
+                if (j+2 >= operators.length) {
+                    j ++;
+                    continue;
+                }
+                j++;
+                switch (operators[j]) {
+                    case "WILL":
+                        self.add(operators[++j]);
+                        break;
+                    case "DO":
+                        demand.add(operators[++j]);
+                        break;
+                    case "DONT":
+                        demandWont.add(operators[++j]);
+                        break;
+                    default:
+                        break;
+                }
+            }
+            j++;
+        }
     }
 
     public String getApplicationType() {
@@ -742,13 +696,13 @@ public class Session {
     }
 
     public String getClientPhysicalInformation() {
-        return String.format("Client Physical Information:\nMAC Address: %s IP Address: %s Port Number: %d",
+        return String.format("Client Physical Information:\n\tMAC Address: %s IP Address: %s Port Number: %d",
                 Util.byteToHexString(clientMacAddress),
                 Util.byteToDecString(clientIP), clientPort);
     }
 
     public String getServerPhysicalInformation() {
-        return String.format("Server Physical Information:\nMAC Address: %s IP Address: %s Port Number: %d",
+        return String.format("Server Physical Information:\n\tMAC Address: %s IP Address: %s Port Number: %d",
                 Util.byteToHexString(serverMacAddress),
                 Util.byteToDecString(serverIP), serverPort);
     }
@@ -765,4 +719,11 @@ public class Session {
         return operationsList;
     }
 
+    public Map<String, String> getClientHTTPFields() {
+        return clientHTTPFields;
+    }
+
+    public Map<String, String> getServerHTTPFields() {
+        return serverHTTPFields;
+    }
 }

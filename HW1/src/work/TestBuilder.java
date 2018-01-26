@@ -22,15 +22,14 @@ public class TestBuilder {
 
         final StringBuilder errorBuffer = new StringBuilder(); // For any error msgs
 
-        final String fileName = "HW1/test/tfsession.pcap";
-//        final String fileName = "HW1/test/httpsession.pcap";
+//        final String fileName = "HW1/test/tfsession.pcap";
+        final String fileName = "HW1/test/httpsession.pcap";
 
         final Pcap pcap = Pcap.openOffline(fileName, errorBuffer);
 
         // Error Checking
         if (pcap == null) {
-            System.err.print("Error while opening device for capture: "
-                    + errorBuffer.toString());
+            System.err.print("Error while opening device for capture: " + errorBuffer.toString());
             return;
         }
 
@@ -40,10 +39,7 @@ public class TestBuilder {
         try {
             Util.showNotes();
 
-            // statusCode:
-            // -1 on ERROR
-            // 0 on cnt exhausted
-            // -2 on pcap_breakloop() call
+            // statusCode:  -1 on ERROR     0 on cnt exhausted      -2 on pcap_breakloop() call
             int statusCode = pcap.loop(Integer.MAX_VALUE, packetHandler, holder);
             if (statusCode != 0) {
                 System.err.print("Error while processing packets");
@@ -60,7 +56,6 @@ public class TestBuilder {
                             break;
                         case "TELNET":
                             Util.prettyPrintTelnetSession(instance);
-                            instance.learnOptionsForTelnet();
                             break;
                         case "HTTP":
                             Util.prettyPrintHTTPSession(instance);

@@ -139,10 +139,7 @@ public class Util {
         System.out.println("Server-side Packets: " + session.getServerPacketNumber());
         System.out.println(session.getClientPhysicalInformation());
         System.out.println(session.getServerPhysicalInformation());
-
-        for (String option : session.learnOptionsForTelnet()) {
-            System.out.println(option);
-        }
+        System.out.println(session.learnOptionsForTelnet());
 
         System.out.println("Application-level Contents:");
         for (String str: session.unionOperationsForTelnet()) {
@@ -198,6 +195,7 @@ public class Util {
 
         System.out.println("Application-level Contents:");
         session.getOperationsList().forEach(System.out::print);
+        System.out.println(generateHTTPHeaderFields(session));
         System.out.println("HTTP Data From Server: \n" + unEscapeExceptNT(decodeHTTPPayloadToPrintable(session)));
         System.out.println();
         System.out.println();
@@ -217,8 +215,24 @@ public class Util {
         System.out.println("\tThere's only 1 valid parsing for it, which is at the end of TELNET session.");
     }
 
+    private static String generateHTTPHeaderFields(Session instance) {
+        StringBuilder result = new StringBuilder();
+
+        result.append("\nCLIENT Header Fields:\n");
+        for (Map.Entry entry: instance.getClientHTTPFields().entrySet()) {
+            result.append(String.format("%s => %s\n", entry.getKey(), entry.getValue()));
+        }
+
+        result.append("\nSERVER Header Fields:\n");
+        for (Map.Entry entry: instance.getServerHTTPFields().entrySet()) {
+            result.append(String.format("%s => %s\n", entry.getKey(), entry.getValue()));
+        }
+
+        return result.toString();
+    }
+
     private static String decodeHTTPPayloadToPrintable(Session instance) {
-        String encoding = instance.serverHTTPFields.get("Content_Encoding");
+        String encoding = instance.getServerHTTPFields().get("Content_Encoding");
         if (encoding != null && encoding.equals("gzip")) {
             return GZipDecoderToString(instance.getHTTPPayloadBuffer().toByteArray());
         } else {
