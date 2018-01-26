@@ -2,6 +2,9 @@ package edu.tamu.amos.hw1;
 
 import org.jnetpcap.Pcap;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
@@ -23,10 +26,12 @@ public class TestBuilder {
         final StringBuilder errorBuffer = new StringBuilder(); // For any error msgs
 
         if (args.length != 1) {
-            System.err.println("Please type the relative location of pcap file.");
+            System.err.println("USAGE: java -jar CSCE665_workspace.jar PcapFilePath");
             return;
         }
         final String fileName = args[0];
+        final String outputFileName = "output.txt";
+        FileOutputStream outputStream;
 
         final Pcap pcap = Pcap.openOffline(fileName, errorBuffer);
 
@@ -40,7 +45,8 @@ public class TestBuilder {
         Map<String, TreeMap<Long, Session>> holder = new HashMap<>();
 
         try {
-            Util.showNotes();
+//            Util.generateSessionSummary();
+            outputStream = new FileOutputStream(outputFileName);
 
             // statusCode:  -1 on ERROR     0 on cnt exhausted      -2 on pcap_breakloop() call
             int statusCode = pcap.loop(Integer.MAX_VALUE, packetHandler, holder);
@@ -55,13 +61,13 @@ public class TestBuilder {
                     Session instance = connectionsMap.get(sessionStartTime);
                     switch (instance.getApplicationType()) {
                         case "FTP":
-                            Util.prettyPrintFTPSession(instance);
+                            Util.prettyPrintFTPSession(instance, outputStream);
                             break;
                         case "TELNET":
-                            Util.prettyPrintTelnetSession(instance);
+                            Util.prettyPrintTelnetSession(instance, outputStream);
                             break;
                         case "HTTP":
-                            Util.prettyPrintHTTPSession(instance);
+                            Util.prettyPrintHTTPSession(instance, outputStream);
                             break;
                         default:
 
@@ -70,6 +76,13 @@ public class TestBuilder {
                 }
             }
 
+            outputStream.close();
+
+        } catch (FileNotFoundException e) {
+           System.out.println("Exception encountered while trying to open output file: " +e.getMessage());
+//            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
         } finally {
             pcap.close();
         }

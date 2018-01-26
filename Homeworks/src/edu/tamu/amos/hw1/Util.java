@@ -122,97 +122,99 @@ public class Util {
     }
 
     /* Add the Telnet Parsing Function Here in Util */
-    public static void prettyPrintTelnetSession(Session session) {
+    public static void prettyPrintTelnetSession(Session session, FileOutputStream outputFileStream) {
         if (session == null) {
             return;
         }
         // Print out some information
-        System.out.println("******************************************************");
-        System.out.println("******************New Session Details*****************");
-        System.out.println("******************************************************");
+        StringBuilder output = generateSessionSummary(session);
 
-        System.out.println("Session Application Type: " + session.getApplicationType());
-        System.out.println("Session Start Time: " + new Date(session.getSessionStartTimestamp()).toString());
-        System.out.println("Session End Time: " + new Date(session.getSessionEndTimestamp()).toString());
-        System.out.println("Total Packets Transferred: " + session.getTotalPacketNumber());
-        System.out.println("Client-side Packets: " + session.getClientPacketNumber());
-        System.out.println("Server-side Packets: " + session.getServerPacketNumber());
-        System.out.println(session.getClientPhysicalInformation());
-        System.out.println(session.getServerPhysicalInformation());
-        System.out.println(session.learnOptionsForTelnet());
-
-        System.out.println("Application-level Contents:");
+        output.append(session.learnOptionsForTelnet()).append("\n");
+        output.append("Application-level Contents:").append("\n");
         for (String str: session.unionOperationsForTelnet()) {
-            System.out.print(str);
+            output.append(str);
         }
-        System.out.println();
-        System.out.println();
+        output.append("\n\n");
+        System.out.println(output.toString());
+        try {
+            outputFileStream.write(output.toString().getBytes());
+            outputFileStream.flush();
+        } catch (IOException e) {
+            System.out.println("Exception encountered while trying to write output file: " +e.getMessage());
+        }
     }
 
-    public static void prettyPrintFTPSession(Session session) {
+    public static void prettyPrintFTPSession(Session session, FileOutputStream outputFileStream) {
         if (session == null) {
             return;
         }
         // Print out some information
-        System.out.println("******************************************************");
-        System.out.println("****************  New Session Details  ***************");
-        System.out.println("******************************************************");
+        StringBuilder output = generateSessionSummary(session);
 
-        System.out.println("Session Application Type: " + session.getApplicationType());
-        System.out.println("Session Start Time: " + new Date(session.getSessionStartTimestamp()).toString());
-        System.out.println("Session End Time: " + new Date(session.getSessionEndTimestamp()).toString());
-        System.out.println("Total Packets Transferred: " + session.getTotalPacketNumber());
-        System.out.println("Client-side Packets: " + session.getClientPacketNumber());
-        System.out.println("Server-side Packets: " + session.getServerPacketNumber());
-        System.out.println(session.getClientPhysicalInformation());
-        System.out.println(session.getServerPhysicalInformation());
-
-
-        System.out.println("Application-level Contents:");
-        session.getOperationsList().forEach(System.out::print);
-        System.out.println();
-        System.out.println();
+        output.append("Application-level Contents:").append("\n");
+        for (String str: session.getOperationsList()) {
+            output.append(str);
+        }
+        output.append("\n\n");
+        System.out.println(output.toString());
+        try {
+            outputFileStream.write(output.toString().getBytes());
+            outputFileStream.flush();
+        } catch (IOException e) {
+            System.out.println("Exception encountered while trying to write output file: " +e.getMessage());
+        }
     }
 
-    public static void prettyPrintHTTPSession(Session session) {
+    public static void prettyPrintHTTPSession(Session session, FileOutputStream outputFileStream) {
         if (session == null) {
             return;
         }
         // Print out some information
-        System.out.println("******************************************************");
-        System.out.println("****************  New Session Details  ***************");
-        System.out.println("******************************************************");
+        StringBuilder output = generateSessionSummary(session);
 
-        System.out.println("Session Application Type: " + session.getApplicationType());
-        System.out.println("Session Start Time: " + new Date(session.getSessionStartTimestamp()).toString());
-        System.out.println("Session End Time: " + new Date(session.getSessionEndTimestamp()).toString());
-        System.out.println("Total Packets Transferred: " + session.getTotalPacketNumber());
-        System.out.println("Client-side Packets: " + session.getClientPacketNumber());
-        System.out.println("Server-side Packets: " + session.getServerPacketNumber());
-        System.out.println(session.getClientPhysicalInformation());
-        System.out.println(session.getServerPhysicalInformation());
-
-
-        System.out.println("Application-level Contents:");
-        session.getOperationsList().forEach(System.out::print);
-        System.out.println(generateHTTPHeaderFields(session));
-        System.out.println("HTTP Data From Server: \n" + unEscapeExceptNT(decodeHTTPPayloadToPrintable(session)));
-        System.out.println();
-        System.out.println();
+        output.append("Application-level Contents:").append("\n");
+        for (String str: session.getOperationsList()) {
+            output.append(str);
+        }
+        output.append(generateHTTPHeaderFields(session));
+        output.append("HTTP Data From Server: \n").append(unEscapeExceptNT(decodeHTTPPayloadToPrintable(session)));
+        output.append("\n\n");
+        System.out.println(output.toString());
+        try {
+            outputFileStream.write(output.toString().getBytes());
+            outputFileStream.flush();
+        } catch (IOException e) {
+            System.out.println("Exception encountered while trying to write output file: " +e.getMessage());
+        }
     }
 
-    public static void showNotes() {
-        System.out.println("Some Notes on this program: ");
-        System.out.println("\tTelnet Special Characters are defined as follows: 0 -> NUL, 7 -> BEL, 11 -> VT");
-        System.out.println("\tOther Special Characters are ASCII normal characters, which will be in explicit form.");
-        System.out.println("\tFor example, TAB will be printed as '\\t' and CR will be printed as '\\r', etc.");
-        System.out.println("\tActually, for better layouts, the LF is replaced by '\\n' plus a real line feed.");
-        System.out.println("\tOtherwise, the data will be squeezed into only 1 line.");
-        System.out.println("\tThis becomes severe on TELNET/HTTP application scenarios");
-        System.out.println("\tBesides, this program is able to catch the escaped sequences used in Telnet application");
-        System.out.println("\tHowever, those are used to adjust font properties, which would influence the general");
-        System.out.println("\tlayout of the messages. Thus, they are omitted mostly. ");
-        System.out.println("\tThere's only 1 valid parsing for it, which is at the end of TELNET session.");
+    private static StringBuilder generateSessionSummary(Session session) {
+        StringBuilder output = new StringBuilder();
+        output.append("Some Notes on this session: ").append("\n");
+        output.append("\tTelnet Special Characters are defined as follows: 0 -> NUL, 7 -> BEL, 11 -> VT").append("\n");
+        output.append("\tOther Special Characters are ASCII normal characters, which will be in explicit form.").append("\n");
+        output.append("\tFor example, TAB will be printed as '\\t' and CR will be printed as '\\r', etc.").append("\n");
+        output.append("\tActually, for better layouts, the LF is replaced by '\\n' plus a real line feed.").append("\n");
+        output.append("\tOtherwise, the data will be squeezed into only 1 line.").append("\n");
+        output.append("\tThis becomes severe on TELNET/HTTP application scenarios").append("\n");
+        output.append("\tBesides, this program is able to catch the escaped sequences used in Telnet application").append("\n");
+        output.append("\tHowever, those are used to adjust font properties, which would influence the general").append("\n");
+        output.append("\tlayout of the messages. Thus, they are omitted mostly. ").append("\n");
+        output.append("\tThere's only 1 valid parsing for it, which is at the end of TELNET session.").append("\n");
+
+        output.append("******************************************************").append("\n");
+        output.append("******************New Session Details*****************").append("\n");
+        output.append("******************************************************").append("\n");
+        output.append("Session Application Type: ").append(session.getApplicationType()).append("\n");
+        output.append("Session Start Time: ").append(new Date(session.getSessionStartTimestamp()).toString()).append("\n");
+        output.append("Session End Time: ").append(new Date(session.getSessionEndTimestamp()).toString()).append("\n");
+        output.append("Total Packets Transferred: ").append(session.getTotalPacketNumber()).append("\n");
+        output.append("Client-side Packets: ").append(session.getClientPacketNumber()).append("\n");
+        output.append("Server-side Packets: ").append(session.getServerPacketNumber()).append("\n");
+        output.append(session.getClientPhysicalInformation()).append("\n");
+        output.append(session.getServerPhysicalInformation()).append("\n");
+
+        return output;
     }
 
     private static String generateHTTPHeaderFields(Session instance) {
