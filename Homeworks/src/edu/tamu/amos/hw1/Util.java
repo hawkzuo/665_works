@@ -1,4 +1,4 @@
-package work;
+package edu.tamu.amos.hw1;
 
 import java.io.*;
 import java.util.*;

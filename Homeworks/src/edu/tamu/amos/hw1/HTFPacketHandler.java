@@ -1,4 +1,4 @@
-package work;
+package edu.tamu.amos.hw1;
 
 import org.jnetpcap.packet.PcapPacket;
 import org.jnetpcap.packet.PcapPacketHandler;
@@ -10,12 +10,10 @@ import java.util.Arrays;
 import java.util.Map;
 import java.util.TreeMap;
 
-import static work.Util.supportedApplicationTypes;
-
 /**
  * Created by Amos on 2018/1/22.
  */
-public class TfPcapPacketHandler implements PcapPacketHandler<Map<String, TreeMap<Long, Session>>> {
+public class HTFPacketHandler implements PcapPacketHandler<Map<String, TreeMap<Long, Session>>> {
 
     private Ethernet eth = new Ethernet();
     private Ip4 ip4 = new Ip4();
@@ -66,7 +64,7 @@ public class TfPcapPacketHandler implements PcapPacketHandler<Map<String, TreeMa
             return;
         }
         // Check Supported ports: 23 for Telnet 21 for FTP 80 for HTTP
-        if (!supportedApplicationTypes.containsKey(tcp.destination()) && !supportedApplicationTypes.containsKey(tcp.source())) {
+        if (!Util.supportedApplicationTypes.containsKey(tcp.destination()) && !Util.supportedApplicationTypes.containsKey(tcp.source())) {
             return;
         }
 

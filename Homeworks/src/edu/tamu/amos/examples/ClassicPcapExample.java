@@ -1,4 +1,4 @@
-package examples;
+package edu.tamu.amos.examples;
 /*
   Created by Amos on 2018/1/22.
   Sample Output:

@@ -1,4 +1,4 @@
-package examples;
+package edu.tamu.amos.examples;
 
 import java.util.Date;
 

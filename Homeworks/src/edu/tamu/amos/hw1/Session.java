@@ -1,4 +1,4 @@
-package work;
+package edu.tamu.amos.hw1;
 
 import org.jnetpcap.packet.Payload;
 import org.jnetpcap.packet.PcapPacket;
@@ -14,9 +14,6 @@ import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static work.Util.*;
-
-
 /**
  * Created by Amos on 2018/1/23.
  *
@@ -27,7 +24,6 @@ public class Session {
     private List<Integer> operationsFlag;
     private List<String> operationsHeadersList;
     private List<String> operationsList;
-    private List<PcapPacket> packets;
 
     private byte[] serverIP;
     private byte[] clientIP;
@@ -51,13 +47,10 @@ public class Session {
     private String serverCharset;
     private ByteArrayOutputStream HTTPPayloadBuffer;
 
-
     Session(PcapPacket head, Tcp tcp, Ip4 ip4 , Ethernet eth) {
         this.operationsList = new ArrayList<>();
         this.operationsFlag = new ArrayList<>();
         this.operationsHeadersList = new ArrayList<>();
-        this.packets = new ArrayList<>();
-        packets.add(head);
 
         // HTTP
         this.clientHTTPFields = new HashMap<>();
@@ -76,8 +69,8 @@ public class Session {
         this.sessionStartTimestamp = head.getCaptureHeader().timestampInMillis();
         this.sessionEndTimestamp = sessionStartTimestamp;
         // Application Type
-        this.applicationType = supportedApplicationTypes.get(clientPort) == null ?
-                supportedApplicationTypes.get(serverPort) : supportedApplicationTypes.get(clientPort);
+        this.applicationType = Util.supportedApplicationTypes.get(clientPort) == null ?
+                Util.supportedApplicationTypes.get(serverPort) : Util.supportedApplicationTypes.get(clientPort);
 
         this.clientPacketNumber = 1;
         this.serverPacketNumber = 0;
@@ -88,100 +81,9 @@ public class Session {
             generateOperationForHTTP( head, tcp);
         }
 
-
     }
 
     // Helpers
-
-    private StringBuilder generateHeaderForOperation(PcapPacket element, Tcp tcp) {
-        StringBuilder sb = new StringBuilder();
-        if (tcp.source() == serverPort) {
-            sb.append("\nSERVER Timestamp: ");
-        } else {
-            sb.append("\nCLIENT Timestamp: ");
-        }
-        sb.append(new Date(element.getCaptureHeader().timestampInMillis()).toString());
-        sb.append(" Context: \n");
-        return sb;
-    }
-
-    private void generateOperationForFTP(PcapPacket element, Tcp tcp) {
-        Payload payload = new Payload();
-        if (element.hasHeader(payload) || tcp.flags() == 24) {
-            // A PSH+ACK packet
-            StringBuilder sb = generateHeaderForOperation(element, tcp);
-            try {
-                sb.append(Util.unEscapeExceptNT(new String(payload.data(), "ISO-8859-1")));
-            } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
-            }
-            operationsList.add(sb.toString());
-        }
-    }
-
-    private void generateOperationForHTTP(PcapPacket element, Tcp tcp) {
-        Payload payload = new Payload();
-        Http http = new Http();
-        Html html = new Html();
-
-        boolean qualified = false;
-        if (element.hasHeader(payload)) qualified = true;
-        if (element.hasHeader(http)) qualified = true;
-        if (element.hasHeader(html)) qualified = true;
-
-        if (qualified) {
-            // A PSH+ACK packet
-            StringBuilder operation = generateHeaderForOperation(element, tcp);
-
-            if (http.getLength() > 0 ) {
-                String messageType = http.getMessageType().name();
-                String messageContent = http.header();
-                operation.append(String.format("MessageType: %s\n", messageType));
-                operation.append(Util.unEscapeExceptNT(messageContent));
-                if (messageType.equals("REQUEST")) {
-                    for (Http.Request field : Http.Request.values()) {
-                        if (http.fieldValue(field) != null) {
-                            clientHTTPFields.put(field.name(), http.fieldValue(field));
-                        }
-                    }
-                } else if (messageType.equals("RESPONSE")) {
-                    for (Http.Response field : Http.Response.values()) {
-                        if (http.fieldValue(field) != null) {
-                            serverHTTPFields.put(field.name(), http.fieldValue(field));
-                        }
-                    }
-                    if ( serverHTTPFields.get("Content_Type") != null) {
-                        Pattern pattern = Pattern.compile("^\\s*charset=(.*)");
-                        for (String possibleCharset : serverHTTPFields.get("Content_Type").split(";")) {
-                            Matcher matcher = pattern.matcher(possibleCharset);
-                            if (matcher.find()) {
-                                serverCharset = matcher.group(1);
-                                break;
-                            }
-                        }
-                    }
-                    if (serverCharset == null) {
-                        // Default charset
-                        serverCharset = "ISO-8859-1";
-                    }
-                }
-                if (html.getLength() > 0) {
-                    try {
-                        HTTPPayloadBuffer.write(html.page().getBytes(serverCharset), 0, html.page().getBytes(serverCharset).length);
-                    } catch (UnsupportedEncodingException e) {
-                        e.printStackTrace();
-                    }
-                }
-
-                operationsList.add(operation.toString());
-            }
-            if (payload.getLength() > 0) {
-                HTTPPayloadBuffer.write(payload.data(), 0, payload.data().length);
-            }
-
-        }
-    }
-
     public void addPacket(PcapPacket element, Tcp tcp, Ip4 ip4 , Ethernet eth) {
         // Global updates
         sessionEndTimestamp = Math.max(element.getCaptureHeader().timestampInMillis(), sessionEndTimestamp);
@@ -190,7 +92,6 @@ public class Session {
         } else {
             clientPacketNumber ++;
         }
-        packets.add(element);
 
         // HTTP separate
         if (applicationType.equals("HTTP")) {
@@ -235,7 +136,7 @@ public class Session {
                     while (i < data.length) {
                         int step = data[i];
                         if (nextCharCommand) {
-                            String command = telnetCommands[step];
+                            String command = Util.telnetCommands[step];
                             operation.append(command);
                             operation.append(' ');
                             nextCharCommand = false;
@@ -255,7 +156,7 @@ public class Session {
                             optionNumber = -1;
                         } else if (nextCharOption == 2) {
                             // Change strategy, let "IS SEND" done by parsing text
-                            String option = telnetOptions[step];
+                            String option = Util.telnetOptions[step];
                             operation.append(option);
                             operation.append(' ');
                             nextCharOption = 0;
@@ -265,7 +166,7 @@ public class Session {
 
                         } else if (nextCharOption == 1) {
                             // Normal Option comes here
-                            String option = telnetOptions[step];
+                            String option = Util.telnetOptions[step];
                             operation.append(option);
                             operation.append(' ');
                             nextCharOption = 0;
@@ -279,7 +180,7 @@ public class Session {
                                 if (pureTextMode && i != 0) {
                                     operation.append(' ');
                                 }
-                                operation.append(telnetCommands[255]);
+                                operation.append(Util.telnetCommands[255]);
                                 operation.append(' ');
                                 nextCharCommand = true;
                                 pureTextMode = false;
@@ -489,7 +390,7 @@ public class Session {
                                 else{
                                     // Default number routing here
                                     if (firstSubOption) {
-                                        String command = telnetCommands[step];
+                                        String command = Util.telnetCommands[step];
                                         operation.append(command);
                                     } else {
                                         operation.append((char) step);
@@ -527,10 +428,93 @@ public class Session {
 
     }
 
+    private StringBuilder generateHeaderForOperation(PcapPacket element, Tcp tcp) {
+        StringBuilder sb = new StringBuilder();
+        if (tcp.source() == serverPort) {
+            sb.append("\nSERVER Timestamp: ");
+        } else {
+            sb.append("\nCLIENT Timestamp: ");
+        }
+        sb.append(new Date(element.getCaptureHeader().timestampInMillis()).toString());
+        sb.append(" Context: \n");
+        return sb;
+    }
 
-    @Override
-    public String toString() {
-        return "Session: " + this.hashCode();
+    private void generateOperationForFTP(PcapPacket element, Tcp tcp) {
+        Payload payload = new Payload();
+        if (element.hasHeader(payload) || tcp.flags() == 24) {
+            // A PSH+ACK packet
+            StringBuilder sb = generateHeaderForOperation(element, tcp);
+            try {
+                sb.append(Util.unEscapeExceptNT(new String(payload.data(), "ISO-8859-1")));
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
+            operationsList.add(sb.toString());
+        }
+    }
+
+    private void generateOperationForHTTP(PcapPacket element, Tcp tcp) {
+        Payload payload = new Payload();
+        Http http = new Http();
+        Html html = new Html();
+
+        boolean qualified = false;
+        if (element.hasHeader(payload)) qualified = true;
+        if (element.hasHeader(http)) qualified = true;
+        if (element.hasHeader(html)) qualified = true;
+
+        if (qualified) {
+            // A PSH+ACK packet
+            StringBuilder operation = generateHeaderForOperation(element, tcp);
+
+            if (http.getLength() > 0 ) {
+                String messageType = http.getMessageType().name();
+                String messageContent = http.header();
+                operation.append(String.format("MessageType: %s\n", messageType));
+                operation.append(Util.unEscapeExceptNT(messageContent));
+                if (messageType.equals("REQUEST")) {
+                    for (Http.Request field : Http.Request.values()) {
+                        if (http.fieldValue(field) != null) {
+                            clientHTTPFields.put(field.name(), http.fieldValue(field));
+                        }
+                    }
+                } else if (messageType.equals("RESPONSE")) {
+                    for (Http.Response field : Http.Response.values()) {
+                        if (http.fieldValue(field) != null) {
+                            serverHTTPFields.put(field.name(), http.fieldValue(field));
+                        }
+                    }
+                    if ( serverHTTPFields.get("Content_Type") != null) {
+                        Pattern pattern = Pattern.compile("^\\s*charset=(.*)");
+                        for (String possibleCharset : serverHTTPFields.get("Content_Type").split(";")) {
+                            Matcher matcher = pattern.matcher(possibleCharset);
+                            if (matcher.find()) {
+                                serverCharset = matcher.group(1);
+                                break;
+                            }
+                        }
+                    }
+                    if (serverCharset == null) {
+                        // Default charset
+                        serverCharset = "ISO-8859-1";
+                    }
+                }
+                if (html.getLength() > 0) {
+                    try {
+                        HTTPPayloadBuffer.write(html.page().getBytes(serverCharset), 0, html.page().getBytes(serverCharset).length);
+                    } catch (UnsupportedEncodingException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                operationsList.add(operation.toString());
+            }
+            if (payload.getLength() > 0) {
+                HTTPPayloadBuffer.write(payload.data(), 0, payload.data().length);
+            }
+
+        }
     }
 
     private int unionSingleOperationForTelnet(int oldCursor, int i, List<String> result, boolean isServer) {
@@ -726,4 +710,10 @@ public class Session {
     public Map<String, String> getServerHTTPFields() {
         return serverHTTPFields;
     }
+
+    @Override
+    public String toString() {
+        return "Session: " + this.hashCode();
+    }
+
 }

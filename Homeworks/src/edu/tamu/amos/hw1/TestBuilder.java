@@ -1,4 +1,4 @@
-package work;
+package edu.tamu.amos.hw1;
 
 import org.jnetpcap.Pcap;
 
@@ -22,8 +22,11 @@ public class TestBuilder {
 
         final StringBuilder errorBuffer = new StringBuilder(); // For any error msgs
 
-//        final String fileName = "HW1/test/tfsession.pcap";
-        final String fileName = "HW1/test/httpsession.pcap";
+        if (args.length != 1) {
+            System.err.println("Please type the relative location of pcap file.");
+            return;
+        }
+        final String fileName = args[0];
 
         final Pcap pcap = Pcap.openOffline(fileName, errorBuffer);
 
@@ -33,7 +36,7 @@ public class TestBuilder {
             return;
         }
 
-        TfPcapPacketHandler packetHandler = new TfPcapPacketHandler();
+        HTFPacketHandler packetHandler = new HTFPacketHandler();
         Map<String, TreeMap<Long, Session>> holder = new HashMap<>();
 
         try {
