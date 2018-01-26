@@ -6,9 +6,10 @@ import org.jnetpcap.protocol.lan.Ethernet;
 import org.jnetpcap.protocol.network.Ip4;
 import org.jnetpcap.protocol.tcpip.Tcp;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.Map;
+import java.util.TreeMap;
 
-import static java.lang.System.exit;
 import static work.Util.supportedApplicationTypes;
 
 /**
@@ -20,9 +21,6 @@ public class TfPcapPacketHandler implements PcapPacketHandler<Map<String, TreeMa
     private Ip4 ip4 = new Ip4();
     private Tcp tcp = new Tcp();
 
-    private static int global = 0;
-
-
     private void processForHTTP(PcapPacket packet, Map<String, TreeMap<Long, Session>> map) {
         if (packet == null) {   return; }
         // Step 1: Generate Key [sourceIP:port destIP:port]
@@ -31,7 +29,6 @@ public class TfPcapPacketHandler implements PcapPacketHandler<Map<String, TreeMa
         String connectionKey = keyArray[0] + " " + keyArray[1];
 
         // Step 2: We don't distinguish different sessions between two connection Pairs
-        // Client: 145.254.160.237  // Server: 65.208.228.223
         Long connectionTimestamp = packet.getCaptureHeader().timestampInMicros();
         TreeMap<Long, Session> sessionsForConnection;
         if(map.containsKey(connectionKey)) {
@@ -52,8 +49,6 @@ public class TfPcapPacketHandler implements PcapPacketHandler<Map<String, TreeMa
 
     @Override
     public void nextPacket(PcapPacket packet, Map<String, TreeMap<Long, Session>> map) {
-        global ++;
-        System.out.println("Global: " + global);
         // Do something on the received packet
 
         // This shows everything [Header / Formatting / Payload] in a byte-oriented way

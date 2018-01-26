@@ -22,9 +22,8 @@ public class TestBuilder {
 
         final StringBuilder errorBuffer = new StringBuilder(); // For any error msgs
 
-//        final String fileName = "HW1/test/tfsession.pcap";
-        final String fileName = "HW1/test/httpsession.pcap";
-//        final String fileName = "HW1/test/test-ipreassembly.pcap";
+        final String fileName = "HW1/test/tfsession.pcap";
+//        final String fileName = "HW1/test/httpsession.pcap";
 
         final Pcap pcap = Pcap.openOffline(fileName, errorBuffer);
 
@@ -63,9 +62,10 @@ public class TestBuilder {
                             Util.prettyPrintTelnetSession(instance);
                             instance.learnOptionsForTelnet();
                             break;
+                        case "HTTP":
+                            Util.prettyPrintHTTPSession(instance);
+                            break;
                         default:
-                            String data = Util.decodeHTTPPayloadToPrintable(instance);
-                            System.out.println("Successfully opened local file: " +fileName);
 
                             break;
                     }

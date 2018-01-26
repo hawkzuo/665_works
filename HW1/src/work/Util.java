@@ -103,6 +103,9 @@ public class Util {
     }
 
     public static String unEscapeExceptNT(String s){
+        if (s == null) {
+            return "";
+        }
         StringBuilder sb = new StringBuilder();
         for (int i=0; i<s.length(); i++)
             switch (s.charAt(i)){
@@ -117,8 +120,6 @@ public class Util {
             }
         return sb.toString();
     }
-
-
 
     /* Add the Telnet Parsing Function Here in Util */
     public static void prettyPrintTelnetSession(Session session) {
@@ -176,6 +177,32 @@ public class Util {
         System.out.println();
     }
 
+    public static void prettyPrintHTTPSession(Session session) {
+        if (session == null) {
+            return;
+        }
+        // Print out some information
+        System.out.println("******************************************************");
+        System.out.println("****************  New Session Details  ***************");
+        System.out.println("******************************************************");
+
+        System.out.println("Session Application Type: " + session.getApplicationType());
+        System.out.println("Session Start Time: " + new Date(session.getSessionStartTimestamp()).toString());
+        System.out.println("Session End Time: " + new Date(session.getSessionEndTimestamp()).toString());
+        System.out.println("Total Packets Transferred: " + session.getTotalPacketNumber());
+        System.out.println("Client-side Packets: " + session.getClientPacketNumber());
+        System.out.println("Server-side Packets: " + session.getServerPacketNumber());
+        System.out.println(session.getClientPhysicalInformation());
+        System.out.println(session.getServerPhysicalInformation());
+
+
+        System.out.println("Application-level Contents:");
+        session.getOperationsList().forEach(System.out::print);
+        System.out.println("HTTP Data From Server: \n" + unEscapeExceptNT(decodeHTTPPayloadToPrintable(session)));
+        System.out.println();
+        System.out.println();
+    }
+
     public static void showNotes() {
         System.out.println("Some Notes on this program: ");
         System.out.println("\tTelnet Special Characters are defined as follows: 0 -> NUL, 7 -> BEL, 11 -> VT");
@@ -190,21 +217,13 @@ public class Util {
         System.out.println("\tThere's only 1 valid parsing for it, which is at the end of TELNET session.");
     }
 
-
-    public static String decodeHTTPPayloadToPrintable(Session instance) {
-        byte[] data = new byte[0];
-        try {
-            data = instance.HTTPpayload.toString().getBytes("ISO-8859-1");
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
-
+    private static String decodeHTTPPayloadToPrintable(Session instance) {
         String encoding = instance.serverHTTPFields.get("Content_Encoding");
         if (encoding != null && encoding.equals("gzip")) {
-            return GZipDecoderToString(data);
+            return GZipDecoderToString(instance.getHTTPPayloadBuffer().toByteArray());
         } else {
             try {
-                return new String(data, "ISO-8859-1");
+                return new String(instance.getHTTPPayloadBuffer().toByteArray(), instance.getServerCharset());
             } catch (UnsupportedEncodingException e) {
                 e.printStackTrace();
                 return null;
@@ -212,7 +231,7 @@ public class Util {
         }
     }
 
-    public static String GZipDecoderToString(byte[] data) {
+    private static String GZipDecoderToString(byte[] data) {
         StringBuilder sb = new StringBuilder();
         GZIPInputStream gzipInputStream;
         try {
@@ -224,7 +243,6 @@ public class Util {
             while ((read = in.readLine()) != null){
                 sb.append(read);
             }
-            String json = sb.toString();
             reader.close();
             in.close();
             gzipInputStream.close();
@@ -235,39 +253,5 @@ public class Util {
             return sb.toString();
         }
     }
-
-
-
-    public static void parseGZIPPage(Session session) {
-        // Problem: Unexpected end of ZLIB input stream
-        try {
-            byte[] compressedBytes = session.HTTPpayload.toString().getBytes("ISO-8859-1");
-
-            ByteArrayInputStream bis = new ByteArrayInputStream(compressedBytes);
-            GZIPInputStream gis;
-            gis = new GZIPInputStream(bis);
-
-            byte[] decodedBytes = new byte[compressedBytes.length*10];
-            int totalBytesRead = 0;
-
-            int readCount = gis.read(decodedBytes, totalBytesRead, compressedBytes.length);
-            while ( readCount != -1 ) {
-                totalBytesRead += readCount;
-                readCount = gis.read(decodedBytes, totalBytesRead, compressedBytes.length);
-            }
-
-            System.out.println();
-
-
-
-            gis.close();
-            bis.close();
-            System.out.println();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-
 
 }
