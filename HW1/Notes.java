@@ -58,3 +58,20 @@ FTP:    Server always port 21, data is sent through port 20
         PcapIf netInterface = ifs.get(i);
     }
 
+        try {
+        ByteArrayInputStream bis = new ByteArrayInputStream(html.page().getBytes("ISO-8859-1"));
+        GZIPInputStream gis;
+        gis = new GZIPInputStream(bis);
+        BufferedReader br = new BufferedReader(new InputStreamReader(gis, "ISO-8859-1"));
+        StringBuilder sb1 = new StringBuilder();
+        String line;
+        while((line = br.readLine()) != null) {
+        sb1.append(line);
+        }
+        br.close();
+        gis.close();
+        bis.close();
+        System.out.println();
+        } catch (IOException e) {
+        e.printStackTrace();
+        }

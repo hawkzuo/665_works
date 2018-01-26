@@ -2,16 +2,41 @@ package work;
 
 import org.jnetpcap.packet.Payload;
 import org.jnetpcap.packet.PcapPacket;
+import org.jnetpcap.protocol.application.Html;
 import org.jnetpcap.protocol.lan.Ethernet;
 import org.jnetpcap.protocol.network.Ip4;
+import org.jnetpcap.protocol.tcpip.Http;
 import org.jnetpcap.protocol.tcpip.Tcp;
 
 import java.io.UnsupportedEncodingException;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static work.Util.supportedApplicationTypes;
 import static work.Util.telnetCommands;
 import static work.Util.telnetOptions;
+
+
+
+
+
+
+
+
+import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.zip.GZIPInputStream;
+import java.util.zip.GZIPOutputStream;
+
+
+
+
+
+
 
 /**
  * Created by Amos on 2018/1/23.
@@ -23,6 +48,7 @@ public class Session {
     private List<Integer> operationsFlag;
     private List<String> operationsHeadersList;
     private List<String> operationsList;
+    private List<PcapPacket> packets;
 
     private byte[] serverIP;
     private byte[] clientIP;
@@ -40,10 +66,26 @@ public class Session {
     private boolean connectionEstablished;
     private boolean[] connectionEstablishingFlags = new boolean[2];
 
+    // HTTP parser useful fields
+    private Map<String, String> clientHTTPFields;
+    Map<String, String> serverHTTPFields;
+    private String serverCharset;
+    public StringBuilder HTTPpayload;
+
+
+
     Session(PcapPacket head, Tcp tcp, Ip4 ip4 , Ethernet eth) {
         this.operationsList = new ArrayList<>();
         this.operationsFlag = new ArrayList<>();
         this.operationsHeadersList = new ArrayList<>();
+        this.packets = new ArrayList<>();
+        packets.add(head);
+
+        // HTTP
+        this.clientHTTPFields = new HashMap<>();
+        this.serverHTTPFields = new HashMap<>();
+        this.serverCharset = null;
+        this.HTTPpayload = new StringBuilder();
 
         // Physical Info
         this.clientIP = ip4.source();
@@ -62,6 +104,13 @@ public class Session {
         this.clientPacketNumber = 1;
         this.serverPacketNumber = 0;
         this.connectionEstablished = false;
+
+        // Generate HTTP operation for head packet
+        if (applicationType.equals("HTTP")) {
+            generateOperationForHTTP( head, tcp);
+        }
+
+
     }
 
     // Helpers
@@ -85,13 +134,101 @@ public class Session {
             // A PSH+ACK packet
             StringBuilder sb = generateHeaderForOperation(element, tcp);
             try {
-                sb.append(Util.unEscapeExceptNT(new String(payload.data(), "UTF-8")));
+                sb.append(Util.unEscapeExceptNT(new String(payload.data(), "ISO-8859-1")));
             } catch (UnsupportedEncodingException e) {
                 e.printStackTrace();
             }
             operationsList.add(sb.toString());
         }
     }
+
+
+    private void generateOperationForHTTP(PcapPacket element, Tcp tcp) {
+        Payload payload = new Payload();
+        Http http = new Http();
+        Html html = new Html();
+
+        boolean qualified = false;
+        if (element.hasHeader(payload)) {
+            qualified = true;
+        }
+        if (element.hasHeader(http)) {
+            qualified = true;
+        }
+        if (element.hasHeader(html)) {
+            qualified = true;
+        }
+
+        if (qualified) {
+            // A PSH+ACK packet
+            StringBuilder sb = generateHeaderForOperation(element, tcp);
+
+            if (http.getLength() > 0 ) {
+                String messageType = http.getMessageType().name();
+                String messageContent = http.header();
+                sb.append(String.format("MessageType: %s\n", messageType));
+                sb.append(Util.unEscapeExceptNT(messageContent));
+                if (messageType.equals("REQUEST")) {
+                    for (Http.Request field : Http.Request.values()) {
+                        if (http.fieldValue(field) != null) {
+                            clientHTTPFields.put(field.name(), http.fieldValue(field));
+                        }
+                    }
+                } else if (messageType.equals("RESPONSE")) {
+                    for (Http.Response field : Http.Response.values()) {
+                        if (http.fieldValue(field) != null) {
+                            serverHTTPFields.put(field.name(), http.fieldValue(field));
+                        }
+                    }
+
+                    if ( serverHTTPFields.get("Content_Type") != null) {
+                        Pattern pattern = Pattern.compile("^\\s*charset=(.*)");
+                        for (String possibleCharset : serverHTTPFields.get("Content_Type").split(";")) {
+                            Matcher matcher = pattern.matcher(possibleCharset);
+                            if (matcher.find()) {
+                                serverCharset = matcher.group(1);
+                                break;
+                            }
+                        }
+                    }
+                    if (serverCharset == null) {
+                        // Default charset
+                        serverCharset = "ISO-8859-1";
+                    }
+
+
+                }
+
+
+                if (html.getLength() > 0) {
+
+                    try {
+                        HTTPpayload.append(new String(html.page().getBytes("ISO-8859-1"), "ISO-8859-1"));
+                    } catch (UnsupportedEncodingException e) {
+                        e.printStackTrace();
+                    }
+
+
+                    System.out.println();
+                }
+            }
+            if (payload.getLength() > 0) {
+
+                try {
+                    HTTPpayload.append(new String(payload.data(), "ISO-8859-1"));
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
+            }
+
+
+
+
+
+            operationsList.add(sb.toString());
+        }
+    }
+
 
 
     public void addPacket(PcapPacket element, Tcp tcp, Ip4 ip4 , Ethernet eth) {
@@ -102,6 +239,15 @@ public class Session {
         } else {
             clientPacketNumber ++;
         }
+        packets.add(element);
+
+        // HTTP separate
+        if (applicationType.equals("HTTP")) {
+            generateOperationForHTTP(element, tcp);
+            return;
+        }
+
+
 
         if (!connectionEstablished) {
             if (tcp.flags() == 18) {
@@ -424,7 +570,7 @@ public class Session {
                 }
 //                System.out.println();
             } else {
-//                System.out.println();
+                System.out.println();
             }
         }
 
@@ -659,5 +805,6 @@ public class Session {
     public List<String> getOperationsList() {
         return operationsList;
     }
+
 
 }

@@ -1,6 +1,8 @@
 package work;
 
+import java.io.*;
 import java.util.*;
+import java.util.zip.*;
 
 
 /**
@@ -187,4 +189,85 @@ public class Util {
         System.out.println("\tlayout of the messages. Thus, they are omitted mostly. ");
         System.out.println("\tThere's only 1 valid parsing for it, which is at the end of TELNET session.");
     }
+
+
+    public static String decodeHTTPPayloadToPrintable(Session instance) {
+        byte[] data = new byte[0];
+        try {
+            data = instance.HTTPpayload.toString().getBytes("ISO-8859-1");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+
+        String encoding = instance.serverHTTPFields.get("Content_Encoding");
+        if (encoding != null && encoding.equals("gzip")) {
+            return GZipDecoderToString(data);
+        } else {
+            try {
+                return new String(data, "ISO-8859-1");
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+                return null;
+            }
+        }
+    }
+
+    public static String GZipDecoderToString(byte[] data) {
+        StringBuilder sb = new StringBuilder();
+        GZIPInputStream gzipInputStream;
+        try {
+            gzipInputStream = new GZIPInputStream(
+                    new ByteArrayInputStream(data));
+            InputStreamReader reader = new InputStreamReader(gzipInputStream);
+            BufferedReader in = new BufferedReader(reader);
+            String read;
+            while ((read = in.readLine()) != null){
+                sb.append(read);
+            }
+            String json = sb.toString();
+            reader.close();
+            in.close();
+            gzipInputStream.close();
+            return sb.toString();
+        } catch (IOException e) {
+//            e.printStackTrace();
+            sb.append(String.format("[Exception: %s]", e.getMessage()));
+            return sb.toString();
+        }
+    }
+
+
+
+    public static void parseGZIPPage(Session session) {
+        // Problem: Unexpected end of ZLIB input stream
+        try {
+            byte[] compressedBytes = session.HTTPpayload.toString().getBytes("ISO-8859-1");
+
+            ByteArrayInputStream bis = new ByteArrayInputStream(compressedBytes);
+            GZIPInputStream gis;
+            gis = new GZIPInputStream(bis);
+
+            byte[] decodedBytes = new byte[compressedBytes.length*10];
+            int totalBytesRead = 0;
+
+            int readCount = gis.read(decodedBytes, totalBytesRead, compressedBytes.length);
+            while ( readCount != -1 ) {
+                totalBytesRead += readCount;
+                readCount = gis.read(decodedBytes, totalBytesRead, compressedBytes.length);
+            }
+
+            System.out.println();
+
+
+
+            gis.close();
+            bis.close();
+            System.out.println();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+
 }

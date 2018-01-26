@@ -20,9 +20,40 @@ public class TfPcapPacketHandler implements PcapPacketHandler<Map<String, TreeMa
     private Ip4 ip4 = new Ip4();
     private Tcp tcp = new Tcp();
 
+    private static int global = 0;
+
+
+    private void processForHTTP(PcapPacket packet, Map<String, TreeMap<Long, Session>> map) {
+        if (packet == null) {   return; }
+        // Step 1: Generate Key [sourceIP:port destIP:port]
+        String[] keyArray = {String.valueOf(ip4.destinationToInt()) + ":" + tcp.destination(), String.valueOf(ip4.sourceToInt()) + ":" + tcp.source()};
+        Arrays.sort(keyArray);
+        String connectionKey = keyArray[0] + " " + keyArray[1];
+
+        // Step 2: We don't distinguish different sessions between two connection Pairs
+        // Client: 145.254.160.237  // Server: 65.208.228.223
+        Long connectionTimestamp = packet.getCaptureHeader().timestampInMicros();
+        TreeMap<Long, Session> sessionsForConnection;
+        if(map.containsKey(connectionKey)) {
+            sessionsForConnection = map.get(connectionKey);
+        } else {
+            sessionsForConnection = new TreeMap<>();
+        }
+        Long sessionStartTimestamp = sessionsForConnection.floorKey(connectionTimestamp);
+        if (sessionStartTimestamp == null) {
+            // Beginning of a new session
+            sessionsForConnection.put(connectionTimestamp, new Session(packet, tcp, ip4, eth));
+        } else {
+            // Add packet to existing session
+            sessionsForConnection.get(sessionStartTimestamp).addPacket(packet, tcp, ip4, eth);
+        }
+        map.put(connectionKey, sessionsForConnection);
+    }
 
     @Override
     public void nextPacket(PcapPacket packet, Map<String, TreeMap<Long, Session>> map) {
+        global ++;
+        System.out.println("Global: " + global);
         // Do something on the received packet
 
         // This shows everything [Header / Formatting / Payload] in a byte-oriented way
@@ -32,7 +63,7 @@ public class TfPcapPacketHandler implements PcapPacketHandler<Map<String, TreeMa
 
         // Step 0: Some Checkings
         // Check Existence of Ethernet IP TCP headers
-        if (!packet.hasHeader(eth) || !packet.hasHeader(ip4) || !packet.hasHeader(tcp)) {
+        if (packet == null || !packet.hasHeader(eth) || !packet.hasHeader(ip4) || !packet.hasHeader(tcp)) {
             return;
         }
         // Check for CheckSum
@@ -44,6 +75,11 @@ public class TfPcapPacketHandler implements PcapPacketHandler<Map<String, TreeMa
             return;
         }
 
+        if (tcp.destination() == 80 || tcp.source() == 80) {
+            // HTTP
+            processForHTTP(packet, map);
+            return;
+        }
 
         // Step 1: Generate Key [sourceIP:port destIP:port]
         String[] keyArray = {String.valueOf(ip4.destinationToInt()) + ":" + tcp.destination(), String.valueOf(ip4.sourceToInt()) + ":" + tcp.source()};
