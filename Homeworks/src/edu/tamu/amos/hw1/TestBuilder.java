@@ -30,7 +30,7 @@ public class TestBuilder {
             return;
         }
         final String fileName = args[0];
-        final String outputFileName = "output.txt";
+        final String outputFileName = fileName + ".txt";
         FileOutputStream outputStream;
 
         final Pcap pcap = Pcap.openOffline(fileName, errorBuffer);
@@ -49,7 +49,7 @@ public class TestBuilder {
             outputStream = new FileOutputStream(outputFileName);
 
             // statusCode:  -1 on ERROR     0 on cnt exhausted      -2 on pcap_breakloop() call
-            int statusCode = pcap.loop(Integer.MAX_VALUE, packetHandler, holder);
+            int statusCode = pcap.loop(10000, packetHandler, holder);
             if (statusCode != 0) {
                 System.err.print("Error while processing packets");
             }

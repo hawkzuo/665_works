@@ -5,10 +5,19 @@
 Then run the program via command:
     java -jar CSCE665_workspace.jar data/tfsession.pcap
     java -jar CSCE665_workspace.jar data/httpsession.pcap
+The output will be in sub-folder "data", with filename pattern
+    pcapFilename.txt
 
+ Linux:
+ -Install libpcap-dev
+   [sudo apt-get install libpcap-dev]
+-Copy file libjnetpcap.so to /usr/lib/libjnetpcap.so
+  Or Copy jnetpcap.jar file to /usr/share/java/jnetpcap.jar
+-
 
-Jnetpcap:
+ Jnetpcap:
     Just filter for each packet, divide them into serveral headers.
+    http://jnetpcap.com/docs/javadoc/jnetpcap-1.3/index.html
 
 TCP Flags Refer:
         http://www.freesoft.org/CIE/Course/Section4/8.htm
@@ -41,6 +50,12 @@ FTP:    Server always port 21, data is sent through port 20
     Either check TCP.flags == 24 or check packet.hasHeader(payload)
     Details:    http://www.pcvr.nl/tcpip/ftp_file.htm
 
+General:
+    ASCII table:
+        https://www.cs.cmu.edu/~pattis/15-1XX/common/handouts/ascii.html
+    ASCII escape sequence:
+        Parsing: https://stackoverflow.com/questions/9913342/byte-to-character-conversion-for-a-telnet-stream
+        Meaning: http://ascii-table.com/ansi-escape-sequences.php
 
 
 

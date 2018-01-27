@@ -1,0 +1,1479 @@
+Some Notes on this session: 
+	Telnet Special Characters are defined as follows: 0 -> NUL, 7 -> BEL, 11 -> VT
+	Other Special Characters are ASCII normal characters, which will be in explicit form.
+	For example, TAB will be printed as '\t' and CR will be printed as '\r', etc.
+	Actually, for better layouts, the LF is replaced by '\n' plus a real line feed.
+	Otherwise, the data will be squeezed into only 1 line.
+	This becomes severe on TELNET/HTTP application scenarios
+	Besides, this program is able to catch the escaped sequences used in Telnet application
+	However, those are used to adjust font properties, which would influence the general
+	layout of the messages. Thus, they are omitted mostly. 
+	There's only 1 valid parsing for it, which is at the end of TELNET session.
+******************************************************
+******************New Session Details*****************
+******************************************************
+Session Application Type: FTP
+Session Start Time: Fri Aug 23 15:50:00 CDT 2002
+Session End Time: Fri Aug 23 15:50:51 CDT 2002
+Total Packets Transferred: 78
+Client-side Packets: 48
+Server-side Packets: 30
+Client Physical Information:
+	MAC Address: 00:C0:9F:04:76:B9 IP Address: 10: 2: 1: 1 Port Number: 32799
+Server Physical Information:
+	MAC Address: 00:C0:9F:04:54:FA IP Address: 10: 2: 2: 1 Port Number: 21
+Application-level Contents:
+
+SERVER Timestamp: Fri Aug 23 15:50:00 CDT 2002 Context: 
+220 H3 FTP server (Version wu-2.6.1-18) ready.\r\n
+
+CLIENT Timestamp: Fri Aug 23 15:50:00 CDT 2002 Context: 
+AUTH GSSAPI\r\n
+
+SERVER Timestamp: Fri Aug 23 15:50:00 CDT 2002 Context: 
+530 Please login with USER and PASS.\r\n
+
+CLIENT Timestamp: Fri Aug 23 15:50:00 CDT 2002 Context: 
+AUTH KERBEROS_V4\r\n
+
+SERVER Timestamp: Fri Aug 23 15:50:00 CDT 2002 Context: 
+530 Please login with USER and PASS.\r\n
+
+CLIENT Timestamp: Fri Aug 23 15:50:03 CDT 2002 Context: 
+USER cs6262\r\n
+
+SERVER Timestamp: Fri Aug 23 15:50:03 CDT 2002 Context: 
+331 Password required for cs6262.\r\n
+
+CLIENT Timestamp: Fri Aug 23 15:50:12 CDT 2002 Context: 
+PASS Re=mi3vE4\r\n
+
+SERVER Timestamp: Fri Aug 23 15:50:12 CDT 2002 Context: 
+230 User cs6262 logged in.\r\n
+
+CLIENT Timestamp: Fri Aug 23 15:50:12 CDT 2002 Context: 
+SYST\r\n
+
+SERVER Timestamp: Fri Aug 23 15:50:12 CDT 2002 Context: 
+215 UNIX Type: L8\r\n
+
+CLIENT Timestamp: Fri Aug 23 15:50:14 CDT 2002 Context: 
+TYPE I\r\n
+
+SERVER Timestamp: Fri Aug 23 15:50:14 CDT 2002 Context: 
+200 Type set to I.\r\n
+
+CLIENT Timestamp: Fri Aug 23 15:50:15 CDT 2002 Context: 
+TYPE A\r\n
+
+SERVER Timestamp: Fri Aug 23 15:50:15 CDT 2002 Context: 
+200 Type set to A.\r\n
+
+CLIENT Timestamp: Fri Aug 23 15:50:15 CDT 2002 Context: 
+PASV\r\n
+
+SERVER Timestamp: Fri Aug 23 15:50:15 CDT 2002 Context: 
+227 Entering Passive Mode (10,2,2,1,23,145)\r\n
+
+CLIENT Timestamp: Fri Aug 23 15:50:15 CDT 2002 Context: 
+LIST\r\n
+
+SERVER Timestamp: Fri Aug 23 15:50:15 CDT 2002 Context: 
+150 Opening ASCII mode data connection for directory listing.\r\n
+
+SERVER Timestamp: Fri Aug 23 15:50:15 CDT 2002 Context: 
+226 Transfer complete.\r\n
+
+CLIENT Timestamp: Fri Aug 23 15:50:17 CDT 2002 Context: 
+PASV\r\n
+
+SERVER Timestamp: Fri Aug 23 15:50:17 CDT 2002 Context: 
+227 Entering Passive Mode (10,2,2,1,5,199)\r\n
+
+CLIENT Timestamp: Fri Aug 23 15:50:17 CDT 2002 Context: 
+LIST\r\n
+
+SERVER Timestamp: Fri Aug 23 15:50:17 CDT 2002 Context: 
+150 Opening ASCII mode data connection for directory listing.\r\n
+
+SERVER Timestamp: Fri Aug 23 15:50:17 CDT 2002 Context: 
+226 Transfer complete.\r\n
+
+CLIENT Timestamp: Fri Aug 23 15:50:19 CDT 2002 Context: 
+CWD /tmp\r\n
+
+SERVER Timestamp: Fri Aug 23 15:50:19 CDT 2002 Context: 
+250 CWD command successful.\r\n
+
+CLIENT Timestamp: Fri Aug 23 15:50:20 CDT 2002 Context: 
+PASV\r\n
+
+SERVER Timestamp: Fri Aug 23 15:50:20 CDT 2002 Context: 
+227 Entering Passive Mode (10,2,2,1,152,78)\r\n
+
+CLIENT Timestamp: Fri Aug 23 15:50:20 CDT 2002 Context: 
+LIST\r\n
+
+SERVER Timestamp: Fri Aug 23 15:50:20 CDT 2002 Context: 
+150 Opening ASCII mode data connection for directory listing.\r\n
+
+SERVER Timestamp: Fri Aug 23 15:50:20 CDT 2002 Context: 
+226 Transfer complete.\r\n
+
+CLIENT Timestamp: Fri Aug 23 15:50:42 CDT 2002 Context: 
+PASV\r\n
+
+SERVER Timestamp: Fri Aug 23 15:50:42 CDT 2002 Context: 
+227 Entering Passive Mode (10,2,2,1,177,181)\r\n
+
+CLIENT Timestamp: Fri Aug 23 15:50:42 CDT 2002 Context: 
+LIST\r\n
+
+SERVER Timestamp: Fri Aug 23 15:50:42 CDT 2002 Context: 
+150 Opening ASCII mode data connection for directory listing.\r\n
+
+SERVER Timestamp: Fri Aug 23 15:50:42 CDT 2002 Context: 
+226 Transfer complete.\r\n
+
+CLIENT Timestamp: Fri Aug 23 15:50:46 CDT 2002 Context: 
+TYPE I\r\n
+
+SERVER Timestamp: Fri Aug 23 15:50:46 CDT 2002 Context: 
+200 Type set to I.\r\n
+
+CLIENT Timestamp: Fri Aug 23 15:50:46 CDT 2002 Context: 
+PASV\r\n
+
+SERVER Timestamp: Fri Aug 23 15:50:46 CDT 2002 Context: 
+227 Entering Passive Mode (10,2,2,1,162,33)\r\n
+
+CLIENT Timestamp: Fri Aug 23 15:50:46 CDT 2002 Context: 
+RETR hosts\r\n
+
+SERVER Timestamp: Fri Aug 23 15:50:46 CDT 2002 Context: 
+150 Opening BINARY mode data connection for hosts (213 bytes).\r\n
+
+SERVER Timestamp: Fri Aug 23 15:50:46 CDT 2002 Context: 
+226 Transfer complete.\r\n
+
+CLIENT Timestamp: Fri Aug 23 15:50:51 CDT 2002 Context: 
+QUIT\r\n
+
+SERVER Timestamp: Fri Aug 23 15:50:51 CDT 2002 Context: 
+221-You have transferred 213 bytes in 1 files.\r\n
+
+SERVER Timestamp: Fri Aug 23 15:50:51 CDT 2002 Context: 
+221-Total traffic for this session was 1337 bytes in 1 transfers.\r\n
+221 Thank you for using the FTP service on H3.\r\n
+
+
+Some Notes on this session: 
+	Telnet Special Characters are defined as follows: 0 -> NUL, 7 -> BEL, 11 -> VT
+	Other Special Characters are ASCII normal characters, which will be in explicit form.
+	For example, TAB will be printed as '\t' and CR will be printed as '\r', etc.
+	Actually, for better layouts, the LF is replaced by '\n' plus a real line feed.
+	Otherwise, the data will be squeezed into only 1 line.
+	This becomes severe on TELNET/HTTP application scenarios
+	Besides, this program is able to catch the escaped sequences used in Telnet application
+	However, those are used to adjust font properties, which would influence the general
+	layout of the messages. Thus, they are omitted mostly. 
+	There's only 1 valid parsing for it, which is at the end of TELNET session.
+******************************************************
+******************New Session Details*****************
+******************************************************
+Session Application Type: TELNET
+Session Start Time: Fri Aug 23 15:49:03 CDT 2002
+Session End Time: Fri Aug 23 15:49:59 CDT 2002
+Total Packets Transferred: 668
+Client-side Packets: 363
+Server-side Packets: 305
+Client Physical Information:
+	MAC Address: 00:C0:9F:04:76:B9 IP Address: 10: 2: 1: 1 Port Number: 32798
+Server Physical Information:
+	MAC Address: 00:C0:9F:04:54:FA IP Address: 10: 2: 2: 1 Port Number: 23
+Client Enabled Options:
+	TERMINAL-TYPE
+	X-DISPLAY-LOCATION
+	NAWS
+	TOGGLE-FLOW-CONTROL
+	NEW-ENVIRON
+	TERMINAL-SPEED
+Server Enabled Options:
+	STATUS
+	ECHO
+	SUPPRESS-GO-AHEAD
+Application-level Contents:
+
+CLIENT Timestamp: Fri Aug 23 15:49:03 CDT 2002 Context: 
+IAC DO ENCRYPT IAC WILL ENCRYPT IAC DO SUPPRESS-GO-AHEAD IAC WILL TERMINAL-TYPE IAC WILL NAWS IAC WILL TERMINAL-SPEED IAC WILL TOGGLE-FLOW-CONTROL IAC WILL LINEMODE IAC WILL NEW-ENVIRON IAC DO STATUS IAC WILL X-DISPLAY-LOCATION 
+SERVER Timestamp: Fri Aug 23 15:49:03 CDT 2002 Context: 
+IAC DO TERMINAL-TYPE IAC DO TERMINAL-SPEED IAC DO X-DISPLAY-LOCATION IAC DO NEW-ENVIRON IAC WONT ENCRYPT IAC DONT ENCRYPT IAC WILL SUPPRESS-GO-AHEAD IAC DO NAWS IAC DO TOGGLE-FLOW-CONTROL IAC DONT LINEMODE IAC WILL STATUS IAC SB TERMINAL-SPEED SEND  IAC SE IAC SB X-DISPLAY-LOCATION SEND IAC SE IAC SB NEW-ENVIRON SEND IAC SE IAC SB TERMINAL-TYPE SEND IAC SE 
+CLIENT Timestamp: Fri Aug 23 15:49:03 CDT 2002 Context: 
+IAC SB NAWS WIDTH-80 HEIGHT-24 IAC SE IAC SB TERMINAL-SPEED IS 38400,38400 IAC SE IAC SB X-DISPLAY-LOCATION IS H1:0 IAC SE IAC SB NEW-ENVIRON IS DISPLAYH1:0 IAC SE IAC SB TERMINAL-TYPE ISXTERM IAC SE 
+SERVER Timestamp: Fri Aug 23 15:49:03 CDT 2002 Context: 
+IAC DO ECHO 
+CLIENT Timestamp: Fri Aug 23 15:49:03 CDT 2002 Context: 
+IAC WONT ECHO 
+SERVER Timestamp: Fri Aug 23 15:49:03 CDT 2002 Context: 
+IAC WILL ECHO Red Hat Linux release 7.2 (Enigma)\r\n
+Kernel 2.4.7-10 on an i686\r\n
+
+CLIENT Timestamp: Fri Aug 23 15:49:03 CDT 2002 Context: 
+IAC DO ECHO 
+SERVER Timestamp: Fri Aug 23 15:49:03 CDT 2002 Context: 
+login: 
+CLIENT Timestamp: Fri Aug 23 15:49:04 CDT 2002 Context: 
+cs6262\rNUL
+SERVER Timestamp: Fri Aug 23 15:49:04 CDT 2002 Context: 
+cs6262\r\n
+
+SERVER Timestamp: Fri Aug 23 15:49:05 CDT 2002 Context: 
+Password: 
+CLIENT Timestamp: Fri Aug 23 15:49:05 CDT 2002 Context: 
+welkfjwe\rNUL
+SERVER Timestamp: Fri Aug 23 15:49:05 CDT 2002 Context: 
+\r\n
+Login incorrect\r\n
+\r\n
+login: 
+CLIENT Timestamp: Fri Aug 23 15:49:08 CDT 2002 Context: 
+cs6262\rNUL
+SERVER Timestamp: Fri Aug 23 15:49:08 CDT 2002 Context: 
+cs6262\r\n
+
+SERVER Timestamp: Fri Aug 23 15:49:09 CDT 2002 Context: 
+Password: 
+CLIENT Timestamp: Fri Aug 23 15:49:09 CDT 2002 Context: 
+w;lerkwel;f\rNUL
+SERVER Timestamp: Fri Aug 23 15:49:09 CDT 2002 Context: 
+\r\n
+Login incorrect\r\n
+\r\n
+login: 
+CLIENT Timestamp: Fri Aug 23 15:49:12 CDT 2002 Context: 
+cs6262\rNUL
+SERVER Timestamp: Fri Aug 23 15:49:12 CDT 2002 Context: 
+cs6262\r\n
+
+SERVER Timestamp: Fri Aug 23 15:49:13 CDT 2002 Context: 
+Password: 
+CLIENT Timestamp: Fri Aug 23 15:49:33 CDT 2002 Context: 
+Re=mi3vE4\rNUL
+SERVER Timestamp: Fri Aug 23 15:49:38 CDT 2002 Context: 
+\r\n
+Last login: Fri Aug 23 16:37:38 from H1\r\n
+0;cs6262@H3:~BEL[cs6262@H3 cs6262]$ 
+CLIENT Timestamp: Fri Aug 23 15:49:40 CDT 2002 Context: 
+ls -l\rNUL
+SERVER Timestamp: Fri Aug 23 15:49:40 CDT 2002 Context: 
+ls -l\r\n
+
+SERVER Timestamp: Fri Aug 23 15:49:40 CDT 2002 Context: 
+total 0\r\n
+0;cs6262@H3:~BEL[cs6262@H3 cs6262]$ 
+CLIENT Timestamp: Fri Aug 23 15:49:40 CDT 2002 Context: 
+ps -ax\rNUL
+SERVER Timestamp: Fri Aug 23 15:49:40 CDT 2002 Context: 
+ps -ax\r\n
+
+SERVER Timestamp: Fri Aug 23 15:49:41 CDT 2002 Context: 
+  PID TTY      STAT   TIME COMMAND\r\n
+    1 ?        S      0:04 init [5] \r\n
+    2 ?        SW     0:00 [keventd]\r\n
+    3 ?        SWN    0:00 [ksoftirqd_CPU0]\r\n
+    4 ?        SW     0:00 [kswapd]\r\n
+    5 ?        SW     0:00 [kreclaimd]\r\n
+    6 ?        SW     0:00 [bdflush]\r\n
+    7 ?        SW     0:00 [kupdated]\r\n
+    8 ?        SW<    0:00 [mdrecoveryd]\r\n
+   12 ?        SW     0:00 [kjournald]\r\n
+   87 ?        SW     0:00 [khubd]\r\n
+  183 ?        SW     0:00 [kjournald]\r\n
+  184 ?        SW     0:00 [kjournald]\r\n
+  643 ?        S      0:00 syslogd -m 0\r\n
+  648 ?        S      0:00 klogd -2\r\n
+  668 ?        S      0:00 portmap\r\n
+  696 ?        S      0:00 rpc.statd\r\n
+  864 ?        S      0:00 /usr/sbin/sshd\r\n
+  937 ?        S      0:00 sendmail: accepting connections\r\n
+  965 ?        SW     0:00 [scsi_eh_1]\r\n
+  984 ?        S      0:00 gpm -t ps/2 -m /dev/mouse\r\n
+ 1002 ?        S      0:00 crond\r\n
+ 1072 ?        S      0:00 xfs -droppriv -daemon\r\n
+ 1108 ?        S      0:00 /usr/sbin/atd\r\n
+ 1138 tty1     S      0:00 /sbin/mingetty tty1\r\n
+ 1139 tty2     S      0:00 /sbin/mingetty tty2\r\n
+ 1140 tty3     S      0:00 /sbin/mingetty tty3\r\n
+ 1141 tty4     S      0:00 /sbin/mingetty tty4\r\n
+ 1142 tty5     S      0:00 /sbin/mingetty tty5\r\n
+ 1143 tty6     S      0:00 /sbin/mingetty tty6\r\n
+ 1144 ?        S      0:00 /usr/bin/gdm -nodaemon\r\n
+ 1352 ?        S      0:00 oafd --ac-activate --ior-output-fd=10\r\n
+ 2291 ?        S      0:00 /usr/bin/gdm -nodaemon\r\n
+ 2292 ?        S      0:03 /etc/X11/X :0 -auth /var/gdm/:0.Xauth\r\n
+15968 ?        S      0:00 /usr/bin/gnome-session\r\n
+16107 ?        S      0:00 gnome-smproxy --sm-client-id default0\r\n
+16111 ?        S      0:00 sawfish --sm-client-id=default2\r\n
+16140 ?        S      0:07 magicdev --sm-client-id default9\r\n
+16142 ?        S      0:01 nautilus start-here: -g 600x410+150+100 --sm-client-i\r\n
+16144 ?        S      0:00 panel --sm-client-id default7\r\n
+16149 ?        S      0:00 gnome-name-service\r\n
+16155 ?        S      0:00 gconfd-1 --oaf-activate-iid=OAFIID:gconfd:19991118 --\r\n
+16160 ?        S      0:00 tasklist_applet --activate-goad-server tasklist_apple\r\n
+16162 ?        S      0:00 deskguide_applet --activate-goad-server deskguide_app\r\n
+16168 ?        S      0:00 fam\r\n
+16169 ?        S      0:00 nautilus start-here: -g 600x410+150+100 --sm-client-i\r\n
+16170 ?        S      0:00 nautilus start-here: -g 600x410+150+100 --sm-client-i\r\n
+16171 ?        S      0:00 nautilus start-here: -g 600x410+150+100 --sm-client-i\r\n
+16576 ?        S      0:00 xinetd -stayalive -reuse -pidfile /var/run/xinetd.pid\r\n
+16583 ?        S      0:00 gnome-terminal --use-factory --start-factory-server\r\n
+16586 ?        S      0:00 gnome-pty-helper\r\n
+16587 pts/0    S      0:00 bash\r\n
+16662 ?        S      0:00 /usr/sbin/sshd\r\n
+16664 pts/2    S      0:00 -bash\r\n
+16867 ?        S      0:00 in.telnetd: H1                                       \r\n
+16868 pts/1    S      0:00 login -- cs6262    \r\n
+16873 pts/1    S      0:00 -bash\r\n
+16920 pts/1    R      0:00 ps -ax\r\n
+0;cs6262@H3:~BEL[cs6262@H3 cs6262]$ 
+CLIENT Timestamp: Fri Aug 23 15:49:42 CDT 2002 Context: 
+uname\rNUL
+SERVER Timestamp: Fri Aug 23 15:49:42 CDT 2002 Context: 
+uname\r\n
+
+SERVER Timestamp: Fri Aug 23 15:49:43 CDT 2002 Context: 
+Linux\r\n
+0;cs6262@H3:~BEL[cs6262@H3 cs6262]$ 
+CLIENT Timestamp: Fri Aug 23 15:49:44 CDT 2002 Context: 
+who\rNUL
+SERVER Timestamp: Fri Aug 23 15:49:44 CDT 2002 Context: 
+who\r\n
+
+SERVER Timestamp: Fri Aug 23 15:49:45 CDT 2002 Context: 
+cs6262   pts/1    Aug 23 16:39 (H1)\r\n
+root     pts/0    Aug 23 16:31 (:0)\r\n
+root     pts/2    Aug 23 16:35 (h1)\r\n
+0;cs6262@H3:~BEL[cs6262@H3 cs6262]$ 
+CLIENT Timestamp: Fri Aug 23 15:49:45 CDT 2002 Context: 
+w\rNUL
+SERVER Timestamp: Fri Aug 23 15:49:45 CDT 2002 Context: 
+w\r\n
+
+SERVER Timestamp: Fri Aug 23 15:49:45 CDT 2002 Context: 
+  4:40pm  up 2 days, 15:42,  3 users,  load average: 0.05, 0.03, 0.01\r\n
+USER     TTY      FROM              LOGIN@   IDLE   JCPU   PCPU  WHAT\r\n
+cs6262   pts/1    H1                4:39pm  0.00s  0.06s  0.01s  w \r\n
+root     pts/0    :0                4:31pm  5:32   0.01s  0.01s  bash \r\n
+root     pts/2    h1                4:35pm 19.00s  0.02s  0.02s  -bash \r\n
+0;cs6262@H3:~BEL[cs6262@H3 cs6262]$ 
+CLIENT Timestamp: Fri Aug 23 15:49:46 CDT 2002 Context: 
+whoami\rNUL
+SERVER Timestamp: Fri Aug 23 15:49:46 CDT 2002 Context: 
+whoami\r\n
+
+SERVER Timestamp: Fri Aug 23 15:49:46 CDT 2002 Context: 
+cs6262\r\n
+0;cs6262@H3:~BEL[cs6262@H3 cs6262]$ 
+CLIENT Timestamp: Fri Aug 23 15:49:47 CDT 2002 Context: 
+uname\rNUL
+SERVER Timestamp: Fri Aug 23 15:49:47 CDT 2002 Context: 
+uname\r\n
+
+SERVER Timestamp: Fri Aug 23 15:49:48 CDT 2002 Context: 
+Linux\r\n
+0;cs6262@H3:~BEL[cs6262@H3 cs6262]$ 
+CLIENT Timestamp: Fri Aug 23 15:49:49 CDT 2002 Context: 
+ls -la\rNUL
+SERVER Timestamp: Fri Aug 23 15:49:49 CDT 2002 Context: 
+ls -la\r\n
+
+SERVER Timestamp: Fri Aug 23 15:49:49 CDT 2002 Context: 
+total 40\r\n
+drwx------    3 cs6262   cs6262       4096 Aug 23 16:36 .\r\n
+drwxr-xr-x   22 root     root         4096 Aug 23 16:32 ..\r\n
+-rw-------    1 cs6262   cs6262        176 Aug 23 16:38 .bash_history\r\n
+-rw-r--r--    1 cs6262   cs6262         24 Aug 23 16:32 .bash_logout\r\n
+-rw-r--r--    1 cs6262   cs6262        191 Aug 23 16:32 .bash_profile\r\n
+-rw-r--r--    1 cs6262   cs6262        124 Aug 23 16:32 .bashrc\r\n
+-rw-r--r--    1 cs6262   cs6262        820 Aug 23 16:32 .emacs\r\n
+-rw-r--r--    1 cs6262   cs6262        118 Aug 23 16:32 .gtkrc\r\n
+drwxr-xr-x    3 cs6262   cs6262       4096 Aug 23 16:32 .kde\r\n
+-rw-r--r--    1 cs6262   cs6262       3511 Aug 23 16:32 .screenrc\r\n
+0;cs6262@H3:~BEL[cs6262@H3 cs6262]$ 
+CLIENT Timestamp: Fri Aug 23 15:49:50 CDT 2002 Context: 
+l/usr/sbin/lsof\rNUL
+SERVER Timestamp: Fri Aug 23 15:49:50 CDT 2002 Context: 
+l\b \b/usr/sbin/lsof\r\n
+
+SERVER Timestamp: Fri Aug 23 15:49:53 CDT 2002 Context: 
+COMMAND     PID   USER   FD   TYPE DEVICE    SIZE       NODE NAME\r\n
+init          1   root  mem    REG    3,3   26636    1815184 /sbin/init\r\n
+init          1   root  mem    REG    3,3  485171    1242777 /lib/ld-2.2.4.so\r\n
+init          1   root  mem    REG    3,3 5772268    1291833 /lib/i686/libc-2.2.4.so\r\n
+syslogd     643   root  mem    REG    3,3   26972    1815169 /sbin/syslogd\r\n
+syslogd     643   root  mem    REG    3,3  485171    1242777 /lib/ld-2.2.4.so\r\n
+syslogd     643   root  mem    REG    3,3  261460    1242811 /lib/libnss_files-2.2.4.so\r\n
+syslogd     643   root  mem    REG    3,3 5772268    1291833 /lib/i686/libc-2.2.4.so\r\n
+klogd       648   root  mem    REG    3,3   20476    1815168 /sbin/klogd\r\n
+klogd       648   root  mem    REG    3,3  485171    1242777 /lib/ld-2.2.4.so\r\n
+klogd       648   root  mem    REG    3,3 5772268    1291833 /lib/i686/libc-2.2.4.so\r\n
+portmap     668   root  mem    REG    3,3   29724    1815258 /sbin/portmap\r\n
+portmap     668   root  mem    REG    3,3  485171    1242777 /lib/ld-2.2.4.so\r\n
+portmap     668   root  mem    REG    3,3  436784    1242795 /lib/libnsl-2.2.4.so\r\n
+portmap     668   root  mem    REG    3,3 5772268    1291833 /lib/i686/libc-2.2.4.so\r\n
+portmap     668   root  mem    REG    3,3  261460    1242811 /lib/libnss_files-2.2.4.so\r\n
+rpc.statd   696   root  mem    REG    3,3   23576    1815262 /sbin/rpc.statd\r\n
+rpc.statd   696   root  mem    REG    3,3  485171    1242777 /lib/ld-2.2.4.so\r\n
+rpc.statd   696   root  mem    REG    3,3  355236    1242819 /lib/libnss_nisplus-2.2.4.so\r\n
+rpc.statd   696   root  mem    REG    3,3  436784    1242795 /lib/libnsl-2.2.4.so\r\n
+rpc.statd   696   root  mem    REG    3,3 5772268    1291833 /lib/i686/libc-2.2.4.so\r\n
+rpc.statd   696   root  mem    REG    3,3  261460    1242811 /lib/libnss_files-2.2.4.so\r\n
+sshd        864   root  mem    REG    3,3  246220     392683 /usr/sbin/sshd\r\n
+sshd        864   root  mem    REG    3,3  485171    1242777 /lib/ld-2.2.4.so\r\n
+sshd        864   root  mem    REG    3,3   35424    1243022 /lib/libpam.so.0.75\r\n
+sshd        864   root  mem    REG    3,3   65997    1242790 /lib/libdl-2.2.4.so\r\n
+sshd        864   root  mem    REG    3,3   59618     359864 /usr/lib/libz.so.1.1.3\r\n
+sshd        864   root  mem    REG    3,3  436784    1242795 /lib/libnsl-2.2.4.so\r\n
+sshd        864   root  mem    REG    3,3   47872    1242830 /lib/libutil-2.2.4.so\r\n
+sshd        864   root  mem    REG    3,3  918752    1242970 /lib/libcrypto.so.0.9.6b\r\n
+sshd        864   root  mem    REG    3,3 5772268    1291833 /lib/i686/libc-2.2.4.so\r\n
+sendmail    937   root  mem    REG    3,3  451076     392516 /usr/sbin/sendmail\r\n
+sendmail    937   root  mem    REG    3,3  485171    1242777 /lib/ld-2.2.4.so\r\n
+sendmail    937   root  mem    REG    3,3    8371    1030228 /usr/lib/sasl/libanonymous.so.1.0.15\r\n
+sendmail    937   root  mem    REG    3,3   13708    1030231 /usr/lib/sasl/libcrammd5.so.1.0.15\r\n
+sendmail    937   root  mem    REG    3,3   33637    1030234 /usr/lib/sasl/libdigestmd5.so.0.0.17\r\n
+sendmail    937   root  mem    REG    3,3   10778    1030237 /usr/lib/sasl/liblogin.so.0.0.5\r\n
+sendmail    937   root  mem    REG    3,3   10368    1030240 /usr/lib/sasl/libplain.so.1.0.14\r\n
+sendmail    937   root  mem    REG    3,3   15990    1031016 /usr/lib/sasl/libgssapiv2.so.1.0.14\r\n
+sendmail    937   root  mem    REG    3,3  754870    1242835 /lib/libdb-3.2.so\r\n
+sendmail    937   root  mem    REG    3,3  261196    1242824 /lib/libresolv-2.2.4.so\r\n
+sendmail    937   root  mem    REG    3,3   85115    1242788 /lib/libcrypt-2.2.4.so\r\n
+sendmail    937   root  mem    REG    3,3  436784    1242795 /lib/libnsl-2.2.4.so\r\n
+sendmail    937   root  mem    REG    3,3  200192    1243055 /lib/libldap.so.2.0.6\r\n
+sendmail    937   root  mem    REG    3,3   44728    1243053 /lib/liblber.so.2.0.6\r\n
+sendmail    937   root  mem    REG    3,3   48683     359857 /usr/lib/libsasl.so.7.1.8\r\n
+sendmail    937   root  mem    REG    3,3   30114     359786 /usr/lib/libgdbm.so.2.0.0\r\n
+sendmail    937   root  mem    REG    3,3 5772268    1291833 /lib/i686/libc-2.2.4.so\r\n
+sendmail    937   root  mem    REG    3,3   80016    1471745 /usr/kerberos/lib/libkrb4.so.2.0\r\n
+sendmail    937   root  mem    REG    3,3   17552    1471737 /usr/kerberos/lib/libdes425.so.3.0\r\n
+sendmail    937   root  mem    REG    3,3  425493    1471746 /usr/kerberos/lib/libkrb5.so.3.0\r\n
+sendmail    937   root  mem    REG    3,3   78193    1471741 /usr/kerberos/lib/libk5crypto.so.3.0\r\n
+sendmail    937   root  mem    REG    3,3    8713    1471736 /usr/kerberos/lib/libcom_err.so.3.0\r\n
+sendmail    937   root  mem    REG    3,3  207036    1242971 /lib/libssl.so.0.9.6b\r\n
+sendmail    937   root  mem    REG    3,3  918752    1242970 /lib/libcrypto.so.0.9.6b\r\n
+sendmail    937   root  mem    REG    3,3   65997    1242790 /lib/libdl-2.2.4.so\r\n
+sendmail    937   root  mem    REG    3,3   35424    1243022 /lib/libpam.so.0.75\r\n
+sendmail    937   root  mem    REG    3,3  261460    1242811 /lib/libnss_files-2.2.4.so\r\n
+sendmail    937   root  mem    REG    3,3  355236    1242819 /lib/libnss_nisplus-2.2.4.so\r\n
+sendmail    937   root  mem    REG    3,3   91078    1471739 /usr/kerberos/lib/libgssapi_krb5.so.2.2\r\n
+sendmail    937   root  mem    REG    3,3  281275     359782 /usr/lib/libdb2.so.3\r\n
+gpm         984   root  mem    REG    3,3   62556     392508 /usr/sbin/gpm\r\n
+gpm         984   root  mem    REG    3,3  485171    1242777 /lib/ld-2.2.4.so\r\n
+gpm         984   root  mem    REG    3,3 5772268    1291833 /lib/i686/libc-2.2.4.so\r\n
+crond      1002   root  mem    REG    3,3   21852     392539 /usr/sbin/crond\r\n
+crond      1002   root  mem    REG    3,3  485171    1242777 /lib/ld-2.2.4.so\r\n
+crond      1002   root  mem    REG    3,3  261460    1242811 /lib/libnss_files-2.2.4.so\r\n
+crond      1002   root  mem    REG    3,3  355236    1242819 /lib/libnss_nisplus-2.2.4.so\r\n
+crond      1002   root  mem    REG    3,3 5772268    1291833 /lib/i686/libc-2.2.4.so\r\n
+crond      1002   root  mem    REG    3,3  436784    1242795 /lib/libnsl-2.2.4.so\r\n
+xfs        1072   root  mem    REG    3,3   71804     572429 /usr/X11R6/bin/xfs\r\n
+xfs        1072   root  mem    REG    3,3  485171    1242777 /lib/ld-2.2.4.so\r\n
+xfs        1072   root  mem    REG    3,3  261460    1242811 /lib/libnss_files-2.2.4.so\r\n
+xfs        1072   root  mem    REG    3,3  355236    1242819 /lib/libnss_nisplus-2.2.4.so\r\n
+xfs        1072   root  mem    REG    3,3  468092     785464 /usr/X11R6/lib/libXfont.so.1.3\r\n
+xfs        1072   root  mem    REG    3,3  622317    1291835 /lib/i686/libm-2.2.4.so\r\n
+xfs        1072   root  mem    REG    3,3   59618     359864 /usr/lib/libz.so.1.1.3\r\n
+xfs        1072   root  mem    REG    3,3 5772268    1291833 /lib/i686/libc-2.2.4.so\r\n
+xfs        1072   root  mem    REG    3,3  436784    1242795 /lib/libnsl-2.2.4.so\r\n
+atd        1108   root  mem    REG    3,3   14832     392496 /usr/sbin/atd\r\n
+atd        1108   root  mem    REG    3,3  485171    1242777 /lib/ld-2.2.4.so\r\n
+atd        1108   root  mem    REG    3,3 5772268    1291833 /lib/i686/libc-2.2.4.so\r\n
+atd        1108   root  mem    REG    3,3  261460    1242811 /lib/libnss_files-2.2.4.so\r\n
+mingetty   1138   root  mem    REG    3,3    8636    1815114 /sbin/mingetty\r\n
+mingetty   1138   root  mem    REG    3,3  485171    1242777 /lib/ld-2.2.4.so\r\n
+mingetty   1138   root  mem    REG    3,3 5772268    1291833 /lib/i686/libc-2.2.4.so\r\n
+mingetty   1139   root  mem    REG    3,3    8636    1815114 /sbin/mingetty\r\n
+mingetty   1139   root  mem    REG    3,3  485171    1242777 /lib/ld-2.2.4.so\r\n
+mingetty   1139   root  mem    REG    3,3 5772268    1291833 /lib/i686/libc-2.2.4.so\r\n
+mingetty   1140   root  mem    REG    3,3    8636    1815114 /sbin/mingetty\r\n
+mingetty   1140   root  mem    REG    3,3  485171    1242777 /lib/ld-2.2.4.so\r\n
+mingetty   1140   root  mem    REG    3,3 5772268    1291833 /lib/i686/libc-2.2.4.so\r\n
+mingetty   1141   root  mem    REG    3,3    8636    1815114 /sbin/mingetty\r\n
+mingetty   1141   root  mem    REG    3,3  485171    1242777 /lib/ld-2.2.4.so\r\n
+mingetty   1141   root  mem    REG    3,3 5772268    1291833 /lib/i686/libc-2.2.4.so\r\n
+mingetty   1142   root  mem    REG    3,3    8636    1815114 /sbin/mingetty\r\n
+mingetty   1142   root  mem    REG    3,3  485171    1242777 /lib/ld-2.2.4.so\r\n
+mingetty   1142   root  mem    REG    3,3 5772268    1291833 /lib/i686/libc-2.2.4.so\r\n
+mingetty   1143   root  mem    REG    3,3    8636    1815114 /sbin/mingetty\r\n
+mingetty   1143   root  mem    REG    3,3  485171    1242777 /lib/ld-2.2.4.so\r\n
+mingetty   1143   root  mem    REG    3,3 5772268    1291833 /lib/i686/libc-2.2.4.so\r\n
+gdm        1144   root  mem    REG    3,3  122380     344208 /usr/bin/gdm\r\n
+gdm        1144   root  mem    REG    3,3  485171    1242777 /lib/ld-2.2.4.so\r\n
+gdm        1144   root  mem    REG    3,3     370      65414 /usr/lib/locale/en_US/LC_IDENTIFICATION\r\n
+gdm        1144   root  mem    REG    3,3      28    1569835 /usr/lib/locale/en_US/LC_MEASUREMENT\r\n
+gdm        1144   root  mem    REG    3,3      64    1651568 /usr/lib/locale/en_US/LC_TELEPHONE\r\n
+gdm        1144   root  mem    REG    3,3     160    1651570 /usr/lib/locale/en_US/LC_ADDRESS\r\n
+gdm        1144   root  mem    REG    3,3      82    1651569 /usr/lib/locale/en_US/LC_NAME\r\n
+gdm        1144   root  mem    REG    3,3      39    1651572 /usr/lib/locale/en_US/LC_PAPER\r\n
+gdm        1144   root  mem    REG    3,3      57    1978612 /usr/lib/locale/en_US/LC_MESSAGES/SYS_LC_MESSAGES\r\n
+gdm        1144   root  mem    REG    3,3     291    1569834 /usr/lib/locale/en_US/LC_MONETARY\r\n
+gdm        1144   root  mem    REG    3,3   21499    1929554 /usr/lib/locale/en_US/LC_COLLATE\r\n
+gdm        1144   root  mem    REG    3,3    2456      65415 /usr/lib/locale/en_US/LC_TIME\r\n
+gdm        1144   root  mem    REG    3,3      59     768563 /usr/lib/locale/en_US/LC_NUMERIC\r\n
+gdm        1144   root  mem    REG    3,3  261460    1242811 /lib/libnss_files-2.2.4.so\r\n
+gdm        1144   root  mem    REG    3,3  114533     360025 /usr/lib/libgnome.so.32.4.3\r\n
+gdm        1144   root  mem    REG    3,3   22073     360027 /usr/lib/libgnomesupport.so.0.0.0\r\n
+gdm        1144   root  mem    REG    3,3  141828     359920 /usr/lib/libaudiofile.so.0.0.1\r\n
+gdm        1144   root  mem    REG    3,3  622317    1291835 /lib/i686/libm-2.2.4.so\r\n
+gdm        1144   root  mem    REG    3,3   63780     359781 /usr/lib/libdb1.so.2\r\n
+gdm        1144   root  mem    REG    3,3   65997    1242790 /lib/libdl-2.2.4.so\r\n
+gdm        1144   root  mem    REG    3,3  987674     360029 /usr/lib/libgnomeui.so.32.14.1\r\n
+gdm        1144   root  mem    REG    3,3   67879     360023 /usr/lib/libart_lgpl.so.2.2.0\r\n
+gdm        1144   root  mem    REG    3,3  157643     360003 /usr/lib/libgdk_imlib.so.1.9.10\r\n
+gdm        1144   root  mem    REG    3,3   31544     785452 /usr/X11R6/lib/libSM.so.6.0\r\n
+gdm        1144   root  mem    REG    3,3   82080     785448 /usr/X11R6/lib/libICE.so.6.3\r\n
+gdm        1144   root  mem    REG    3,3   28584     785468 /usr/X11R6/lib/libXi.so.6.0\r\n
+gdm        1144   root  mem    REG    3,3   51632     785462 /usr/X11R6/lib/libXext.so.6.4\r\n
+gdm        1144   root  mem    REG    3,3  911288     785454 /usr/X11R6/lib/libX11.so.6.2\r\n
+gdm        1144   root  mem    REG    3,3   31549     359970 /usr/lib/libesd.so.0.2.22\r\n
+gdm        1144   root  mem    REG    3,3 1410453     359902 /usr/lib/libgtk-1.2.so.0.9.1\r\n
+gdm        1144   root  mem    REG    3,3  252878     359900 /usr/lib/libgdk-1.2.so.0.9.1\r\n
+gdm        1144   root  mem    REG    3,3   11931     359790 /usr/lib/libgmodule-1.2.so.0.0.10\r\n
+gdm        1144   root  mem    REG    3,3  182363     359788 /usr/lib/libglib-1.2.so.0.0.10\r\n
+gdm        1144   root  mem    REG    3,3  436784    1242795 /lib/libnsl-2.2.4.so\r\n
+gdm        1144   root  mem    REG    3,3   35424    1243022 /lib/libpam.so.0.75\r\n
+gdm        1144   root  mem    REG    3,3 5772268    1291833 /lib/i686/libc-2.2.4.so\r\n
+gdm        1144   root  mem    REG    3,3   59618     359864 /usr/lib/libz.so.1.1.3\r\n
+gdm        1144   root  mem    REG    3,3  173408     768567 /usr/lib/locale/en_US/LC_CTYPE\r\n
+oafd       1352   root  mem    REG    3,3   68808     344178 /usr/bin/oafd\r\n
+oafd       1352   root  mem    REG    3,3  485171    1242777 /lib/ld-2.2.4.so\r\n
+oafd       1352   root  mem    REG    3,3     370      65414 /usr/lib/locale/en_US/LC_IDENTIFICATION\r\n
+oafd       1352   root  mem    REG    3,3      28    1569835 /usr/lib/locale/en_US/LC_MEASUREMENT\r\n
+oafd       1352   root  mem    REG    3,3      64    1651568 /usr/lib/locale/en_US/LC_TELEPHONE\r\n
+oafd       1352   root  mem    REG    3,3     160    1651570 /usr/lib/locale/en_US/LC_ADDRESS\r\n
+oafd       1352   root  mem    REG    3,3      82    1651569 /usr/lib/locale/en_US/LC_NAME\r\n
+oafd       1352   root  mem    REG    3,3      39    1651572 /usr/lib/locale/en_US/LC_PAPER\r\n
+oafd       1352   root  mem    REG    3,3      57    1978612 /usr/lib/locale/en_US/LC_MESSAGES/SYS_LC_MESSAGES\r\n
+oafd       1352   root  mem    REG    3,3     291    1569834 /usr/lib/locale/en_US/LC_MONETARY\r\n
+oafd       1352   root  mem    REG    3,3   21499    1929554 /usr/lib/locale/en_US/LC_COLLATE\r\n
+oafd       1352   root  mem    REG    3,3    2456      65415 /usr/lib/locale/en_US/LC_TIME\r\n
+oafd       1352   root  mem    REG    3,3      59     768563 /usr/lib/locale/en_US/LC_NUMERIC\r\n
+oafd       1352   root  mem    REG    3,3  261460    1242811 /lib/libnss_files-2.2.4.so\r\n
+oafd       1352   root  mem    REG    3,3  122729     360118 /usr/lib/liboaf.so.0.0.0\r\n
+oafd       1352   root  mem    REG    3,3  279492     360017 /usr/lib/libORBit.so.0.5.8\r\n
+oafd       1352   root  mem    REG    3,3   49784     360015 /usr/lib/libIIOP.so.0.5.8\r\n
+oafd       1352   root  mem    REG    3,3    4416     360021 /usr/lib/libORBitutil.so.0.5.8\r\n
+oafd       1352   root  mem    REG    3,3  436784    1242795 /lib/libnsl-2.2.4.so\r\n
+oafd       1352   root  mem    REG    3,3  622317    1291835 /lib/i686/libm-2.2.4.so\r\n
+oafd       1352   root  mem    REG    3,3   30228     360019 /usr/lib/libORBitCosNaming.so.0.5.8\r\n
+oafd       1352   root  mem    REG    3,3  498438     359991 /usr/lib/libxml.so.1.8.14\r\n
+oafd       1352   root  mem    REG    3,3   59618     359864 /usr/lib/libz.so.1.1.3\r\n
+oafd       1352   root  mem    REG    3,3   11931     359790 /usr/lib/libgmodule-1.2.so.0.0.10\r\n
+oafd       1352   root  mem    REG    3,3  182363     359788 /usr/lib/libglib-1.2.so.0.0.10\r\n
+oafd       1352   root  mem    REG    3,3   65997    1242790 /lib/libdl-2.2.4.so\r\n
+oafd       1352   root  mem    REG    3,3   29472     359803 /usr/lib/libpopt.so.0.0.0\r\n
+oafd       1352   root  mem    REG    3,3 5772268    1291833 /lib/i686/libc-2.2.4.so\r\n
+oafd       1352   root  mem    REG    3,3  173408     768567 /usr/lib/locale/en_US/LC_CTYPE\r\n
+gdm        2291   root  mem    REG    3,3  122380     344208 /usr/bin/gdm\r\n
+gdm        2291   root  mem    REG    3,3  485171    1242777 /lib/ld-2.2.4.so\r\n
+gdm        2291   root  mem    REG    3,3     370      65414 /usr/lib/locale/en_US/LC_IDENTIFICATION\r\n
+gdm        2291   root  mem    REG    3,3      28    1569835 /usr/lib/locale/en_US/LC_MEASUREMENT\r\n
+gdm        2291   root  mem    REG    3,3      64    1651568 /usr/lib/locale/en_US/LC_TELEPHONE\r\n
+gdm        2291   root  mem    REG    3,3     160    1651570 /usr/lib/locale/en_US/LC_ADDRESS\r\n
+gdm        2291   root  mem    REG    3,3      82    1651569 /usr/lib/locale/en_US/LC_NAME\r\n
+gdm        2291   root  mem    REG    3,3      39    1651572 /usr/lib/locale/en_US/LC_PAPER\r\n
+gdm        2291   root  mem    REG    3,3      57    1978612 /usr/lib/locale/en_US/LC_MESSAGES/SYS_LC_MESSAGES\r\n
+gdm        2291   root  mem    REG    3,3     291    1569834 /usr/lib/locale/en_US/LC_MONETARY\r\n
+gdm        2291   root  mem    REG    3,3   21499    1929554 /usr/lib/locale/en_US/LC_COLLATE\r\n
+gdm        2291   root  mem    REG    3,3    2456      65415 /usr/lib/locale/en_US/LC_TIME\r\n
+gdm        2291   root  mem    REG    3,3      59     768563 /usr/lib/locale/en_US/LC_NUMERIC\r\n
+gdm        2291   root  mem    REG    3,3  261460    1242811 /lib/libnss_files-2.2.4.so\r\n
+gdm        2291   root  mem    REG    3,3  114533     360025 /usr/lib/libgnome.so.32.4.3\r\n
+gdm        2291   root  mem    REG    3,3   22073     360027 /usr/lib/libgnomesupport.so.0.0.0\r\n
+gdm        2291   root  mem    REG    3,3  141828     359920 /usr/lib/libaudiofile.so.0.0.1\r\n
+gdm        2291   root  mem    REG    3,3  622317    1291835 /lib/i686/libm-2.2.4.so\r\n
+gdm        2291   root  mem    REG    3,3   63780     359781 /usr/lib/libdb1.so.2\r\n
+gdm        2291   root  mem    REG    3,3   65997    1242790 /lib/libdl-2.2.4.so\r\n
+gdm        2291   root  mem    REG    3,3  987674     360029 /usr/lib/libgnomeui.so.32.14.1\r\n
+gdm        2291   root  mem    REG    3,3   67879     360023 /usr/lib/libart_lgpl.so.2.2.0\r\n
+gdm        2291   root  mem    REG    3,3  157643     360003 /usr/lib/libgdk_imlib.so.1.9.10\r\n
+gdm        2291   root  mem    REG    3,3   31544     785452 /usr/X11R6/lib/libSM.so.6.0\r\n
+gdm        2291   root  mem    REG    3,3   82080     785448 /usr/X11R6/lib/libICE.so.6.3\r\n
+gdm        2291   root  mem    REG    3,3   28584     785468 /usr/X11R6/lib/libXi.so.6.0\r\n
+gdm        2291   root  mem    REG    3,3   51632     785462 /usr/X11R6/lib/libXext.so.6.4\r\n
+gdm        2291   root  mem    REG    3,3  911288     785454 /usr/X11R6/lib/libX11.so.6.2\r\n
+gdm        2291   root  mem    REG    3,3   31549     359970 /usr/lib/libesd.so.0.2.22\r\n
+gdm        2291   root  mem    REG    3,3 1410453     359902 /usr/lib/libgtk-1.2.so.0.9.1\r\n
+gdm        2291   root  mem    REG    3,3  252878     359900 /usr/lib/libgdk-1.2.so.0.9.1\r\n
+gdm        2291   root  mem    REG    3,3   11931     359790 /usr/lib/libgmodule-1.2.so.0.0.10\r\n
+gdm        2291   root  mem    REG    3,3  182363     359788 /usr/lib/libglib-1.2.so.0.0.10\r\n
+gdm        2291   root  mem    REG    3,3  436784    1242795 /lib/libnsl-2.2.4.so\r\n
+gdm        2291   root  mem    REG    3,3   35424    1243022 /lib/libpam.so.0.75\r\n
+gdm        2291   root  mem    REG    3,3 5772268    1291833 /lib/i686/libc-2.2.4.so\r\n
+gdm        2291   root  mem    REG    3,3   59618     359864 /usr/lib/libz.so.1.1.3\r\n
+gdm        2291   root  mem    REG    3,3  173408     768567 /usr/lib/locale/en_US/LC_CTYPE\r\n
+gdm        2291   root  mem    REG    3,3   12060    1422699 /lib/security/pam_stack.so\r\n
+gdm        2291   root  mem    REG    3,3    6144    1422692 /lib/security/pam_nologin.so\r\n
+gdm        2291   root  mem    REG    3,3   50155    1422677 /lib/security/pam_console.so\r\n
+gdm        2291   root  mem    REG    3,3    4994    1422679 /lib/security/pam_deny.so\r\n
+gdm        2291   root  mem    REG    3,3   13025    1422680 /lib/security/pam_env.so\r\n
+gdm        2291   root  mem    REG    3,3   47819    1422703 /lib/security/pam_unix.so\r\n
+gdm        2291   root  mem    REG    3,3   14636    1422678 /lib/security/pam_cracklib.so\r\n
+gdm        2291   root  mem    REG    3,3   69084     359778 /usr/lib/libcrack.so.2.7\r\n
+gdm        2291   root  mem    REG    3,3   13778    1422686 /lib/security/pam_limits.so\r\n
+gdm        2291   root  mem    REG    3,3   85115    1242788 /lib/libcrypt-2.2.4.so\r\n
+X          2292   root  mem    CHR    1,1              65448 /dev/mem\r\n
+X          2292   root  mem    REG    3,3 1568224     572436 /usr/X11R6/bin/XFree86\r\n
+X          2292   root  mem    REG    3,3  485171    1242777 /lib/ld-2.2.4.so\r\n
+X          2292   root  mem    REG    3,3   59618     359864 /usr/lib/libz.so.1.1.3\r\n
+X          2292   root  mem    REG    3,3  622317    1291835 /lib/i686/libm-2.2.4.so\r\n
+X          2292   root  mem    REG    3,3   35424    1243022 /lib/libpam.so.0.75\r\n
+X          2292   root  mem    REG    3,3   65997    1242790 /lib/libdl-2.2.4.so\r\n
+X          2292   root  mem    REG    3,3   12079    1243023 /lib/libpam_misc.so.0.75\r\n
+X          2292   root  mem    REG    3,3 5772268    1291833 /lib/i686/libc-2.2.4.so\r\n
+X          2292   root  mem    REG    3,3  261460    1242811 /lib/libnss_files-2.2.4.so\r\n
+gnome-ses 15968   root  mem    REG    3,3   91852     344269 /usr/bin/gnome-session\r\n
+gnome-ses 15968   root  mem    REG    3,3  485171    1242777 /lib/ld-2.2.4.so\r\n
+gnome-ses 15968   root  mem    REG    3,3     370      65414 /usr/lib/locale/en_US/LC_IDENTIFICATION\r\n
+gnome-ses 15968   root  mem    REG    3,3      28    1569835 /usr/lib/locale/en_US/LC_MEASUREMENT\r\n
+gnome-ses 15968   root  mem    REG    3,3      64    1651568 /usr/lib/locale/en_US/LC_TELEPHONE\r\n
+gnome-ses 15968   root  mem    REG    3,3     160    1651570 /usr/lib/locale/en_US/LC_ADDRESS\r\n
+gnome-ses 15968   root  mem    REG    3,3      82    1651569 /usr/lib/locale/en_US/LC_NAME\r\n
+gnome-ses 15968   root  mem    REG    3,3      39    1651572 /usr/lib/locale/en_US/LC_PAPER\r\n
+gnome-ses 15968   root  mem    REG    3,3      57    1978612 /usr/lib/locale/en_US/LC_MESSAGES/SYS_LC_MESSAGES\r\n
+gnome-ses 15968   root  mem    REG    3,3     291    1569834 /usr/lib/locale/en_US/LC_MONETARY\r\n
+gnome-ses 15968   root  mem    REG    3,3   21499    1929554 /usr/lib/locale/en_US/LC_COLLATE\r\n
+gnome-ses 15968   root  mem    REG    3,3    2456      65415 /usr/lib/locale/en_US/LC_TIME\r\n
+gnome-ses 15968   root  mem    REG    3,3      59     768563 /usr/lib/locale/en_US/LC_NUMERIC\r\n
+gnome-ses 15968   root  mem    REG    3,3   19938    1275654 /usr/lib/gconv/gconv-modules.cache\r\n
+gnome-ses 15968   root  mem    REG    3,3    5544    1275602 /usr/lib/gconv/ISO8859-1.so\r\n
+gnome-ses 15968   root  mem    REG    3,3   65997    1242790 /lib/libdl-2.2.4.so\r\n
+gnome-ses 15968   root  mem    REG    3,3   28584     785468 /usr/X11R6/lib/libXi.so.6.0\r\n
+gnome-ses 15968   root  mem    REG    3,3   51632     785462 /usr/X11R6/lib/libXext.so.6.4\r\n
+gnome-ses 15968   root  mem    REG    3,3  911288     785454 /usr/X11R6/lib/libX11.so.6.2\r\n
+gnome-ses 15968   root  mem    REG    3,3  622317    1291835 /lib/i686/libm-2.2.4.so\r\n
+gnome-ses 15968   root  mem    REG    3,3  436784    1242795 /lib/libnsl-2.2.4.so\r\n
+gnome-ses 15968   root  mem    REG    3,3   89246     359908 /usr/lib/libgdk_pixbuf.so.2.0.0\r\n
+gnome-ses 15968   root  mem    REG    3,3   16640     360076 /usr/lib/libgnomecanvaspixbuf.so.1.0.0\r\n
+gnome-ses 15968   root  mem    REG    3,3  987674     360029 /usr/lib/libgnomeui.so.32.14.1\r\n
+gnome-ses 15968   root  mem    REG    3,3   67879     360023 /usr/lib/libart_lgpl.so.2.2.0\r\n
+gnome-ses 15968   root  mem    REG    3,3  157643     360003 /usr/lib/libgdk_imlib.so.1.9.10\r\n
+gnome-ses 15968   root  mem    REG    3,3   31544     785452 /usr/X11R6/lib/libSM.so.6.0\r\n
+gnome-ses 15968   root  mem    REG    3,3   82080     785448 /usr/X11R6/lib/libICE.so.6.3\r\n
+gnome-ses 15968   root  mem    REG    3,3 1410453     359902 /usr/lib/libgtk-1.2.so.0.9.1\r\n
+gnome-ses 15968   root  mem    REG    3,3  252878     359900 /usr/lib/libgdk-1.2.so.0.9.1\r\n
+gnome-ses 15968   root  mem    REG    3,3   11931     359790 /usr/lib/libgmodule-1.2.so.0.0.10\r\n
+gnome-ses 15968   root  mem    REG    3,3  114533     360025 /usr/lib/libgnome.so.32.4.3\r\n
+gnome-ses 15968   root  mem    REG    3,3   22073     360027 /usr/lib/libgnomesupport.so.0.0.0\r\n
+gnome-ses 15968   root  mem    REG    3,3   31549     359970 /usr/lib/libesd.so.0.2.22\r\n
+gnome-ses 15968   root  mem    REG    3,3  141828     359920 /usr/lib/libaudiofile.so.0.0.1\r\n
+gnome-ses 15968   root  mem    REG    3,3   63780     359781 /usr/lib/libdb1.so.2\r\n
+gnome-ses 15968   root  mem    REG    3,3  182363     359788 /usr/lib/libglib-1.2.so.0.0.10\r\n
+gnome-ses 15968   root  mem    REG    3,3 5772268    1291833 /lib/i686/libc-2.2.4.so\r\n
+gnome-ses 15968   root  mem    REG    3,3   59618     359864 /usr/lib/libz.so.1.1.3\r\n
+gnome-ses 15968   root  mem    REG    3,3  261460    1242811 /lib/libnss_files-2.2.4.so\r\n
+gnome-ses 15968   root  mem    REG    3,3  173408     768567 /usr/lib/locale/en_US/LC_CTYPE\r\n
+gnome-ses 15968   root  mem    REG    3,3   18998    1717154 /usr/lib/gtk/themes/engines/libraleigh.so\r\n
+gnome-ses 15968   root  mem    REG    3,3   14161     360007 /usr/lib/libimlib-png.so\r\n
+gnome-ses 15968   root  mem    REG    3,3   12114     539780 /usr/lib/gdk-pixbuf/loaders/libpixbufloader-png.so.1.0.0\r\n
+gnome-ses 15968   root  mem    REG    3,3  131560     359881 /usr/lib/libpng.so.2.1.0.12\r\n
+gnome-smp 16107   root  mem    REG    3,3   18592     344270 /usr/bin/gnome-smproxy\r\n
+gnome-smp 16107   root  mem    REG    3,3  485171    1242777 /lib/ld-2.2.4.so\r\n
+gnome-smp 16107   root  mem    REG    3,3  306428     785480 /usr/X11R6/lib/libXt.so.6.0\r\n
+gnome-smp 16107   root  mem    REG    3,3   83444     785470 /usr/X11R6/lib/libXmu.so.6.2\r\n
+gnome-smp 16107   root  mem    REG    3,3  987674     360029 /usr/lib/libgnomeui.so.32.14.1\r\n
+gnome-smp 16107   root  mem    REG    3,3   67879     360023 /usr/lib/libart_lgpl.so.2.2.0\r\n
+gnome-smp 16107   root  mem    REG    3,3  157643     360003 /usr/lib/libgdk_imlib.so.1.9.10\r\n
+gnome-smp 16107   root  mem    REG    3,3   31544     785452 /usr/X11R6/lib/libSM.so.6.0\r\n
+gnome-smp 16107   root  mem    REG    3,3   82080     785448 /usr/X11R6/lib/libICE.so.6.3\r\n
+gnome-smp 16107   root  mem    REG    3,3 1410453     359902 /usr/lib/libgtk-1.2.so.0.9.1\r\n
+gnome-smp 16107   root  mem    REG    3,3  622317    1291835 /lib/i686/libm-2.2.4.so\r\n
+gnome-smp 16107   root  mem    REG    3,3  252878     359900 /usr/lib/libgdk-1.2.so.0.9.1\r\n
+gnome-smp 16107   root  mem    REG    3,3   11931     359790 /usr/lib/libgmodule-1.2.so.0.0.10\r\n
+gnome-smp 16107   root  mem    REG    3,3   28584     785468 /usr/X11R6/lib/libXi.so.6.0\r\n
+gnome-smp 16107   root  mem    REG    3,3   51632     785462 /usr/X11R6/lib/libXext.so.6.4\r\n
+gnome-smp 16107   root  mem    REG    3,3  911288     785454 /usr/X11R6/lib/libX11.so.6.2\r\n
+gnome-smp 16107   root  mem    REG    3,3  114533     360025 /usr/lib/libgnome.so.32.4.3\r\n
+gnome-smp 16107   root  mem    REG    3,3   22073     360027 /usr/lib/libgnomesupport.so.0.0.0\r\n
+gnome-smp 16107   root  mem    REG    3,3   31549     359970 /usr/lib/libesd.so.0.2.22\r\n
+gnome-smp 16107   root  mem    REG    3,3  141828     359920 /usr/lib/libaudiofile.so.0.0.1\r\n
+gnome-smp 16107   root  mem    REG    3,3   63780     359781 /usr/lib/libdb1.so.2\r\n
+gnome-smp 16107   root  mem    REG    3,3  182363     359788 /usr/lib/libglib-1.2.so.0.0.10\r\n
+gnome-smp 16107   root  mem    REG    3,3   65997    1242790 /lib/libdl-2.2.4.so\r\n
+gnome-smp 16107   root  mem    REG    3,3 5772268    1291833 /lib/i686/libc-2.2.4.so\r\n
+gnome-smp 16107   root  mem    REG    3,3   59618     359864 /usr/lib/libz.so.1.1.3\r\n
+gnome-smp 16107   root  mem    REG    3,3  261460    1242811 /lib/libnss_files-2.2.4.so\r\n
+sawfish   16111   root  mem    REG    3,3  157420     344234 /usr/bin/sawfish\r\n
+sawfish   16111   root  mem    REG    3,3  485171    1242777 /lib/ld-2.2.4.so\r\n
+sawfish   16111   root  mem    REG    3,3     370      65414 /usr/lib/locale/en_US/LC_IDENTIFICATION\r\n
+sawfish   16111   root  mem    REG    3,3      28    1569835 /usr/lib/locale/en_US/LC_MEASUREMENT\r\n
+sawfish   16111   root  mem    REG    3,3      64    1651568 /usr/lib/locale/en_US/LC_TELEPHONE\r\n
+sawfish   16111   root  mem    REG    3,3     160    1651570 /usr/lib/locale/en_US/LC_ADDRESS\r\n
+sawfish   16111   root  mem    REG    3,3      82    1651569 /usr/lib/locale/en_US/LC_NAME\r\n
+sawfish   16111   root  mem    REG    3,3      39    1651572 /usr/lib/locale/en_US/LC_PAPER\r\n
+sawfish   16111   root  mem    REG    3,3      57    1978612 /usr/lib/locale/en_US/LC_MESSAGES/SYS_LC_MESSAGES\r\n
+sawfish   16111   root  mem    REG    3,3     291    1569834 /usr/lib/locale/en_US/LC_MONETARY\r\n
+sawfish   16111   root  mem    REG    3,3   21499    1929554 /usr/lib/locale/en_US/LC_COLLATE\r\n
+sawfish   16111   root  mem    REG    3,3    2456      65415 /usr/lib/locale/en_US/LC_TIME\r\n
+sawfish   16111   root  mem    REG    3,3      59     768563 /usr/lib/locale/en_US/LC_NUMERIC\r\n
+sawfish   16111   root  mem    REG    3,3  261460    1242811 /lib/libnss_files-2.2.4.so\r\n
+sawfish   16111   root  mem    REG    3,3  306072     360100 /usr/lib/librep.so.9.1.5\r\n
+sawfish   16111   root  mem    REG    3,3   65997    1242790 /lib/libdl-2.2.4.so\r\n
+sawfish   16111   root  mem    REG    3,3  493930     359877 /usr/lib/libgmp.so.3.1.1\r\n
+sawfish   16111   root  mem    REG    3,3  622317    1291835 /lib/i686/libm-2.2.4.so\r\n
+sawfish   16111   root  mem    REG    3,3  188479     360001 /usr/lib/libImlib.so.1.9.10\r\n
+sawfish   16111   root  mem    REG    3,3  140522     359903 /usr/lib/libjpeg.so.62.0.0\r\n
+sawfish   16111   root  mem    REG    3,3  556145     359905 /usr/lib/libtiff.so.3.5\r\n
+sawfish   16111   root  mem    REG    3,3   34684     359985 /usr/lib/libungif.so.4.1.0\r\n
+sawfish   16111   root  mem    REG    3,3  911288     785454 /usr/X11R6/lib/libX11.so.6.2\r\n
+sawfish   16111   root  mem    REG    3,3  131560     359881 /usr/lib/libpng.so.2.1.0.12\r\n
+sawfish   16111   root  mem    REG    3,3   59618     359864 /usr/lib/libz.so.1.1.3\r\n
+sawfish   16111   root  mem    REG    3,3   51632     785462 /usr/X11R6/lib/libXext.so.6.4\r\n
+sawfish   16111   root  mem    REG    3,3   31544     785452 /usr/X11R6/lib/libSM.so.6.0\r\n
+sawfish   16111   root  mem    REG    3,3   82080     785448 /usr/X11R6/lib/libICE.so.6.3\r\n
+sawfish   16111   root  mem    REG    3,3  436784    1242795 /lib/libnsl-2.2.4.so\r\n
+sawfish   16111   root  mem    REG    3,3 5772268    1291833 /lib/i686/libc-2.2.4.so\r\n
+sawfish   16111   root  mem    REG    3,3  173408     768567 /usr/lib/locale/en_US/LC_CTYPE\r\n
+sawfish   16111   root  mem    REG    3,3    5044    1357329 /usr/libexec/rep/0.13.6/i386-redhat-linux/rep/i18n/gettext.so\r\n
+sawfish   16111   root  mem    REG    3,3   11100    1488181 /usr/libexec/rep/0.13.6/i386-redhat-linux/rep/data/tables.so\r\n
+sawfish   16111   root  mem    REG    3,3    9369     474476 /usr/libexec/sawfish/0.38/i386-redhat-linux/sawfish/wm/util/gradient.so\r\n
+sawfish   16111   root  mem    REG    3,3    8216     556252 /usr/libexec/rep/0.13.6/i386-redhat-linux/rep/io/timers.so\r\n
+magicdev  16140   root  mem    REG    3,3   26096     344604 /usr/bin/magicdev\r\n
+magicdev  16140   root  mem    REG    3,3  485171    1242777 /lib/ld-2.2.4.so\r\n
+magicdev  16140   root  mem    REG    3,3     370      65414 /usr/lib/locale/en_US/LC_IDENTIFICATION\r\n
+magicdev  16140   root  mem    REG    3,3      28    1569835 /usr/lib/locale/en_US/LC_MEASUREMENT\r\n
+magicdev  16140   root  mem    REG    3,3      64    1651568 /usr/lib/locale/en_US/LC_TELEPHONE\r\n
+magicdev  16140   root  mem    REG    3,3     160    1651570 /usr/lib/locale/en_US/LC_ADDRESS\r\n
+magicdev  16140   root  mem    REG    3,3      82    1651569 /usr/lib/locale/en_US/LC_NAME\r\n
+magicdev  16140   root  mem    REG    3,3      39    1651572 /usr/lib/locale/en_US/LC_PAPER\r\n
+magicdev  16140   root  mem    REG    3,3      57    1978612 /usr/lib/locale/en_US/LC_MESSAGES/SYS_LC_MESSAGES\r\n
+magicdev  16140   root  mem    REG    3,3     291    1569834 /usr/lib/locale/en_US/LC_MONETARY\r\n
+magicdev  16140   root  mem    REG    3,3   21499    1929554 /usr/lib/locale/en_US/LC_COLLATE\r\n
+magicdev  16140   root  mem    REG    3,3    2456      65415 /usr/lib/locale/en_US/LC_TIME\r\n
+magicdev  16140   root  mem    REG    3,3      59     768563 /usr/lib/locale/en_US/LC_NUMERIC\r\n
+magicdev  16140   root  mem    REG    3,3   19938    1275654 /usr/lib/gconv/gconv-modules.cache\r\n
+magicdev  16140   root  mem    REG    3,3    5544    1275602 /usr/lib/gconv/ISO8859-1.so\r\n
+magicdev  16140   root  mem    REG    3,3  987674     360029 /usr/lib/libgnomeui.so.32.14.1\r\n
+magicdev  16140   root  mem    REG    3,3   67879     360023 /usr/lib/libart_lgpl.so.2.2.0\r\n
+magicdev  16140   root  mem    REG    3,3  157643     360003 /usr/lib/libgdk_imlib.so.1.9.10\r\n
+magicdev  16140   root  mem    REG    3,3   31544     785452 /usr/X11R6/lib/libSM.so.6.0\r\n
+magicdev  16140   root  mem    REG    3,3   82080     785448 /usr/X11R6/lib/libICE.so.6.3\r\n
+magicdev  16140   root  mem    REG    3,3 1410453     359902 /usr/lib/libgtk-1.2.so.0.9.1\r\n
+magicdev  16140   root  mem    REG    3,3  252878     359900 /usr/lib/libgdk-1.2.so.0.9.1\r\n
+magicdev  16140   root  mem    REG    3,3   11931     359790 /usr/lib/libgmodule-1.2.so.0.0.10\r\n
+magicdev  16140   root  mem    REG    3,3   28584     785468 /usr/X11R6/lib/libXi.so.6.0\r\n
+magicdev  16140   root  mem    REG    3,3   51632     785462 /usr/X11R6/lib/libXext.so.6.4\r\n
+magicdev  16140   root  mem    REG    3,3  911288     785454 /usr/X11R6/lib/libX11.so.6.2\r\n
+magicdev  16140   root  mem    REG    3,3  114533     360025 /usr/lib/libgnome.so.32.4.3\r\n
+magicdev  16140   root  mem    REG    3,3   22073     360027 /usr/lib/libgnomesupport.so.0.0.0\r\n
+magicdev  16140   root  mem    REG    3,3   31549     359970 /usr/lib/libesd.so.0.2.22\r\n
+magicdev  16140   root  mem    REG    3,3  141828     359920 /usr/lib/libaudiofile.so.0.0.1\r\n
+magicdev  16140   root  mem    REG    3,3   63780     359781 /usr/lib/libdb1.so.2\r\n
+magicdev  16140   root  mem    REG    3,3   65997    1242790 /lib/libdl-2.2.4.so\r\n
+magicdev  16140   root  mem    REG    3,3   60090     360031 /usr/lib/libgnorba.so.27.1.8\r\n
+magicdev  16140   root  mem    REG    3,3   30228     360019 /usr/lib/libORBitCosNaming.so.0.5.8\r\n
+magicdev  16140   root  mem    REG    3,3  279492     360017 /usr/lib/libORBit.so.0.5.8\r\n
+magicdev  16140   root  mem    REG    3,3   49784     360015 /usr/lib/libIIOP.so.0.5.8\r\n
+magicdev  16140   root  mem    REG    3,3    4416     360021 /usr/lib/libORBitutil.so.0.5.8\r\n
+magicdev  16140   root  mem    REG    3,3  182363     359788 /usr/lib/libglib-1.2.so.0.0.10\r\n
+magicdev  16140   root  mem    REG    3,3  436784    1242795 /lib/libnsl-2.2.4.so\r\n
+magicdev  16140   root  mem    REG    3,3  622317    1291835 /lib/i686/libm-2.2.4.so\r\n
+magicdev  16140   root  mem    REG    3,3 5772268    1291833 /lib/i686/libc-2.2.4.so\r\n
+magicdev  16140   root  mem    REG    3,3   59618     359864 /usr/lib/libz.so.1.1.3\r\n
+magicdev  16140   root  mem    REG    3,3  261460    1242811 /lib/libnss_files-2.2.4.so\r\n
+magicdev  16140   root  mem    REG    3,3  173408     768567 /usr/lib/locale/en_US/LC_CTYPE\r\n
+magicdev  16140   root  mem    REG    3,3   18998    1717154 /usr/lib/gtk/themes/engines/libraleigh.so\r\n
+nautilus  16142   root  mem    REG    3,3  537868     344327 /usr/bin/nautilus\r\n
+nautilus  16142   root  mem    REG    3,3  485171    1242777 /lib/ld-2.2.4.so\r\n
+nautilus  16142   root  mem    REG    3,3     370      65414 /usr/lib/locale/en_US/LC_IDENTIFICATION\r\n
+nautilus  16142   root  mem    REG    3,3      28    1569835 /usr/lib/locale/en_US/LC_MEASUREMENT\r\n
+nautilus  16142   root  mem    REG    3,3      64    1651568 /usr/lib/locale/en_US/LC_TELEPHONE\r\n
+nautilus  16142   root  mem    REG    3,3     160    1651570 /usr/lib/locale/en_US/LC_ADDRESS\r\n
+nautilus  16142   root  mem    REG    3,3      82    1651569 /usr/lib/locale/en_US/LC_NAME\r\n
+nautilus  16142   root  mem    REG    3,3      39    1651572 /usr/lib/locale/en_US/LC_PAPER\r\n
+nautilus  16142   root  mem    REG    3,3      57    1978612 /usr/lib/locale/en_US/LC_MESSAGES/SYS_LC_MESSAGES\r\n
+nautilus  16142   root  mem    REG    3,3     291    1569834 /usr/lib/locale/en_US/LC_MONETARY\r\n
+nautilus  16142   root  mem    REG    3,3   21499    1929554 /usr/lib/locale/en_US/LC_COLLATE\r\n
+nautilus  16142   root  mem    REG    3,3    2456      65415 /usr/lib/locale/en_US/LC_TIME\r\n
+nautilus  16142   root  mem    REG    3,3      59     768563 /usr/lib/locale/en_US/LC_NUMERIC\r\n
+nautilus  16142   root  mem    REG    3,3   19938    1275654 /usr/lib/gconv/gconv-modules.cache\r\n
+nautilus  16142   root  mem    REG    3,3    5544    1275602 /usr/lib/gconv/ISO8859-1.so\r\n
+nautilus  16142   root  mem    REG    3,3  624933     360176 /usr/lib/libnautilus.so.0.0.0\r\n
+nautilus  16142   root  mem    REG    3,3  622317    1291835 /lib/i686/libm-2.2.4.so\r\n
+nautilus  16142   root  mem    REG    3,3   65997    1242790 /lib/libdl-2.2.4.so\r\n
+nautilus  16142   root  mem    REG    3,3   28584     785468 /usr/X11R6/lib/libXi.so.6.0\r\n
+nautilus  16142   root  mem    REG    3,3   51632     785462 /usr/X11R6/lib/libXext.so.6.4\r\n
+nautilus  16142   root  mem    REG    3,3  911288     785454 /usr/X11R6/lib/libX11.so.6.2\r\n
+nautilus  16142   root  mem    REG    3,3   59618     359864 /usr/lib/libz.so.1.1.3\r\n
+nautilus  16142   root  mem    REG    3,3   30228     360019 /usr/lib/libORBitCosNaming.so.0.5.8\r\n
+nautilus  16142   root  mem    REG    3,3  279492     360017 /usr/lib/libORBit.so.0.5.8\r\n
+nautilus  16142   root  mem    REG    3,3   49784     360015 /usr/lib/libIIOP.so.0.5.8\r\n
+nautilus  16142   root  mem    REG    3,3    4416     360021 /usr/lib/libORBitutil.so.0.5.8\r\n
+nautilus  16142   root  mem    REG    3,3  436784    1242795 /lib/libnsl-2.2.4.so\r\n
+nautilus  16142   root  mem    REG    3,3  141828     359920 /usr/lib/libaudiofile.so.0.0.1\r\n
+nautilus  16142   root  mem    REG    3,3  145540     360169 /usr/lib/libnautilus-adapter.so.0.0.0\r\n
+nautilus  16142   root  mem    REG    3,3 2551075     360171 /usr/lib/libnautilus-private.so.0.0.0\r\n
+nautilus  16142   root  mem    REG    3,3  140522     359903 /usr/lib/libjpeg.so.62.0.0\r\n
+nautilus  16142   root  mem    REG    3,3  232338     360151 /usr/lib/libfam.so.0.0.0\r\n
+nautilus  16142   root  mem    REG    3,3  499885     360120 /usr/lib/libbonobo.so.2.0.0\r\n
+nautilus  16142   root  mem    REG    3,3  431711     360121 /usr/lib/libbonobox.so.2.0.0\r\n
+nautilus  16142   root  mem    REG    3,3   15817     360119 /usr/lib/libbonobo-print.so.2.0.0\r\n
+nautilus  16142   root  mem    REG    3,3  532125     360080 /usr/lib/libgnomeprint.so.15.1.9\r\n
+nautilus  16142   root  mem    REG    3,3   16640     360076 /usr/lib/libgnomecanvaspixbuf.so.1.0.0\r\n
+nautilus  16142   root  mem    REG    3,3 1057111     360137 /usr/lib/libeel.so.0.0.0\r\n
+nautilus  16142   root  mem    REG    3,3  987674     360029 /usr/lib/libgnomeui.so.32.14.1\r\n
+nautilus  16142   root  mem    REG    3,3  157643     360003 /usr/lib/libgdk_imlib.so.1.9.10\r\n
+nautilus  16142   root  mem    REG    3,3   31544     785452 /usr/X11R6/lib/libSM.so.6.0\r\n
+nautilus  16142   root  mem    REG    3,3   82080     785448 /usr/X11R6/lib/libICE.so.6.3\r\n
+nautilus  16142   root  mem    REG    3,3  114533     360025 /usr/lib/libgnome.so.32.4.3\r\n
+nautilus  16142   root  mem    REG    3,3   22073     360027 /usr/lib/libgnomesupport.so.0.0.0\r\n
+nautilus  16142   root  mem    REG    3,3   31549     359970 /usr/lib/libesd.so.0.2.22\r\n
+nautilus  16142   root  mem    REG    3,3   63780     359781 /usr/lib/libdb1.so.2\r\n
+nautilus  16142   root  mem    REG    3,3   89246     359908 /usr/lib/libgdk_pixbuf.so.2.0.0\r\n
+nautilus  16142   root  mem    REG    3,3  214453     360134 /usr/lib/libgnomevfs.so.0.0.0\r\n
+nautilus  16142   root  mem    REG    3,3  498438     359991 /usr/lib/libxml.so.1.8.14\r\n
+nautilus  16142   root  mem    REG    3,3   29957     360130 /usr/lib/libgconf-gtk-1.so.1.0.0\r\n
+nautilus  16142   root  mem    REG    3,3  250502     360128 /usr/lib/libgconf-1.so.1.0.0\r\n
+nautilus  16142   root  mem    REG    3,3  122729     360118 /usr/lib/liboaf.so.0.0.0\r\n
+nautilus  16142   root  mem    REG    3,3   29472     359803 /usr/lib/libpopt.so.0.0.0\r\n
+nautilus  16142   root  mem    REG    3,3 1410453     359902 /usr/lib/libgtk-1.2.so.0.9.1\r\n
+nautilus  16142   root  mem    REG    3,3  252878     359900 /usr/lib/libgdk-1.2.so.0.9.1\r\n
+nautilus  16142   root  mem    REG    3,3   11931     359790 /usr/lib/libgmodule-1.2.so.0.0.10\r\n
+nautilus  16142   root  mem    REG    3,3   11170     359792 /usr/lib/libgthread-1.2.so.0.0.10\r\n
+nautilus  16142   root  mem    REG    3,3  182363     359788 /usr/lib/libglib-1.2.so.0.0.10\r\n
+nautilus  16142   root  mem    REG    3,3  530021    1291837 /lib/i686/libpthread-0.9.so\r\n
+nautilus  16142   root  mem    REG    3,3   65913     360102 /usr/lib/librsvg.so.1.0.0\r\n
+nautilus  16142   root  mem    REG    3,3   67879     360023 /usr/lib/libart_lgpl.so.2.2.0\r\n
+nautilus  16142   root  mem    REG    3,3  235270     359873 /usr/lib/libfreetype.so.6.0.1\r\n
+nautilus  16142   root  mem    REG    3,3  131560     359881 /usr/lib/libpng.so.2.1.0.12\r\n
+nautilus  16142   root  mem    REG    3,3 5772268    1291833 /lib/i686/libc-2.2.4.so\r\n
+nautilus  16142   root  mem    REG    3,3  261460    1242811 /lib/libnss_files-2.2.4.so\r\n
+nautilus  16142   root  mem    REG    3,3  173408     768567 /usr/lib/locale/en_US/LC_CTYPE\r\n
+nautilus  16142   root  mem    REG    3,3   18998    1717154 /usr/lib/gtk/themes/engines/libraleigh.so\r\n
+nautilus  16142   root  mem    REG    3,3   12114     539780 /usr/lib/gdk-pixbuf/loaders/libpixbufloader-png.so.1.0.0\r\n
+nautilus  16142   root  mem    REG    3,3   27363    1259298 /usr/lib/vfs/modules/libfile.so\r\n
+nautilus  16142   root  mem    REG    3,3   14161     360007 /usr/lib/libimlib-png.so\r\n
+nautilus  16142   root  mem    REG    3,3   13704     539795 /usr/lib/gdk-pixbuf/loaders/libpixbufloader-xpm.so.1.0.0\r\n
+nautilus  16142   root  mem    REG    3,3   26384    1717191 /usr/lib/bonobo/monikers/libmoniker_std.so.0.0.0\r\n
+nautilus  16142   root  mem    REG    3,3   12576    1259296 /usr/lib/vfs/modules/libdesktop.so\r\n
+nautilus  16142   root  mem    REG    3,3   45710     360132 /usr/lib/libgnomevfs-pthread.so.0.0.0\r\n
+nautilus  16142   root  mem    REG    3,3   71224     605169 /usr/share/eel/fonts/urw/n019003l.pfb\r\n
+nautilus  16142   root  mem    REG    3,3   71539     605172 /usr/share/eel/fonts/urw/n019004l.pfb\r\n
+nautilus  16142   root  mem    REG    3,3   99960     261740 /etc/mime-magic.dat\r\n
+nautilus  16142   root  mem    REG    3,3  562952     360174 /usr/lib/libnautilus-tree-view.so.0.0.0\r\n
+nautilus  16142   root  mem    REG    3,3   39187    1259304 /usr/lib/vfs/modules/libhttp.so\r\n
+panel     16144   root  mem    REG    3,3  447660     344274 /usr/bin/panel\r\n
+panel     16144   root  mem    REG    3,3  485171    1242777 /lib/ld-2.2.4.so\r\n
+panel     16144   root  mem    REG    3,3     370      65414 /usr/lib/locale/en_US/LC_IDENTIFICATION\r\n
+panel     16144   root  mem    REG    3,3      28    1569835 /usr/lib/locale/en_US/LC_MEASUREMENT\r\n
+panel     16144   root  mem    REG    3,3      64    1651568 /usr/lib/locale/en_US/LC_TELEPHONE\r\n
+panel     16144   root  mem    REG    3,3     160    1651570 /usr/lib/locale/en_US/LC_ADDRESS\r\n
+panel     16144   root  mem    REG    3,3      82    1651569 /usr/lib/locale/en_US/LC_NAME\r\n
+panel     16144   root  mem    REG    3,3      39    1651572 /usr/lib/locale/en_US/LC_PAPER\r\n
+panel     16144   root  mem    REG    3,3      57    1978612 /usr/lib/locale/en_US/LC_MESSAGES/SYS_LC_MESSAGES\r\n
+panel     16144   root  mem    REG    3,3     291    1569834 /usr/lib/locale/en_US/LC_MONETARY\r\n
+panel     16144   root  mem    REG    3,3   21499    1929554 /usr/lib/locale/en_US/LC_COLLATE\r\n
+panel     16144   root  mem    REG    3,3    2456      65415 /usr/lib/locale/en_US/LC_TIME\r\n
+panel     16144   root  mem    REG    3,3      59     768563 /usr/lib/locale/en_US/LC_NUMERIC\r\n
+panel     16144   root  mem    REG    3,3   19938    1275654 /usr/lib/gconv/gconv-modules.cache\r\n
+panel     16144   root  mem    REG    3,3    5544    1275602 /usr/lib/gconv/ISO8859-1.so\r\n
+panel     16144   root  mem    REG    3,3  100921     360164 /usr/lib/libpanel_applet.so.0.0.1\r\n
+panel     16144   root  mem    REG    3,3   30228     360019 /usr/lib/libORBitCosNaming.so.0.5.8\r\n
+panel     16144   root  mem    REG    3,3  279492     360017 /usr/lib/libORBit.so.0.5.8\r\n
+panel     16144   root  mem    REG    3,3   49784     360015 /usr/lib/libIIOP.so.0.5.8\r\n
+panel     16144   root  mem    REG    3,3    4416     360021 /usr/lib/libORBitutil.so.0.5.8\r\n
+panel     16144   root  mem    REG    3,3  436784    1242795 /lib/libnsl-2.2.4.so\r\n
+panel     16144   root  mem    REG    3,3  622317    1291835 /lib/i686/libm-2.2.4.so\r\n
+panel     16144   root  mem    REG    3,3   65997    1242790 /lib/libdl-2.2.4.so\r\n
+panel     16144   root  mem    REG    3,3   60090     360031 /usr/lib/libgnorba.so.27.1.8\r\n
+panel     16144   root  mem    REG    3,3  987674     360029 /usr/lib/libgnomeui.so.32.14.1\r\n
+panel     16144   root  mem    REG    3,3   67879     360023 /usr/lib/libart_lgpl.so.2.2.0\r\n
+panel     16144   root  mem    REG    3,3  157643     360003 /usr/lib/libgdk_imlib.so.1.9.10\r\n
+panel     16144   root  mem    REG    3,3   31544     785452 /usr/X11R6/lib/libSM.so.6.0\r\n
+panel     16144   root  mem    REG    3,3   82080     785448 /usr/X11R6/lib/libICE.so.6.3\r\n
+panel     16144   root  mem    REG    3,3   28584     785468 /usr/X11R6/lib/libXi.so.6.0\r\n
+panel     16144   root  mem    REG    3,3   51632     785462 /usr/X11R6/lib/libXext.so.6.4\r\n
+panel     16144   root  mem    REG    3,3  911288     785454 /usr/X11R6/lib/libX11.so.6.2\r\n
+panel     16144   root  mem    REG    3,3  114533     360025 /usr/lib/libgnome.so.32.4.3\r\n
+panel     16144   root  mem    REG    3,3   22073     360027 /usr/lib/libgnomesupport.so.0.0.0\r\n
+panel     16144   root  mem    REG    3,3  141828     359920 /usr/lib/libaudiofile.so.0.0.1\r\n
+panel     16144   root  mem    REG    3,3   63780     359781 /usr/lib/libdb1.so.2\r\n
+panel     16144   root  mem    REG    3,3   31549     359970 /usr/lib/libesd.so.0.2.22\r\n
+panel     16144   root  mem    REG    3,3   89246     359908 /usr/lib/libgdk_pixbuf.so.2.0.0\r\n
+panel     16144   root  mem    REG    3,3 1410453     359902 /usr/lib/libgtk-1.2.so.0.9.1\r\n
+panel     16144   root  mem    REG    3,3  252878     359900 /usr/lib/libgdk-1.2.so.0.9.1\r\n
+panel     16144   root  mem    REG    3,3   11931     359790 /usr/lib/libgmodule-1.2.so.0.0.10\r\n
+panel     16144   root  mem    REG    3,3  182363     359788 /usr/lib/libglib-1.2.so.0.0.10\r\n
+panel     16144   root  mem    REG    3,3 5772268    1291833 /lib/i686/libc-2.2.4.so\r\n
+panel     16144   root  mem    REG    3,3   59618     359864 /usr/lib/libz.so.1.1.3\r\n
+panel     16144   root  mem    REG    3,3  261460    1242811 /lib/libnss_files-2.2.4.so\r\n
+panel     16144   root  mem    REG    3,3  173408     768567 /usr/lib/locale/en_US/LC_CTYPE\r\n
+panel     16144   root  mem    REG    3,3   18998    1717154 /usr/lib/gtk/themes/engines/libraleigh.so\r\n
+panel     16144   root  mem    REG    3,3   14161     360007 /usr/lib/libimlib-png.so\r\n
+panel     16144   root  mem    REG    3,3   12114     539780 /usr/lib/gdk-pixbuf/loaders/libpixbufloader-png.so.1.0.0\r\n
+panel     16144   root  mem    REG    3,3   79790     360161 /usr/lib/libgen_util_applet.so.0.0.0\r\n
+panel     16144   root  mem    REG    3,3  131560     359881 /usr/lib/libpng.so.2.1.0.12\r\n
+gnome-nam 16149   root  mem    REG    3,3   25680     344108 /usr/bin/gnome-name-service\r\n
+gnome-nam 16149   root  mem    REG    3,3  485171    1242777 /lib/ld-2.2.4.so\r\n
+gnome-nam 16149   root  mem    REG    3,3   33145     360033 /usr/lib/libgnorbagtk.so.0.0.0\r\n
+gnome-nam 16149   root  mem    REG    3,3  622317    1291835 /lib/i686/libm-2.2.4.so\r\n
+gnome-nam 16149   root  mem    REG    3,3   30228     360019 /usr/lib/libORBitCosNaming.so.0.5.8\r\n
+gnome-nam 16149   root  mem    REG    3,3  279492     360017 /usr/lib/libORBit.so.0.5.8\r\n
+gnome-nam 16149   root  mem    REG    3,3   49784     360015 /usr/lib/libIIOP.so.0.5.8\r\n
+gnome-nam 16149   root  mem    REG    3,3    4416     360021 /usr/lib/libORBitutil.so.0.5.8\r\n
+gnome-nam 16149   root  mem    REG    3,3  182363     359788 /usr/lib/libglib-1.2.so.0.0.10\r\n
+gnome-nam 16149   root  mem    REG    3,3  436784    1242795 /lib/libnsl-2.2.4.so\r\n
+gnome-nam 16149   root  mem    REG    3,3  911288     785454 /usr/X11R6/lib/libX11.so.6.2\r\n
+gnome-nam 16149   root  mem    REG    3,3   59618     359864 /usr/lib/libz.so.1.1.3\r\n
+gnome-nam 16149   root  mem    REG    3,3 5772268    1291833 /lib/i686/libc-2.2.4.so\r\n
+gnome-nam 16149   root  mem    REG    3,3  261460    1242811 /lib/libnss_files-2.2.4.so\r\n
+gconfd-1  16155   root  mem    REG    3,3   40808     344192 /usr/bin/gconfd-1\r\n
+gconfd-1  16155   root  mem    REG    3,3  485171    1242777 /lib/ld-2.2.4.so\r\n
+gconfd-1  16155   root  mem    REG    3,3   42183     605165 /usr/lib/GConf/1/libgconfbackend-xml.so\r\n
+gconfd-1  16155   root  mem    REG    3,3   59618     359864 /usr/lib/libz.so.1.1.3\r\n
+gconfd-1  16155   root  mem    REG    3,3  250502     360128 /usr/lib/libgconf-1.so.1.0.0\r\n
+gconfd-1  16155   root  mem    REG    3,3  122729     360118 /usr/lib/liboaf.so.0.0.0\r\n
+gconfd-1  16155   root  mem    REG    3,3   29472     359803 /usr/lib/libpopt.so.0.0.0\r\n
+gconfd-1  16155   root  mem    REG    3,3   30228     360019 /usr/lib/libORBitCosNaming.so.0.5.8\r\n
+gconfd-1  16155   root  mem    REG    3,3  279492     360017 /usr/lib/libORBit.so.0.5.8\r\n
+gconfd-1  16155   root  mem    REG    3,3   49784     360015 /usr/lib/libIIOP.so.0.5.8\r\n
+gconfd-1  16155   root  mem    REG    3,3    4416     360021 /usr/lib/libORBitutil.so.0.5.8\r\n
+gconfd-1  16155   root  mem    REG    3,3  436784    1242795 /lib/libnsl-2.2.4.so\r\n
+gconfd-1  16155   root  mem    REG    3,3  622317    1291835 /lib/i686/libm-2.2.4.so\r\n
+gconfd-1  16155   root  mem    REG    3,3   11931     359790 /usr/lib/libgmodule-1.2.so.0.0.10\r\n
+gconfd-1  16155   root  mem    REG    3,3  182363     359788 /usr/lib/libglib-1.2.so.0.0.10\r\n
+gconfd-1  16155   root  mem    REG    3,3   65997    1242790 /lib/libdl-2.2.4.so\r\n
+gconfd-1  16155   root  mem    REG    3,3 5772268    1291833 /lib/i686/libc-2.2.4.so\r\n
+gconfd-1  16155   root  mem    REG    3,3  261460    1242811 /lib/libnss_files-2.2.4.so\r\n
+gconfd-1  16155   root  mem    REG    3,3  498438     359991 /usr/lib/libxml.so.1.8.14\r\n
+tasklist_ 16160   root  mem    REG    3,3   83904     344279 /usr/bin/tasklist_applet\r\n
+tasklist_ 16160   root  mem    REG    3,3  485171    1242777 /lib/ld-2.2.4.so\r\n
+tasklist_ 16160   root  mem    REG    3,3     370      65414 /usr/lib/locale/en_US/LC_IDENTIFICATION\r\n
+tasklist_ 16160   root  mem    REG    3,3      28    1569835 /usr/lib/locale/en_US/LC_MEASUREMENT\r\n
+tasklist_ 16160   root  mem    REG    3,3      64    1651568 /usr/lib/locale/en_US/LC_TELEPHONE\r\n
+tasklist_ 16160   root  mem    REG    3,3     160    1651570 /usr/lib/locale/en_US/LC_ADDRESS\r\n
+tasklist_ 16160   root  mem    REG    3,3      82    1651569 /usr/lib/locale/en_US/LC_NAME\r\n
+tasklist_ 16160   root  mem    REG    3,3      39    1651572 /usr/lib/locale/en_US/LC_PAPER\r\n
+tasklist_ 16160   root  mem    REG    3,3      57    1978612 /usr/lib/locale/en_US/LC_MESSAGES/SYS_LC_MESSAGES\r\n
+tasklist_ 16160   root  mem    REG    3,3     291    1569834 /usr/lib/locale/en_US/LC_MONETARY\r\n
+tasklist_ 16160   root  mem    REG    3,3   21499    1929554 /usr/lib/locale/en_US/LC_COLLATE\r\n
+tasklist_ 16160   root  mem    REG    3,3    2456      65415 /usr/lib/locale/en_US/LC_TIME\r\n
+tasklist_ 16160   root  mem    REG    3,3      59     768563 /usr/lib/locale/en_US/LC_NUMERIC\r\n
+tasklist_ 16160   root  mem    REG    3,3   19938    1275654 /usr/lib/gconv/gconv-modules.cache\r\n
+tasklist_ 16160   root  mem    REG    3,3    5544    1275602 /usr/lib/gconv/ISO8859-1.so\r\n
+tasklist_ 16160   root  mem    REG    3,3  100921     360164 /usr/lib/libpanel_applet.so.0.0.1\r\n
+tasklist_ 16160   root  mem    REG    3,3   30228     360019 /usr/lib/libORBitCosNaming.so.0.5.8\r\n
+tasklist_ 16160   root  mem    REG    3,3  279492     360017 /usr/lib/libORBit.so.0.5.8\r\n
+tasklist_ 16160   root  mem    REG    3,3   49784     360015 /usr/lib/libIIOP.so.0.5.8\r\n
+tasklist_ 16160   root  mem    REG    3,3    4416     360021 /usr/lib/libORBitutil.so.0.5.8\r\n
+tasklist_ 16160   root  mem    REG    3,3  436784    1242795 /lib/libnsl-2.2.4.so\r\n
+tasklist_ 16160   root  mem    REG    3,3  622317    1291835 /lib/i686/libm-2.2.4.so\r\n
+tasklist_ 16160   root  mem    REG    3,3   65997    1242790 /lib/libdl-2.2.4.so\r\n
+tasklist_ 16160   root  mem    REG    3,3  987674     360029 /usr/lib/libgnomeui.so.32.14.1\r\n
+tasklist_ 16160   root  mem    REG    3,3   67879     360023 /usr/lib/libart_lgpl.so.2.2.0\r\n
+tasklist_ 16160   root  mem    REG    3,3  157643     360003 /usr/lib/libgdk_imlib.so.1.9.10\r\n
+tasklist_ 16160   root  mem    REG    3,3   31544     785452 /usr/X11R6/lib/libSM.so.6.0\r\n
+tasklist_ 16160   root  mem    REG    3,3   82080     785448 /usr/X11R6/lib/libICE.so.6.3\r\n
+tasklist_ 16160   root  mem    REG    3,3   28584     785468 /usr/X11R6/lib/libXi.so.6.0\r\n
+tasklist_ 16160   root  mem    REG    3,3   51632     785462 /usr/X11R6/lib/libXext.so.6.4\r\n
+tasklist_ 16160   root  mem    REG    3,3  911288     785454 /usr/X11R6/lib/libX11.so.6.2\r\n
+tasklist_ 16160   root  mem    REG    3,3  114533     360025 /usr/lib/libgnome.so.32.4.3\r\n
+tasklist_ 16160   root  mem    REG    3,3   22073     360027 /usr/lib/libgnomesupport.so.0.0.0\r\n
+tasklist_ 16160   root  mem    REG    3,3  141828     359920 /usr/lib/libaudiofile.so.0.0.1\r\n
+tasklist_ 16160   root  mem    REG    3,3   63780     359781 /usr/lib/libdb1.so.2\r\n
+tasklist_ 16160   root  mem    REG    3,3   60090     360031 /usr/lib/libgnorba.so.27.1.8\r\n
+tasklist_ 16160   root  mem    REG    3,3   31549     359970 /usr/lib/libesd.so.0.2.22\r\n
+tasklist_ 16160   root  mem    REG    3,3   89246     359908 /usr/lib/libgdk_pixbuf.so.2.0.0\r\n
+tasklist_ 16160   root  mem    REG    3,3 1410453     359902 /usr/lib/libgtk-1.2.so.0.9.1\r\n
+tasklist_ 16160   root  mem    REG    3,3  252878     359900 /usr/lib/libgdk-1.2.so.0.9.1\r\n
+tasklist_ 16160   root  mem    REG    3,3   11931     359790 /usr/lib/libgmodule-1.2.so.0.0.10\r\n
+tasklist_ 16160   root  mem    REG    3,3  182363     359788 /usr/lib/libglib-1.2.so.0.0.10\r\n
+tasklist_ 16160   root  mem    REG    3,3 5772268    1291833 /lib/i686/libc-2.2.4.so\r\n
+tasklist_ 16160   root  mem    REG    3,3   59618     359864 /usr/lib/libz.so.1.1.3\r\n
+tasklist_ 16160   root  mem    REG    3,3  261460    1242811 /lib/libnss_files-2.2.4.so\r\n
+tasklist_ 16160   root  mem    REG    3,3  173408     768567 /usr/lib/locale/en_US/LC_CTYPE\r\n
+tasklist_ 16160   root  mem    REG    3,3   18998    1717154 /usr/lib/gtk/themes/engines/libraleigh.so\r\n
+tasklist_ 16160   root  mem    REG    3,3   14161     360007 /usr/lib/libimlib-png.so\r\n
+tasklist_ 16160   root  mem    REG    3,3   13704     539795 /usr/lib/gdk-pixbuf/loaders/libpixbufloader-xpm.so.1.0.0\r\n
+tasklist_ 16160   root  mem    REG    3,3  131560     359881 /usr/lib/libpng.so.2.1.0.12\r\n
+deskguide 16162   root  mem    REG    3,3   83092     344252 /usr/bin/deskguide_applet\r\n
+deskguide 16162   root  mem    REG    3,3  485171    1242777 /lib/ld-2.2.4.so\r\n
+deskguide 16162   root  mem    REG    3,3     370      65414 /usr/lib/locale/en_US/LC_IDENTIFICATION\r\n
+deskguide 16162   root  mem    REG    3,3      28    1569835 /usr/lib/locale/en_US/LC_MEASUREMENT\r\n
+deskguide 16162   root  mem    REG    3,3      64    1651568 /usr/lib/locale/en_US/LC_TELEPHONE\r\n
+deskguide 16162   root  mem    REG    3,3     160    1651570 /usr/lib/locale/en_US/LC_ADDRESS\r\n
+deskguide 16162   root  mem    REG    3,3      82    1651569 /usr/lib/locale/en_US/LC_NAME\r\n
+deskguide 16162   root  mem    REG    3,3      39    1651572 /usr/lib/locale/en_US/LC_PAPER\r\n
+deskguide 16162   root  mem    REG    3,3      57    1978612 /usr/lib/locale/en_US/LC_MESSAGES/SYS_LC_MESSAGES\r\n
+deskguide 16162   root  mem    REG    3,3     291    1569834 /usr/lib/locale/en_US/LC_MONETARY\r\n
+deskguide 16162   root  mem    REG    3,3   21499    1929554 /usr/lib/locale/en_US/LC_COLLATE\r\n
+deskguide 16162   root  mem    REG    3,3    2456      65415 /usr/lib/locale/en_US/LC_TIME\r\n
+deskguide 16162   root  mem    REG    3,3      59     768563 /usr/lib/locale/en_US/LC_NUMERIC\r\n
+deskguide 16162   root  mem    REG    3,3   19938    1275654 /usr/lib/gconv/gconv-modules.cache\r\n
+deskguide 16162   root  mem    REG    3,3    5544    1275602 /usr/lib/gconv/ISO8859-1.so\r\n
+deskguide 16162   root  mem    REG    3,3  100921     360164 /usr/lib/libpanel_applet.so.0.0.1\r\n
+deskguide 16162   root  mem    REG    3,3   30228     360019 /usr/lib/libORBitCosNaming.so.0.5.8\r\n
+deskguide 16162   root  mem    REG    3,3  279492     360017 /usr/lib/libORBit.so.0.5.8\r\n
+deskguide 16162   root  mem    REG    3,3   49784     360015 /usr/lib/libIIOP.so.0.5.8\r\n
+deskguide 16162   root  mem    REG    3,3    4416     360021 /usr/lib/libORBitutil.so.0.5.8\r\n
+deskguide 16162   root  mem    REG    3,3  436784    1242795 /lib/libnsl-2.2.4.so\r\n
+deskguide 16162   root  mem    REG    3,3  622317    1291835 /lib/i686/libm-2.2.4.so\r\n
+deskguide 16162   root  mem    REG    3,3   65997    1242790 /lib/libdl-2.2.4.so\r\n
+deskguide 16162   root  mem    REG    3,3  987674     360029 /usr/lib/libgnomeui.so.32.14.1\r\n
+deskguide 16162   root  mem    REG    3,3   67879     360023 /usr/lib/libart_lgpl.so.2.2.0\r\n
+deskguide 16162   root  mem    REG    3,3  157643     360003 /usr/lib/libgdk_imlib.so.1.9.10\r\n
+deskguide 16162   root  mem    REG    3,3   31544     785452 /usr/X11R6/lib/libSM.so.6.0\r\n
+deskguide 16162   root  mem    REG    3,3   82080     785448 /usr/X11R6/lib/libICE.so.6.3\r\n
+deskguide 16162   root  mem    REG    3,3   28584     785468 /usr/X11R6/lib/libXi.so.6.0\r\n
+deskguide 16162   root  mem    REG    3,3   51632     785462 /usr/X11R6/lib/libXext.so.6.4\r\n
+deskguide 16162   root  mem    REG    3,3  911288     785454 /usr/X11R6/lib/libX11.so.6.2\r\n
+deskguide 16162   root  mem    REG    3,3  114533     360025 /usr/lib/libgnome.so.32.4.3\r\n
+deskguide 16162   root  mem    REG    3,3   22073     360027 /usr/lib/libgnomesupport.so.0.0.0\r\n
+deskguide 16162   root  mem    REG    3,3  141828     359920 /usr/lib/libaudiofile.so.0.0.1\r\n
+deskguide 16162   root  mem    REG    3,3   63780     359781 /usr/lib/libdb1.so.2\r\n
+deskguide 16162   root  mem    REG    3,3   60090     360031 /usr/lib/libgnorba.so.27.1.8\r\n
+deskguide 16162   root  mem    REG    3,3   31549     359970 /usr/lib/libesd.so.0.2.22\r\n
+deskguide 16162   root  mem    REG    3,3   89246     359908 /usr/lib/libgdk_pixbuf.so.2.0.0\r\n
+deskguide 16162   root  mem    REG    3,3 1410453     359902 /usr/lib/libgtk-1.2.so.0.9.1\r\n
+deskguide 16162   root  mem    REG    3,3  252878     359900 /usr/lib/libgdk-1.2.so.0.9.1\r\n
+deskguide 16162   root  mem    REG    3,3   11931     359790 /usr/lib/libgmodule-1.2.so.0.0.10\r\n
+deskguide 16162   root  mem    REG    3,3  182363     359788 /usr/lib/libglib-1.2.so.0.0.10\r\n
+deskguide 16162   root  mem    REG    3,3 5772268    1291833 /lib/i686/libc-2.2.4.so\r\n
+deskguide 16162   root  mem    REG    3,3   59618     359864 /usr/lib/libz.so.1.1.3\r\n
+deskguide 16162   root  mem    REG    3,3  261460    1242811 /lib/libnss_files-2.2.4.so\r\n
+deskguide 16162   root  mem    REG    3,3  173408     768567 /usr/lib/locale/en_US/LC_CTYPE\r\n
+deskguide 16162   root  mem    REG    3,3   18998    1717154 /usr/lib/gtk/themes/engines/libraleigh.so\r\n
+deskguide 16162   root  mem    REG    3,3   14161     360007 /usr/lib/libimlib-png.so\r\n
+deskguide 16162   root  mem    REG    3,3  131560     359881 /usr/lib/libpng.so.2.1.0.12\r\n
+fam       16168   root  mem    REG    3,3  116696     344218 /usr/bin/fam\r\n
+fam       16168   root  mem    REG    3,3  485171    1242777 /lib/ld-2.2.4.so\r\n
+fam       16168   root  mem    REG    3,3  355236    1242819 /lib/libnss_nisplus-2.2.4.so\r\n
+fam       16168   root  mem    REG    3,3  419374     359816 /usr/lib/libstdc++-3-libc6.2-2-2.10.0.so\r\n
+fam       16168   root  mem    REG    3,3  622317    1291835 /lib/i686/libm-2.2.4.so\r\n
+fam       16168   root  mem    REG    3,3 5772268    1291833 /lib/i686/libc-2.2.4.so\r\n
+fam       16168   root  mem    REG    3,3  261460    1242811 /lib/libnss_files-2.2.4.so\r\n
+fam       16168   root  mem    REG    3,3  436784    1242795 /lib/libnsl-2.2.4.so\r\n
+nautilus  16169   root  mem    REG    3,3  537868     344327 /usr/bin/nautilus\r\n
+nautilus  16169   root  mem    REG    3,3  485171    1242777 /lib/ld-2.2.4.so\r\n
+nautilus  16169   root  mem    REG    3,3     370      65414 /usr/lib/locale/en_US/LC_IDENTIFICATION\r\n
+nautilus  16169   root  mem    REG    3,3      28    1569835 /usr/lib/locale/en_US/LC_MEASUREMENT\r\n
+nautilus  16169   root  mem    REG    3,3      64    1651568 /usr/lib/locale/en_US/LC_TELEPHONE\r\n
+nautilus  16169   root  mem    REG    3,3     160    1651570 /usr/lib/locale/en_US/LC_ADDRESS\r\n
+nautilus  16169   root  mem    REG    3,3      82    1651569 /usr/lib/locale/en_US/LC_NAME\r\n
+nautilus  16169   root  mem    REG    3,3      39    1651572 /usr/lib/locale/en_US/LC_PAPER\r\n
+nautilus  16169   root  mem    REG    3,3      57    1978612 /usr/lib/locale/en_US/LC_MESSAGES/SYS_LC_MESSAGES\r\n
+nautilus  16169   root  mem    REG    3,3     291    1569834 /usr/lib/locale/en_US/LC_MONETARY\r\n
+nautilus  16169   root  mem    REG    3,3   21499    1929554 /usr/lib/locale/en_US/LC_COLLATE\r\n
+nautilus  16169   root  mem    REG    3,3    2456      65415 /usr/lib/locale/en_US/LC_TIME\r\n
+nautilus  16169   root  mem    REG    3,3      59     768563 /usr/lib/locale/en_US/LC_NUMERIC\r\n
+nautilus  16169   root  mem    REG    3,3   19938    1275654 /usr/lib/gconv/gconv-modules.cache\r\n
+nautilus  16169   root  mem    REG    3,3    5544    1275602 /usr/lib/gconv/ISO8859-1.so\r\n
+nautilus  16169   root  mem    REG    3,3  624933     360176 /usr/lib/libnautilus.so.0.0.0\r\n
+nautilus  16169   root  mem    REG    3,3  622317    1291835 /lib/i686/libm-2.2.4.so\r\n
+nautilus  16169   root  mem    REG    3,3   65997    1242790 /lib/libdl-2.2.4.so\r\n
+nautilus  16169   root  mem    REG    3,3   28584     785468 /usr/X11R6/lib/libXi.so.6.0\r\n
+nautilus  16169   root  mem    REG    3,3   51632     785462 /usr/X11R6/lib/libXext.so.6.4\r\n
+nautilus  16169   root  mem    REG    3,3  911288     785454 /usr/X11R6/lib/libX11.so.6.2\r\n
+nautilus  16169   root  mem    REG    3,3   59618     359864 /usr/lib/libz.so.1.1.3\r\n
+nautilus  16169   root  mem    REG    3,3   30228     360019 /usr/lib/libORBitCosNaming.so.0.5.8\r\n
+nautilus  16169   root  mem    REG    3,3  279492     360017 /usr/lib/libORBit.so.0.5.8\r\n
+nautilus  16169   root  mem    REG    3,3   49784     360015 /usr/lib/libIIOP.so.0.5.8\r\n
+nautilus  16169   root  mem    REG    3,3    4416     360021 /usr/lib/libORBitutil.so.0.5.8\r\n
+nautilus  16169   root  mem    REG    3,3  436784    1242795 /lib/libnsl-2.2.4.so\r\n
+nautilus  16169   root  mem    REG    3,3  141828     359920 /usr/lib/libaudiofile.so.0.0.1\r\n
+nautilus  16169   root  mem    REG    3,3  145540     360169 /usr/lib/libnautilus-adapter.so.0.0.0\r\n
+nautilus  16169   root  mem    REG    3,3 2551075     360171 /usr/lib/libnautilus-private.so.0.0.0\r\n
+nautilus  16169   root  mem    REG    3,3  140522     359903 /usr/lib/libjpeg.so.62.0.0\r\n
+nautilus  16169   root  mem    REG    3,3  232338     360151 /usr/lib/libfam.so.0.0.0\r\n
+nautilus  16169   root  mem    REG    3,3  499885     360120 /usr/lib/libbonobo.so.2.0.0\r\n
+nautilus  16169   root  mem    REG    3,3  431711     360121 /usr/lib/libbonobox.so.2.0.0\r\n
+nautilus  16169   root  mem    REG    3,3   15817     360119 /usr/lib/libbonobo-print.so.2.0.0\r\n
+nautilus  16169   root  mem    REG    3,3  532125     360080 /usr/lib/libgnomeprint.so.15.1.9\r\n
+nautilus  16169   root  mem    REG    3,3   16640     360076 /usr/lib/libgnomecanvaspixbuf.so.1.0.0\r\n
+nautilus  16169   root  mem    REG    3,3 1057111     360137 /usr/lib/libeel.so.0.0.0\r\n
+nautilus  16169   root  mem    REG    3,3  987674     360029 /usr/lib/libgnomeui.so.32.14.1\r\n
+nautilus  16169   root  mem    REG    3,3  157643     360003 /usr/lib/libgdk_imlib.so.1.9.10\r\n
+nautilus  16169   root  mem    REG    3,3   31544     785452 /usr/X11R6/lib/libSM.so.6.0\r\n
+nautilus  16169   root  mem    REG    3,3   82080     785448 /usr/X11R6/lib/libICE.so.6.3\r\n
+nautilus  16169   root  mem    REG    3,3  114533     360025 /usr/lib/libgnome.so.32.4.3\r\n
+nautilus  16169   root  mem    REG    3,3   22073     360027 /usr/lib/libgnomesupport.so.0.0.0\r\n
+nautilus  16169   root  mem    REG    3,3   31549     359970 /usr/lib/libesd.so.0.2.22\r\n
+nautilus  16169   root  mem    REG    3,3   63780     359781 /usr/lib/libdb1.so.2\r\n
+nautilus  16169   root  mem    REG    3,3   89246     359908 /usr/lib/libgdk_pixbuf.so.2.0.0\r\n
+nautilus  16169   root  mem    REG    3,3  214453     360134 /usr/lib/libgnomevfs.so.0.0.0\r\n
+nautilus  16169   root  mem    REG    3,3  498438     359991 /usr/lib/libxml.so.1.8.14\r\n
+nautilus  16169   root  mem    REG    3,3   29957     360130 /usr/lib/libgconf-gtk-1.so.1.0.0\r\n
+nautilus  16169   root  mem    REG    3,3  250502     360128 /usr/lib/libgconf-1.so.1.0.0\r\n
+nautilus  16169   root  mem    REG    3,3  122729     360118 /usr/lib/liboaf.so.0.0.0\r\n
+nautilus  16169   root  mem    REG    3,3   29472     359803 /usr/lib/libpopt.so.0.0.0\r\n
+nautilus  16169   root  mem    REG    3,3 1410453     359902 /usr/lib/libgtk-1.2.so.0.9.1\r\n
+nautilus  16169   root  mem    REG    3,3  252878     359900 /usr/lib/libgdk-1.2.so.0.9.1\r\n
+nautilus  16169   root  mem    REG    3,3   11931     359790 /usr/lib/libgmodule-1.2.so.0.0.10\r\n
+nautilus  16169   root  mem    REG    3,3   11170     359792 /usr/lib/libgthread-1.2.so.0.0.10\r\n
+nautilus  16169   root  mem    REG    3,3  182363     359788 /usr/lib/libglib-1.2.so.0.0.10\r\n
+nautilus  16169   root  mem    REG    3,3  530021    1291837 /lib/i686/libpthread-0.9.so\r\n
+nautilus  16169   root  mem    REG    3,3   65913     360102 /usr/lib/librsvg.so.1.0.0\r\n
+nautilus  16169   root  mem    REG    3,3   67879     360023 /usr/lib/libart_lgpl.so.2.2.0\r\n
+nautilus  16169   root  mem    REG    3,3  235270     359873 /usr/lib/libfreetype.so.6.0.1\r\n
+nautilus  16169   root  mem    REG    3,3  131560     359881 /usr/lib/libpng.so.2.1.0.12\r\n
+nautilus  16169   root  mem    REG    3,3 5772268    1291833 /lib/i686/libc-2.2.4.so\r\n
+nautilus  16169   root  mem    REG    3,3  261460    1242811 /lib/libnss_files-2.2.4.so\r\n
+nautilus  16169   root  mem    REG    3,3  173408     768567 /usr/lib/locale/en_US/LC_CTYPE\r\n
+nautilus  16169   root  mem    REG    3,3   18998    1717154 /usr/lib/gtk/themes/engines/libraleigh.so\r\n
+nautilus  16169   root  mem    REG    3,3   12114     539780 /usr/lib/gdk-pixbuf/loaders/libpixbufloader-png.so.1.0.0\r\n
+nautilus  16169   root  mem    REG    3,3   27363    1259298 /usr/lib/vfs/modules/libfile.so\r\n
+nautilus  16169   root  mem    REG    3,3   14161     360007 /usr/lib/libimlib-png.so\r\n
+nautilus  16169   root  mem    REG    3,3   13704     539795 /usr/lib/gdk-pixbuf/loaders/libpixbufloader-xpm.so.1.0.0\r\n
+nautilus  16169   root  mem    REG    3,3   26384    1717191 /usr/lib/bonobo/monikers/libmoniker_std.so.0.0.0\r\n
+nautilus  16169   root  mem    REG    3,3   12576    1259296 /usr/lib/vfs/modules/libdesktop.so\r\n
+nautilus  16169   root  mem    REG    3,3   45710     360132 /usr/lib/libgnomevfs-pthread.so.0.0.0\r\n
+nautilus  16169   root  mem    REG    3,3   71224     605169 /usr/share/eel/fonts/urw/n019003l.pfb\r\n
+nautilus  16169   root  mem    REG    3,3   71539     605172 /usr/share/eel/fonts/urw/n019004l.pfb\r\n
+nautilus  16169   root  mem    REG    3,3   99960     261740 /etc/mime-magic.dat\r\n
+nautilus  16169   root  mem    REG    3,3  562952     360174 /usr/lib/libnautilus-tree-view.so.0.0.0\r\n
+nautilus  16169   root  mem    REG    3,3   39187    1259304 /usr/lib/vfs/modules/libhttp.so\r\n
+nautilus  16170   root  mem    REG    3,3  537868     344327 /usr/bin/nautilus\r\n
+nautilus  16170   root  mem    REG    3,3  485171    1242777 /lib/ld-2.2.4.so\r\n
+nautilus  16170   root  mem    REG    3,3     370      65414 /usr/lib/locale/en_US/LC_IDENTIFICATION\r\n
+nautilus  16170   root  mem    REG    3,3      28    1569835 /usr/lib/locale/en_US/LC_MEASUREMENT\r\n
+nautilus  16170   root  mem    REG    3,3      64    1651568 /usr/lib/locale/en_US/LC_TELEPHONE\r\n
+nautilus  16170   root  mem    REG    3,3     160    1651570 /usr/lib/locale/en_US/LC_ADDRESS\r\n
+nautilus  16170   root  mem    REG    3,3      82    1651569 /usr/lib/locale/en_US/LC_NAME\r\n
+nautilus  16170   root  mem    REG    3,3      39    1651572 /usr/lib/locale/en_US/LC_PAPER\r\n
+nautilus  16170   root  mem    REG    3,3      57    1978612 /usr/lib/locale/en_US/LC_MESSAGES/SYS_LC_MESSAGES\r\n
+nautilus  16170   root  mem    REG    3,3     291    1569834 /usr/lib/locale/en_US/LC_MONETARY\r\n
+nautilus  16170   root  mem    REG    3,3   21499    1929554 /usr/lib/locale/en_US/LC_COLLATE\r\n
+nautilus  16170   root  mem    REG    3,3    2456      65415 /usr/lib/locale/en_US/LC_TIME\r\n
+nautilus  16170   root  mem    REG    3,3      59     768563 /usr/lib/locale/en_US/LC_NUMERIC\r\n
+nautilus  16170   root  mem    REG    3,3   19938    1275654 /usr/lib/gconv/gconv-modules.cache\r\n
+nautilus  16170   root  mem    REG    3,3    5544    1275602 /usr/lib/gconv/ISO8859-1.so\r\n
+nautilus  16170   root  mem    REG    3,3  624933     360176 /usr/lib/libnautilus.so.0.0.0\r\n
+nautilus  16170   root  mem    REG    3,3  622317    1291835 /lib/i686/libm-2.2.4.so\r\n
+nautilus  16170   root  mem    REG    3,3   65997    1242790 /lib/libdl-2.2.4.so\r\n
+nautilus  16170   root  mem    REG    3,3   28584     785468 /usr/X11R6/lib/libXi.so.6.0\r\n
+nautilus  16170   root  mem    REG    3,3   51632     785462 /usr/X11R6/lib/libXext.so.6.4\r\n
+nautilus  16170   root  mem    REG    3,3  911288     785454 /usr/X11R6/lib/libX11.so.6.2\r\n
+nautilus  16170   root  mem    REG    3,3   59618     359864 /usr/lib/libz.so.1.1.3\r\n
+nautilus  16170   root  mem    REG    3,3   30228     360019 /usr/lib/libORBitCosNaming.so.0.5.8\r\n
+nautilus  16170   root  mem    REG    3,3  279492     360017 /usr/lib/libORBit.so.0.5.8\r\n
+nautilus  16170   root  mem    REG    3,3   49784     360015 /usr/lib/libIIOP.so.0.5.8\r\n
+nautilus  16170   root  mem    REG    3,3    4416     360021 /usr/lib/libORBitutil.so.0.5.8\r\n
+nautilus  16170   root  mem    REG    3,3  436784    1242795 /lib/libnsl-2.2.4.so\r\n
+nautilus  16170   root  mem    REG    3,3  141828     359920 /usr/lib/libaudiofile.so.0.0.1\r\n
+nautilus  16170   root  mem    REG    3,3  145540     360169 /usr/lib/libnautilus-adapter.so.0.0.0\r\n
+nautilus  16170   root  mem    REG    3,3 2551075     360171 /usr/lib/libnautilus-private.so.0.0.0\r\n
+nautilus  16170   root  mem    REG    3,3  140522     359903 /usr/lib/libjpeg.so.62.0.0\r\n
+nautilus  16170   root  mem    REG    3,3  232338     360151 /usr/lib/libfam.so.0.0.0\r\n
+nautilus  16170   root  mem    REG    3,3  499885     360120 /usr/lib/libbonobo.so.2.0.0\r\n
+nautilus  16170   root  mem    REG    3,3  431711     360121 /usr/lib/libbonobox.so.2.0.0\r\n
+nautilus  16170   root  mem    REG    3,3   15817     360119 /usr/lib/libbonobo-print.so.2.0.0\r\n
+nautilus  16170   root  mem    REG    3,3  532125     360080 /usr/lib/libgnomeprint.so.15.1.9\r\n
+nautilus  16170   root  mem    REG    3,3   16640     360076 /usr/lib/libgnomecanvaspixbuf.so.1.0.0\r\n
+nautilus  16170   root  mem    REG    3,3 1057111     360137 /usr/lib/libeel.so.0.0.0\r\n
+nautilus  16170   root  mem    REG    3,3  987674     360029 /usr/lib/libgnomeui.so.32.14.1\r\n
+nautilus  16170   root  mem    REG    3,3  157643     360003 /usr/lib/libgdk_imlib.so.1.9.10\r\n
+nautilus  16170   root  mem    REG    3,3   31544     785452 /usr/X11R6/lib/libSM.so.6.0\r\n
+nautilus  16170   root  mem    REG    3,3   82080     785448 /usr/X11R6/lib/libICE.so.6.3\r\n
+nautilus  16170   root  mem    REG    3,3  114533     360025 /usr/lib/libgnome.so.32.4.3\r\n
+nautilus  16170   root  mem    REG    3,3   22073     360027 /usr/lib/libgnomesupport.so.0.0.0\r\n
+nautilus  16170   root  mem    REG    3,3   31549     359970 /usr/lib/libesd.so.0.2.22\r\n
+nautilus  16170   root  mem    REG    3,3   63780     359781 /usr/lib/libdb1.so.2\r\n
+nautilus  16170   root  mem    REG    3,3   89246     359908 /usr/lib/libgdk_pixbuf.so.2.0.0\r\n
+nautilus  16170   root  mem    REG    3,3  214453     360134 /usr/lib/libgnomevfs.so.0.0.0\r\n
+nautilus  16170   root  mem    REG    3,3  498438     359991 /usr/lib/libxml.so.1.8.14\r\n
+nautilus  16170   root  mem    REG    3,3   29957     360130 /usr/lib/libgconf-gtk-1.so.1.0.0\r\n
+nautilus  16170   root  mem    REG    3,3  250502     360128 /usr/lib/libgconf-1.so.1.0.0\r\n
+nautilus  16170   root  mem    REG    3,3  122729     360118 /usr/lib/liboaf.so.0.0.0\r\n
+nautilus  16170   root  mem    REG    3,3   29472     359803 /usr/lib/libpopt.so.0.0.0\r\n
+nautilus  16170   root  mem    REG    3,3 1410453     359902 /usr/lib/libgtk-1.2.so.0.9.1\r\n
+nautilus  16170   root  mem    REG    3,3  252878     359900 /usr/lib/libgdk-1.2.so.0.9.1\r\n
+nautilus  16170   root  mem    REG    3,3   11931     359790 /usr/lib/libgmodule-1.2.so.0.0.10\r\n
+nautilus  16170   root  mem    REG    3,3   11170     359792 /usr/lib/libgthread-1.2.so.0.0.10\r\n
+nautilus  16170   root  mem    REG    3,3  182363     359788 /usr/lib/libglib-1.2.so.0.0.10\r\n
+nautilus  16170   root  mem    REG    3,3  530021    1291837 /lib/i686/libpthread-0.9.so\r\n
+nautilus  16170   root  mem    REG    3,3   65913     360102 /usr/lib/librsvg.so.1.0.0\r\n
+nautilus  16170   root  mem    REG    3,3   67879     360023 /usr/lib/libart_lgpl.so.2.2.0\r\n
+nautilus  16170   root  mem    REG    3,3  235270     359873 /usr/lib/libfreetype.so.6.0.1\r\n
+nautilus  16170   root  mem    REG    3,3  131560     359881 /usr/lib/libpng.so.2.1.0.12\r\n
+nautilus  16170   root  mem    REG    3,3 5772268    1291833 /lib/i686/libc-2.2.4.so\r\n
+nautilus  16170   root  mem    REG    3,3  261460    1242811 /lib/libnss_files-2.2.4.so\r\n
+nautilus  16170   root  mem    REG    3,3  173408     768567 /usr/lib/locale/en_US/LC_CTYPE\r\n
+nautilus  16170   root  mem    REG    3,3   18998    1717154 /usr/lib/gtk/themes/engines/libraleigh.so\r\n
+nautilus  16170   root  mem    REG    3,3   12114     539780 /usr/lib/gdk-pixbuf/loaders/libpixbufloader-png.so.1.0.0\r\n
+nautilus  16170   root  mem    REG    3,3   27363    1259298 /usr/lib/vfs/modules/libfile.so\r\n
+nautilus  16170   root  mem    REG    3,3   14161     360007 /usr/lib/libimlib-png.so\r\n
+nautilus  16170   root  mem    REG    3,3   13704     539795 /usr/lib/gdk-pixbuf/loaders/libpixbufloader-xpm.so.1.0.0\r\n
+nautilus  16170   root  mem    REG    3,3   26384    1717191 /usr/lib/bonobo/monikers/libmoniker_std.so.0.0.0\r\n
+nautilus  16170   root  mem    REG    3,3   12576    1259296 /usr/lib/vfs/modules/libdesktop.so\r\n
+nautilus  16170   root  mem    REG    3,3   45710     360132 /usr/lib/libgnomevfs-pthread.so.0.0.0\r\n
+nautilus  16170   root  mem    REG    3,3   71224     605169 /usr/share/eel/fonts/urw/n019003l.pfb\r\n
+nautilus  16170   root  mem    REG    3,3   71539     605172 /usr/share/eel/fonts/urw/n019004l.pfb\r\n
+nautilus  16170   root  mem    REG    3,3   99960     261740 /etc/mime-magic.dat\r\n
+nautilus  16170   root  mem    REG    3,3  562952     360174 /usr/lib/libnautilus-tree-view.so.0.0.0\r\n
+nautilus  16170   root  mem    REG    3,3   39187    1259304 /usr/lib/vfs/modules/libhttp.so\r\n
+nautilus  16171   root  mem    REG    3,3  537868     344327 /usr/bin/nautilus\r\n
+nautilus  16171   root  mem    REG    3,3  485171    1242777 /lib/ld-2.2.4.so\r\n
+nautilus  16171   root  mem    REG    3,3     370      65414 /usr/lib/locale/en_US/LC_IDENTIFICATION\r\n
+nautilus  16171   root  mem    REG    3,3      28    1569835 /usr/lib/locale/en_US/LC_MEASUREMENT\r\n
+nautilus  16171   root  mem    REG    3,3      64    1651568 /usr/lib/locale/en_US/LC_TELEPHONE\r\n
+nautilus  16171   root  mem    REG    3,3     160    1651570 /usr/lib/locale/en_US/LC_ADDRESS\r\n
+nautilus  16171   root  mem    REG    3,3      82    1651569 /usr/lib/locale/en_US/LC_NAME\r\n
+nautilus  16171   root  mem    REG    3,3      39    1651572 /usr/lib/locale/en_US/LC_PAPER\r\n
+nautilus  16171   root  mem    REG    3,3      57    1978612 /usr/lib/locale/en_US/LC_MESSAGES/SYS_LC_MESSAGES\r\n
+nautilus  16171   root  mem    REG    3,3     291    1569834 /usr/lib/locale/en_US/LC_MONETARY\r\n
+nautilus  16171   root  mem    REG    3,3   21499    1929554 /usr/lib/locale/en_US/LC_COLLATE\r\n
+nautilus  16171   root  mem    REG    3,3    2456      65415 /usr/lib/locale/en_US/LC_TIME\r\n
+nautilus  16171   root  mem    REG    3,3      59     768563 /usr/lib/locale/en_US/LC_NUMERIC\r\n
+nautilus  16171   root  mem    REG    3,3   19938    1275654 /usr/lib/gconv/gconv-modules.cache\r\n
+nautilus  16171   root  mem    REG    3,3    5544    1275602 /usr/lib/gconv/ISO8859-1.so\r\n
+nautilus  16171   root  mem    REG    3,3  624933     360176 /usr/lib/libnautilus.so.0.0.0\r\n
+nautilus  16171   root  mem    REG    3,3  622317    1291835 /lib/i686/libm-2.2.4.so\r\n
+nautilus  16171   root  mem    REG    3,3   65997    1242790 /lib/libdl-2.2.4.so\r\n
+nautilus  16171   root  mem    REG    3,3   28584     785468 /usr/X11R6/lib/libXi.so.6.0\r\n
+nautilus  16171   root  mem    REG    3,3   51632     785462 /usr/X11R6/lib/libXext.so.6.4\r\n
+nautilus  16171   root  mem    REG    3,3  911288     785454 /usr/X11R6/lib/libX11.so.6.2\r\n
+nautilus  16171   root  mem    REG    3,3   59618     359864 /usr/lib/libz.so.1.1.3\r\n
+nautilus  16171   root  mem    REG    3,3   30228     360019 /usr/lib/libORBitCosNaming.so.0.5.8\r\n
+nautilus  16171   root  mem    REG    3,3  279492     360017 /usr/lib/libORBit.so.0.5.8\r\n
+nautilus  16171   root  mem    REG    3,3   49784     360015 /usr/lib/libIIOP.so.0.5.8\r\n
+nautilus  16171   root  mem    REG    3,3    4416     360021 /usr/lib/libORBitutil.so.0.5.8\r\n
+nautilus  16171   root  mem    REG    3,3  436784    1242795 /lib/libnsl-2.2.4.so\r\n
+nautilus  16171   root  mem    REG    3,3  141828     359920 /usr/lib/libaudiofile.so.0.0.1\r\n
+nautilus  16171   root  mem    REG    3,3  145540     360169 /usr/lib/libnautilus-adapter.so.0.0.0\r\n
+nautilus  16171   root  mem    REG    3,3 2551075     360171 /usr/lib/libnautilus-private.so.0.0.0\r\n
+nautilus  16171   root  mem    REG    3,3  140522     359903 /usr/lib/libjpeg.so.62.0.0\r\n
+nautilus  16171   root  mem    REG    3,3  232338     360151 /usr/lib/libfam.so.0.0.0\r\n
+nautilus  16171   root  mem    REG    3,3  499885     360120 /usr/lib/libbonobo.so.2.0.0\r\n
+nautilus  16171   root  mem    REG    3,3  431711     360121 /usr/lib/libbonobox.so.2.0.0\r\n
+nautilus  16171   root  mem    REG    3,3   15817     360119 /usr/lib/libbonobo-print.so.2.0.0\r\n
+nautilus  16171   root  mem    REG    3,3  532125     360080 /usr/lib/libgnomeprint.so.15.1.9\r\n
+nautilus  16171   root  mem    REG    3,3   16640     360076 /usr/lib/libgnomecanvaspixbuf.so.1.0.0\r\n
+nautilus  16171   root  mem    REG    3,3 1057111     360137 /usr/lib/libeel.so.0.0.0\r\n
+nautilus  16171   root  mem    REG    3,3  987674     360029 /usr/lib/libgnomeui.so.32.14.1\r\n
+nautilus  16171   root  mem    REG    3,3  157643     360003 /usr/lib/libgdk_imlib.so.1.9.10\r\n
+nautilus  16171   root  mem    REG    3,3   31544     785452 /usr/X11R6/lib/libSM.so.6.0\r\n
+nautilus  16171   root  mem    REG    3,3   82080     785448 /usr/X11R6/lib/libICE.so.6.3\r\n
+nautilus  16171   root  mem    REG    3,3  114533     360025 /usr/lib/libgnome.so.32.4.3\r\n
+nautilus  16171   root  mem    REG    3,3   22073     360027 /usr/lib/libgnomesupport.so.0.0.0\r\n
+nautilus  16171   root  mem    REG    3,3   31549     359970 /usr/lib/libesd.so.0.2.22\r\n
+nautilus  16171   root  mem    REG    3,3   63780     359781 /usr/lib/libdb1.so.2\r\n
+nautilus  16171   root  mem    REG    3,3   89246     359908 /usr/lib/libgdk_pixbuf.so.2.0.0\r\n
+nautilus  16171   root  mem    REG    3,3  214453     360134 /usr/lib/libgnomevfs.so.0.0.0\r\n
+nautilus  16171   root  mem    REG    3,3  498438     359991 /usr/lib/libxml.so.1.8.14\r\n
+nautilus  16171   root  mem    REG    3,3   29957     360130 /usr/lib/libgconf-gtk-1.so.1.0.0\r\n
+nautilus  16171   root  mem    REG    3,3  250502     360128 /usr/lib/libgconf-1.so.1.0.0\r\n
+nautilus  16171   root  mem    REG    3,3  122729     360118 /usr/lib/liboaf.so.0.0.0\r\n
+nautilus  16171   root  mem    REG    3,3   29472     359803 /usr/lib/libpopt.so.0.0.0\r\n
+nautilus  16171   root  mem    REG    3,3 1410453     359902 /usr/lib/libgtk-1.2.so.0.9.1\r\n
+nautilus  16171   root  mem    REG    3,3  252878     359900 /usr/lib/libgdk-1.2.so.0.9.1\r\n
+nautilus  16171   root  mem    REG    3,3   11931     359790 /usr/lib/libgmodule-1.2.so.0.0.10\r\n
+nautilus  16171   root  mem    REG    3,3   11170     359792 /usr/lib/libgthread-1.2.so.0.0.10\r\n
+nautilus  16171   root  mem    REG    3,3  182363     359788 /usr/lib/libglib-1.2.so.0.0.10\r\n
+nautilus  16171   root  mem    REG    3,3  530021    1291837 /lib/i686/libpthread-0.9.so\r\n
+nautilus  16171   root  mem    REG    3,3   65913     360102 /usr/lib/librsvg.so.1.0.0\r\n
+nautilus  16171   root  mem    REG    3,3   67879     360023 /usr/lib/libart_lgpl.so.2.2.0\r\n
+nautilus  16171   root  mem    REG    3,3  235270     359873 /usr/lib/libfreetype.so.6.0.1\r\n
+nautilus  16171   root  mem    REG    3,3  131560     359881 /usr/lib/libpng.so.2.1.0.12\r\n
+nautilus  16171   root  mem    REG    3,3 5772268    1291833 /lib/i686/libc-2.2.4.so\r\n
+nautilus  16171   root  mem    REG    3,3  261460    1242811 /lib/libnss_files-2.2.4.so\r\n
+nautilus  16171   root  mem    REG    3,3  173408     768567 /usr/lib/locale/en_US/LC_CTYPE\r\n
+nautilus  16171   root  mem    REG    3,3   18998    1717154 /usr/lib/gtk/themes/engines/libraleigh.so\r\n
+nautilus  16171   root  mem    REG    3,3   12114     539780 /usr/lib/gdk-pixbuf/loaders/libpixbufloader-png.so.1.0.0\r\n
+nautilus  16171   root  mem    REG    3,3   27363    1259298 /usr/lib/vfs/modules/libfile.so\r\n
+nautilus  16171   root  mem    REG    3,3   14161     360007 /usr/lib/libimlib-png.so\r\n
+nautilus  16171   root  mem    REG    3,3   13704     539795 /usr/lib/gdk-pixbuf/loaders/libpixbufloader-xpm.so.1.0.0\r\n
+nautilus  16171   root  mem    REG    3,3   26384    1717191 /usr/lib/bonobo/monikers/libmoniker_std.so.0.0.0\r\n
+nautilus  16171   root  mem    REG    3,3   12576    1259296 /usr/lib/vfs/modules/libdesktop.so\r\n
+nautilus  16171   root  mem    REG    3,3   45710     360132 /usr/lib/libgnomevfs-pthread.so.0.0.0\r\n
+nautilus  16171   root  mem    REG    3,3   71224     605169 /usr/share/eel/fonts/urw/n019003l.pfb\r\n
+nautilus  16171   root  mem    REG    3,3   71539     605172 /usr/share/eel/fonts/urw/n019004l.pfb\r\n
+nautilus  16171   root  mem    REG    3,3   99960     261740 /etc/mime-magic.dat\r\n
+nautilus  16171   root  mem    REG    3,3  562952     360174 /usr/lib/libnautilus-tree-view.so.0.0.0\r\n
+nautilus  16171   root  mem    REG    3,3   39187    1259304 /usr/lib/vfs/modules/libhttp.so\r\n
+xinetd    16576   root  mem    REG    3,3  143660     392601 /usr/sbin/xinetd\r\n
+xinetd    16576   root  mem    REG    3,3  485171    1242777 /lib/ld-2.2.4.so\r\n
+xinetd    16576   root  mem    REG    3,3  436784    1242795 /lib/libnsl-2.2.4.so\r\n
+xinetd    16576   root  mem    REG    3,3  622317    1291835 /lib/i686/libm-2.2.4.so\r\n
+xinetd    16576   root  mem    REG    3,3   85115    1242788 /lib/libcrypt-2.2.4.so\r\n
+xinetd    16576   root  mem    REG    3,3 5772268    1291833 /lib/i686/libc-2.2.4.so\r\n
+xinetd    16576   root  mem    REG    3,3  261460    1242811 /lib/libnss_files-2.2.4.so\r\n
+xinetd    16576   root  mem    REG    3,3  355236    1242819 /lib/libnss_nisplus-2.2.4.so\r\n
+xinetd    16576   root  mem    REG    3,3   72296    1242808 /lib/libnss_dns-2.2.4.so\r\n
+xinetd    16576   root  mem    REG    3,3  261196    1242824 /lib/libresolv-2.2.4.so\r\n
+gnome-ter 16583   root  mem    REG    3,3   63612     344271 /usr/bin/gnome-terminal\r\n
+gnome-ter 16583   root  mem    REG    3,3  485171    1242777 /lib/ld-2.2.4.so\r\n
+gnome-ter 16583   root  mem    REG    3,3     370      65414 /usr/lib/locale/en_US/LC_IDENTIFICATION\r\n
+gnome-ter 16583   root  mem    REG    3,3      28    1569835 /usr/lib/locale/en_US/LC_MEASUREMENT\r\n
+gnome-ter 16583   root  mem    REG    3,3      64    1651568 /usr/lib/locale/en_US/LC_TELEPHONE\r\n
+gnome-ter 16583   root  mem    REG    3,3     160    1651570 /usr/lib/locale/en_US/LC_ADDRESS\r\n
+gnome-ter 16583   root  mem    REG    3,3      82    1651569 /usr/lib/locale/en_US/LC_NAME\r\n
+gnome-ter 16583   root  mem    REG    3,3      39    1651572 /usr/lib/locale/en_US/LC_PAPER\r\n
+gnome-ter 16583   root  mem    REG    3,3      57    1978612 /usr/lib/locale/en_US/LC_MESSAGES/SYS_LC_MESSAGES\r\n
+gnome-ter 16583   root  mem    REG    3,3     291    1569834 /usr/lib/locale/en_US/LC_MONETARY\r\n
+gnome-ter 16583   root  mem    REG    3,3   21499    1929554 /usr/lib/locale/en_US/LC_COLLATE\r\n
+gnome-ter 16583   root  mem    REG    3,3    2456      65415 /usr/lib/locale/en_US/LC_TIME\r\n
+gnome-ter 16583   root  mem    REG    3,3      59     768563 /usr/lib/locale/en_US/LC_NUMERIC\r\n
+gnome-ter 16583   root  mem    REG    3,3   19938    1275654 /usr/lib/gconv/gconv-modules.cache\r\n
+gnome-ter 16583   root  mem    REG    3,3    5544    1275602 /usr/lib/gconv/ISO8859-1.so\r\n
+gnome-ter 16583   root  mem    REG    3,3   72758     360039 /usr/lib/libglade-gnome.so.0.4.2\r\n
+gnome-ter 16583   root  mem    REG    3,3  622317    1291835 /lib/i686/libm-2.2.4.so\r\n
+gnome-ter 16583   root  mem    REG    3,3   59618     359864 /usr/lib/libz.so.1.1.3\r\n
+gnome-ter 16583   root  mem    REG    3,3  116337     360041 /usr/lib/libglade.so.0.4.2\r\n
+gnome-ter 16583   root  mem    REG    3,3  498438     359991 /usr/lib/libxml.so.1.8.14\r\n
+gnome-ter 16583   root  mem    REG    3,3   97471     360037 /usr/lib/libzvt.so.2.2.10\r\n
+gnome-ter 16583   root  mem    REG    3,3   47872    1242830 /lib/libutil-2.2.4.so\r\n
+gnome-ter 16583   root  mem    REG    3,3   60090     360031 /usr/lib/libgnorba.so.27.1.8\r\n
+gnome-ter 16583   root  mem    REG    3,3   30228     360019 /usr/lib/libORBitCosNaming.so.0.5.8\r\n
+gnome-ter 16583   root  mem    REG    3,3  279492     360017 /usr/lib/libORBit.so.0.5.8\r\n
+gnome-ter 16583   root  mem    REG    3,3   49784     360015 /usr/lib/libIIOP.so.0.5.8\r\n
+gnome-ter 16583   root  mem    REG    3,3    4416     360021 /usr/lib/libORBitutil.so.0.5.8\r\n
+gnome-ter 16583   root  mem    REG    3,3  436784    1242795 /lib/libnsl-2.2.4.so\r\n
+gnome-ter 16583   root  mem    REG    3,3  987674     360029 /usr/lib/libgnomeui.so.32.14.1\r\n
+gnome-ter 16583   root  mem    REG    3,3   67879     360023 /usr/lib/libart_lgpl.so.2.2.0\r\n
+gnome-ter 16583   root  mem    REG    3,3  157643     360003 /usr/lib/libgdk_imlib.so.1.9.10\r\n
+gnome-ter 16583   root  mem    REG    3,3   31544     785452 /usr/X11R6/lib/libSM.so.6.0\r\n
+gnome-ter 16583   root  mem    REG    3,3   82080     785448 /usr/X11R6/lib/libICE.so.6.3\r\n
+gnome-ter 16583   root  mem    REG    3,3 1410453     359902 /usr/lib/libgtk-1.2.so.0.9.1\r\n
+gnome-ter 16583   root  mem    REG    3,3  252878     359900 /usr/lib/libgdk-1.2.so.0.9.1\r\n
+gnome-ter 16583   root  mem    REG    3,3   11931     359790 /usr/lib/libgmodule-1.2.so.0.0.10\r\n
+gnome-ter 16583   root  mem    REG    3,3   28584     785468 /usr/X11R6/lib/libXi.so.6.0\r\n
+gnome-ter 16583   root  mem    REG    3,3   51632     785462 /usr/X11R6/lib/libXext.so.6.4\r\n
+gnome-ter 16583   root  mem    REG    3,3  911288     785454 /usr/X11R6/lib/libX11.so.6.2\r\n
+gnome-ter 16583   root  mem    REG    3,3  114533     360025 /usr/lib/libgnome.so.32.4.3\r\n
+gnome-ter 16583   root  mem    REG    3,3   22073     360027 /usr/lib/libgnomesupport.so.0.0.0\r\n
+gnome-ter 16583   root  mem    REG    3,3   31549     359970 /usr/lib/libesd.so.0.2.22\r\n
+gnome-ter 16583   root  mem    REG    3,3  141828     359920 /usr/lib/libaudiofile.so.0.0.1\r\n
+gnome-ter 16583   root  mem    REG    3,3   63780     359781 /usr/lib/libdb1.so.2\r\n
+gnome-ter 16583   root  mem    REG    3,3  182363     359788 /usr/lib/libglib-1.2.so.0.0.10\r\n
+gnome-ter 16583   root  mem    REG    3,3   65997    1242790 /lib/libdl-2.2.4.so\r\n
+gnome-ter 16583   root  mem    REG    3,3 5772268    1291833 /lib/i686/libc-2.2.4.so\r\n
+gnome-ter 16583   root  mem    REG    3,3  261460    1242811 /lib/libnss_files-2.2.4.so\r\n
+gnome-ter 16583   root  mem    REG    3,3  173408     768567 /usr/lib/locale/en_US/LC_CTYPE\r\n
+gnome-ter 16583   root  mem    REG    3,3   18998    1717154 /usr/lib/gtk/themes/engines/libraleigh.so\r\n
+gnome-ter 16583   root  mem    REG    3,3   14161     360007 /usr/lib/libimlib-png.so\r\n
+gnome-ter 16583   root  mem    REG    3,3  131560     359881 /usr/lib/libpng.so.2.1.0.12\r\n
+gnome-pty 16586   root  mem    REG    3,3    9164     392584 /usr/sbin/gnome-pty-helper\r\n
+gnome-pty 16586   root  mem    REG    3,3  485171    1242777 /lib/ld-2.2.4.so\r\n
+gnome-pty 16586   root  mem    REG    3,3   47872    1242830 /lib/libutil-2.2.4.so\r\n
+gnome-pty 16586   root  mem    REG    3,3 5772268    1291833 /lib/i686/libc-2.2.4.so\r\n
+gnome-pty 16586   root  mem    REG    3,3  261460    1242811 /lib/libnss_files-2.2.4.so\r\n
+bash      16587   root  mem    REG    3,3  519964    1242920 /bin/bash\r\n
+bash      16587   root  mem    REG    3,3  485171    1242777 /lib/ld-2.2.4.so\r\n
+bash      16587   root  mem    REG    3,3     370      65414 /usr/lib/locale/en_US/LC_IDENTIFICATION\r\n
+bash      16587   root  mem    REG    3,3      28    1569835 /usr/lib/locale/en_US/LC_MEASUREMENT\r\n
+bash      16587   root  mem    REG    3,3      64    1651568 /usr/lib/locale/en_US/LC_TELEPHONE\r\n
+bash      16587   root  mem    REG    3,3     160    1651570 /usr/lib/locale/en_US/LC_ADDRESS\r\n
+bash      16587   root  mem    REG    3,3      82    1651569 /usr/lib/locale/en_US/LC_NAME\r\n
+bash      16587   root  mem    REG    3,3      39    1651572 /usr/lib/locale/en_US/LC_PAPER\r\n
+bash      16587   root  mem    REG    3,3      57    1978612 /usr/lib/locale/en_US/LC_MESSAGES/SYS_LC_MESSAGES\r\n
+bash      16587   root  mem    REG    3,3     291    1569834 /usr/lib/locale/en_US/LC_MONETARY\r\n
+bash      16587   root  mem    REG    3,3   21499    1929554 /usr/lib/locale/en_US/LC_COLLATE\r\n
+bash      16587   root  mem    REG    3,3    2456      65415 /usr/lib/locale/en_US/LC_TIME\r\n
+bash      16587   root  mem    REG    3,3      59     768563 /usr/lib/locale/en_US/LC_NUMERIC\r\n
+bash      16587   root  mem    REG    3,3  261460    1242811 /lib/libnss_files-2.2.4.so\r\n
+bash      16587   root  mem    REG    3,3   11832    1242918 /lib/libtermcap.so.2.0.8\r\n
+bash      16587   root  mem    REG    3,3   65997    1242790 /lib/libdl-2.2.4.so\r\n
+bash      16587   root  mem    REG    3,3 5772268    1291833 /lib/i686/libc-2.2.4.so\r\n
+bash      16587   root  mem    REG    3,3  173408     768567 /usr/lib/locale/en_US/LC_CTYPE\r\n
+bash      16587   root  mem    REG    3,3  355236    1242819 /lib/libnss_nisplus-2.2.4.so\r\n
+bash      16587   root  mem    REG    3,3  436784    1242795 /lib/libnsl-2.2.4.so\r\n
+sshd      16662   root  mem    REG    3,3  246220     392683 /usr/sbin/sshd\r\n
+sshd      16662   root  mem    REG    3,3  485171    1242777 /lib/ld-2.2.4.so\r\n
+sshd      16662   root  mem    REG    3,3   12060    1422699 /lib/security/pam_stack.so\r\n
+sshd      16662   root  mem    REG    3,3    6144    1422692 /lib/security/pam_nologin.so\r\n
+sshd      16662   root  mem    REG    3,3   13778    1422686 /lib/security/pam_limits.so\r\n
+sshd      16662   root  mem    REG    3,3   50155    1422677 /lib/security/pam_console.so\r\n
+sshd      16662   root  mem    REG    3,3    4994    1422679 /lib/security/pam_deny.so\r\n
+sshd      16662   root  mem    REG    3,3   35424    1243022 /lib/libpam.so.0.75\r\n
+sshd      16662   root  mem    REG    3,3   65997    1242790 /lib/libdl-2.2.4.so\r\n
+sshd      16662   root  mem    REG    3,3   59618     359864 /usr/lib/libz.so.1.1.3\r\n
+sshd      16662   root  mem    REG    3,3  436784    1242795 /lib/libnsl-2.2.4.so\r\n
+sshd      16662   root  mem    REG    3,3   47872    1242830 /lib/libutil-2.2.4.so\r\n
+sshd      16662   root  mem    REG    3,3  918752    1242970 /lib/libcrypto.so.0.9.6b\r\n
+sshd      16662   root  mem    REG    3,3 5772268    1291833 /lib/i686/libc-2.2.4.so\r\n
+sshd      16662   root  mem    REG    3,3  261460    1242811 /lib/libnss_files-2.2.4.so\r\n
+sshd      16662   root  mem    REG    3,3   13025    1422680 /lib/security/pam_env.so\r\n
+sshd      16662   root  mem    REG    3,3   14636    1422678 /lib/security/pam_cracklib.so\r\n
+sshd      16662   root  mem    REG    3,3   69084     359778 /usr/lib/libcrack.so.2.7\r\n
+sshd      16662   root  mem    REG    3,3  182363     359788 /usr/lib/libglib-1.2.so.0.0.10\r\n
+sshd      16662   root  mem    REG    3,3   47819    1422703 /lib/security/pam_unix.so\r\n
+sshd      16662   root  mem    REG    3,3   85115    1242788 /lib/libcrypt-2.2.4.so\r\n
+bash      16664   root  mem    REG    3,3  519964    1242920 /bin/bash\r\n
+bash      16664   root  mem    REG    3,3  485171    1242777 /lib/ld-2.2.4.so\r\n
+bash      16664   root  mem    REG    3,3   11832    1242918 /lib/libtermcap.so.2.0.8\r\n
+bash      16664   root  mem    REG    3,3   65997    1242790 /lib/libdl-2.2.4.so\r\n
+bash      16664   root  mem    REG    3,3 5772268    1291833 /lib/i686/libc-2.2.4.so\r\n
+bash      16664   root  mem    REG    3,3  261460    1242811 /lib/libnss_files-2.2.4.so\r\n
+bash      16664   root  mem    REG    3,3  355236    1242819 /lib/libnss_nisplus-2.2.4.so\r\n
+bash      16664   root  mem    REG    3,3  436784    1242795 /lib/libnsl-2.2.4.so\r\n
+bash      16664   root  mem    REG    3,3  173408     768567 /usr/lib/locale/en_US/LC_CTYPE\r\n
+in.telnet 16867   root  mem    REG    3,3   37708     392692 /usr/sbin/in.telnetd\r\n
+in.telnet 16867   root  mem    REG    3,3  485171    1242777 /lib/ld-2.2.4.so\r\n
+in.telnet 16867   root  mem    REG    3,3   47872    1242830 /lib/libutil-2.2.4.so\r\n
+in.telnet 16867   root  mem    REG    3,3 5772268    1291833 /lib/i686/libc-2.2.4.so\r\n
+in.telnet 16867   root  mem    REG    3,3  261460    1242811 /lib/libnss_files-2.2.4.so\r\n
+login     16868   root  mem    REG    3,3   17740    1243080 /bin/login\r\n
+login     16868   root  mem    REG    3,3  485171    1242777 /lib/ld-2.2.4.so\r\n
+login     16868   root  mem    REG    3,3    7841    1422697 /lib/security/pam_securetty.so\r\n
+login     16868   root  mem    REG    3,3   12060    1422699 /lib/security/pam_stack.so\r\n
+login     16868   root  mem    REG    3,3    6144    1422692 /lib/security/pam_nologin.so\r\n
+login     16868   root  mem    REG    3,3   50155    1422677 /lib/security/pam_console.so\r\n
+login     16868   root  mem    REG    3,3    4994    1422679 /lib/security/pam_deny.so\r\n
+login     16868   root  mem    REG    3,3   85115    1242788 /lib/libcrypt-2.2.4.so\r\n
+login     16868   root  mem    REG    3,3   35424    1243022 /lib/libpam.so.0.75\r\n
+login     16868   root  mem    REG    3,3   65997    1242790 /lib/libdl-2.2.4.so\r\n
+login     16868   root  mem    REG    3,3   12079    1243023 /lib/libpam_misc.so.0.75\r\n
+login     16868   root  mem    REG    3,3 5772268    1291833 /lib/i686/libc-2.2.4.so\r\n
+login     16868   root  mem    REG    3,3  261460    1242811 /lib/libnss_files-2.2.4.so\r\n
+login     16868   root  mem    REG    3,3   13025    1422680 /lib/security/pam_env.so\r\n
+login     16868   root  mem    REG    3,3  436784    1242795 /lib/libnsl-2.2.4.so\r\n
+login     16868   root  mem    REG    3,3  182363     359788 /usr/lib/libglib-1.2.so.0.0.10\r\n
+login     16868   root  mem    REG    3,3   47819    1422703 /lib/security/pam_unix.so\r\n
+login     16868   root  mem    REG    3,3   14636    1422678 /lib/security/pam_cracklib.so\r\n
+login     16868   root  mem    REG    3,3   13778    1422686 /lib/security/pam_limits.so\r\n
+login     16868   root  mem    REG    3,3  355236    1242819 /lib/libnss_nisplus-2.2.4.so\r\n
+login     16868   root  mem    REG    3,3   69084     359778 /usr/lib/libcrack.so.2.7\r\n
+bash      16873 cs6262  cwd    DIR    3,5    4096    1419841 /home/cs6262\r\n
+bash      16873 cs6262  rtd    DIR    3,3    4096          2 /\r\n
+bash      16873 cs6262  txt    REG    3,3  519964    1242920 /bin/bash\r\n
+bash      16873 cs6262  mem    REG    3,3  485171    1242777 /lib/ld-2.2.4.so\r\n
+bash      16873 cs6262  mem    REG    3,3   11832    1242918 /lib/libtermcap.so.2.0.8\r\n
+bash      16873 cs6262  mem    REG    3,3   65997    1242790 /lib/libdl-2.2.4.so\r\n
+bash      16873 cs6262  mem    REG    3,3 5772268    1291833 /lib/i686/libc-2.2.4.so\r\n
+bash      16873 cs6262  mem    REG    3,3  261460    1242811 /lib/libnss_files-2.2.4.so\r\n
+bash      16873 cs6262  mem    REG    3,3  355236    1242819 /lib/libnss_nisplus-2.2.4.so\r\n
+bash      16873 cs6262  mem    REG    3,3  436784    1242795 /lib/libnsl-2.2.4.so\r\n
+bash      16873 cs6262  mem    REG    3,3  173408     768567 /usr/lib/locale/en_US/LC_CTYPE\r\n
+bash      16873 cs6262    0u   CHR  136,1                  3 /dev/pts/1\r\n
+bash      16873 cs6262    1u   CHR  136,1                  3 /dev/pts/1\r\n
+bash      16873 cs6262    2u   CHR  136,1                  3 /dev/pts/1\r\n
+bash      16873 cs6262  255u   CHR  136,1                  3 /dev/pts/1\r\n
+lsof      16936 cs6262  cwd    DIR    3,5    4096    1419841 /home/cs6262\r\n
+lsof      16936 cs6262  rtd    DIR    3,3    4096          2 /\r\n
+lsof      16936 cs6262  txt    REG    3,3   82812     392740 /usr/sbin/lsof\r\n
+lsof      16936 cs6262  mem    REG    3,3  485171    1242777 /lib/ld-2.2.4.so\r\n
+lsof      16936 cs6262  mem    REG    3,3 5772268    1291833 /lib/i686/libc-2.2.4.so\r\n
+lsof      16936 cs6262    0u   CHR  136,1                  3 /dev/pts/1\r\n
+lsof      16936 cs6262    1u   CHR  136,1                  3 /dev/pts/1\r\n
+lsof      16936 cs6262    2u   CHR  136,1                  3 /dev/pts/1\r\n
+lsof      16936 cs6262    3r   DIR    0,1       0          1 /proc\r\n
+lsof      16936 cs6262    4r   DIR    0,1       0 1109917704 /proc/16936/fd\r\n
+lsof      16936 cs6262    5w  FIFO    0,0              38248 pipe\r\n
+lsof      16936 cs6262    6r  FIFO    0,0              38249 pipe\r\n
+lsof      16937 cs6262  cwd    DIR    3,5    4096    1419841 /home/cs6262\r\n
+lsof      16937 cs6262  rtd    DIR    3,3    4096          2 /\r\n
+lsof      16937 cs6262  txt    REG    3,3   82812     392740 /usr/sbin/lsof\r\n
+lsof      16937 cs6262  mem    REG    3,3  485171    1242777 /lib/ld-2.2.4.so\r\n
+lsof      16937 cs6262  mem    REG    3,3 5772268    1291833 /lib/i686/libc-2.2.4.so\r\n
+lsof      16937 cs6262    4r  FIFO    0,0              38248 pipe\r\n
+lsof      16937 cs6262    7w  FIFO    0,0              38249 pipe\r\n
+0;cs6262@H3:~BEL[cs6262@H3 cs6262]$ 
+CLIENT Timestamp: Fri Aug 23 15:49:57 CDT 2002 Context: 
+exit\rNUL
+SERVER Timestamp: Fri Aug 23 15:49:57 CDT 2002 Context: 
+exit\r\n
+
+SERVER Timestamp: Fri Aug 23 15:49:59 CDT 2002 Context: 
+logout\r\n
+MOVE-CURSOR-TOP-LEFT ERASE-DISPLAY 
+
