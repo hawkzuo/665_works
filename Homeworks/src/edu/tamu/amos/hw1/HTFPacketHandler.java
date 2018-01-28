@@ -40,7 +40,7 @@ public class HTFPacketHandler implements PcapPacketHandler<Map<String, TreeMap<L
             sessionsForConnection.put(connectionTimestamp, new Session(packet, tcp, ip4, eth));
         } else {
             // Add packet to existing session
-            sessionsForConnection.get(sessionStartTimestamp).addPacket(packet, tcp, ip4, eth);
+            sessionsForConnection.get(sessionStartTimestamp).addPacket(packet, tcp);
         }
         map.put(connectionKey, sessionsForConnection);
     }
@@ -99,20 +99,16 @@ public class HTFPacketHandler implements PcapPacketHandler<Map<String, TreeMap<L
             Long connectionTimestamp = packet.getCaptureHeader().timestampInMicros();
             TreeMap<Long, Session> sessionsForConnection = map.get(connectionKey);
             if(sessionsForConnection == null) {
-                System.err.println("Error");
+                System.err.println("Encountered a packet other than SYN packet to create a new session.");
                 return;
-//                exit(1);
             }
             Long sessionStartTimestamp = sessionsForConnection.floorKey(connectionTimestamp);
             if(sessionStartTimestamp == null) {
-                System.err.println("Error");
+                System.err.println("Encountered a packet other than SYN packet to create a new session.");
                 return;
-//                exit(1);
             }
-            sessionsForConnection.get(sessionStartTimestamp).addPacket(packet, tcp, ip4, eth);
+            sessionsForConnection.get(sessionStartTimestamp).addPacket(packet, tcp);
 
         }
-
-//        System.out.println("Finished Processing 1 packet");
     }
 }

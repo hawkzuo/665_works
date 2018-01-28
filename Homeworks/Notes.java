@@ -1,5 +1,5 @@
 
--Install WinPCap
+-Install WinPCap, Java(>=8)
 -Copy file jnetpcap.dll to PATH folder 'WIN/system32'
 -Copy .jar file to a folder and copy test .pcap files to a sub-folder named "data"
 Then run the program via command:
@@ -9,11 +9,19 @@ The output will be in sub-folder "data", with filename pattern
     pcapFilename.txt
 
  Linux:
- -Install libpcap-dev
+ -Install libpcap-dev, Java(>=8)
    [sudo apt-get install libpcap-dev]
 -Copy file libjnetpcap.so to /usr/lib/libjnetpcap.so
   Or Copy jnetpcap.jar file to /usr/share/java/jnetpcap.jar
--
+Then run the program via command:
+  java -jar CSCE665_workspace.jar data/tfsession.pcap
+  java -jar CSCE665_workspace.jar data/httpsession.pcap
+The output will be in sub-folder "data", with filename pattern
+  pcapFilename.txt
+
+Note: Version 1.3 of jnetpcap library is required
+
+
 
  Jnetpcap:
     Just filter for each packet, divide them into serveral headers.
@@ -42,7 +50,8 @@ Telnet:
     Key Points:
         - Translate Commands & Combine Messages
         - Design A DS to filter out the Options the session is on
-        
+    Some Options should be read as raw bytes in the subCommand case, so for those subOptions,
+    a link to the RFC is offered in the parsed result.
 
 
 FTP:    Server always port 21, data is sent through port 20
