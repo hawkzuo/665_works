@@ -24,7 +24,6 @@ public class Session {
     private List<Integer> operationsFlag;
     private List<String> operationsHeadersList;
     private List<String> operationsList;
-
     private List<PcapPacket> packets;
 
     private byte[] serverIP;
@@ -40,8 +39,6 @@ public class Session {
 
     private int clientPacketNumber;
     private int serverPacketNumber;
-    private boolean connectionEstablished;
-    private boolean[] connectionEstablishingFlags = new boolean[2];
 
     // HTTP parser useful fields
     private Map<String, String> clientHTTPFields;
@@ -77,11 +74,13 @@ public class Session {
 
         this.clientPacketNumber = 1;
         this.serverPacketNumber = 0;
-        this.connectionEstablished = false;
 
         // Generate HTTP operation for head packet
         if (applicationType.equals("HTTP")) {
             generateOperationForHTTP( head, tcp);
+            if (operationsList.size() > 0) {
+                operationsList.remove(0);
+            }
         }
 
     }
@@ -94,52 +93,23 @@ public class Session {
         else clientPacketNumber++;
 
         packets.add(element);
-        // HTTP separate
-//        if (applicationType.equals("HTTP")) {
-//            generateOperationForHTTP(element, tcp);
-//            return;
-//        }
-//
-//        if (!connectionEstablished) {
-//            if (tcp.flags() == 18) {
-//                connectionEstablishingFlags[0] = true;
-//            } else if (tcp.flags() == 16) {
-//                connectionEstablishingFlags[1] = true;
-//            }
-//            connectionEstablished = connectionEstablishingFlags[0] && connectionEstablishingFlags[1];
-//        } else {
-//            if(applicationType.equals("FTP")) {
-//                generateOperationForFTP(element, tcp);
-//            } else if (applicationType.equals("TELNET")) {
-//                generateOperationForTELNET(element, tcp);
-//            }
-//        }
     }
 
     public void generateOperations() {
-        packets.sort(new Comparator<PcapPacket>() {
-            @Override
-            public int compare(PcapPacket o1, PcapPacket o2) {
-                Tcp tcp1 = new Tcp();
-                Tcp tcp2 = new Tcp();
-                o1.hasHeader(tcp1);
-                o2.hasHeader(tcp2);
+        if (operationsList.size() != 0) {
+            return;
+        }
+        packets.sort((PcapPacket o1, PcapPacket o2) -> {
+            Tcp tcp1 = new Tcp();
+            Tcp tcp2 = new Tcp();
+            o1.hasHeader(tcp1);
+            o2.hasHeader(tcp2);
 
-                Long seq1, seq2;
-                if (tcp1.source() == serverPort) {
-                    seq1 = tcp1.ack();
-                } else {
-                    seq1 = tcp1.seq();
-                }
-                if (tcp2.source() == serverPort) {
-                    seq2 = tcp2.ack();
-                } else {
-                    seq2 = tcp2.seq();
-                }
+            Long seq1, seq2;
+            seq1 = tcp1.source() == serverPort ? tcp1.ack() : tcp1.seq();
+            seq2 = tcp2.source() == serverPort ? tcp2.ack() : tcp2.seq();
 
-
-                return Long.compare(seq1, seq2);
-            }
+            return Long.compare(seq1, seq2);
         });
         for (PcapPacket element : packets) {
             Tcp tcp = new Tcp();
@@ -150,20 +120,14 @@ public class Session {
                         break;
                     case "FTP":
                         generateOperationForFTP(element, tcp);
-
                         break;
                     case "TELNET":
                         generateOperationForTELNET(element, tcp);
-
                         break;
                 }
             }
         }
-
     }
-
-
-
 
 
     private void generateOperationForTELNET(PcapPacket element, Tcp tcp) {
@@ -514,17 +478,6 @@ public class Session {
             operationsFlag.add(tcp.source() == serverPort ? 1 : -1);
         }
     }
-    private StringBuilder generateHeaderForOperation(PcapPacket element, Tcp tcp) {
-        StringBuilder sb = new StringBuilder();
-        if (tcp.source() == serverPort) {
-            sb.append("\nSERVER Timestamp: ");
-        } else {
-            sb.append("\nCLIENT Timestamp: ");
-        }
-        sb.append(new Date(element.getCaptureHeader().timestampInMillis()).toString());
-        sb.append(" Context: \n");
-        return sb;
-    }
 
     private void generateOperationForFTP(PcapPacket element, Tcp tcp) {
         Payload payload = new Payload();
@@ -601,6 +554,18 @@ public class Session {
             }
 
         }
+    }
+
+    private StringBuilder generateHeaderForOperation(PcapPacket element, Tcp tcp) {
+        StringBuilder sb = new StringBuilder();
+        if (tcp.source() == serverPort) {
+            sb.append("\nSERVER Timestamp: ");
+        } else {
+            sb.append("\nCLIENT Timestamp: ");
+        }
+        sb.append(new Date(element.getCaptureHeader().timestampInMillis()).toString());
+        sb.append(" Context: \n");
+        return sb;
     }
 
     private int unionSingleOperationForTelnet(int oldCursor, int i, List<String> result, boolean isServer) {
