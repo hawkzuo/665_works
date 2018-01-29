@@ -1,7 +1,8 @@
 
 -Install WinPCap, Java(>=8)
+-Install jnetpcap 1.3
 -Copy file jnetpcap.dll to PATH folder 'WIN/system32'
--Copy .jar file to a folder and copy test .pcap files to a sub-folder named "data"
+-Copy CSCE665_work.jar file to a folder and copy test .pcap files to a sub-folder named "data"
 Then run the program via command:
     java -jar CSCE665_workspace.jar data/tfsession.pcap
     java -jar CSCE665_workspace.jar data/httpsession.pcap
