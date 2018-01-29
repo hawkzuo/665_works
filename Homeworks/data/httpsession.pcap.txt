@@ -38,6 +38,20 @@ Connection: keep-alive\r\n
 Referer: http://www.ethereal.com/download.html\r\n
 \r\n
 
+CLIENT Timestamp: Thu May 13 05:17:10 CDT 2004 Context: 
+MessageType: REQUEST
+GET /pagead/ads?client=ca-pub-2309191948673629&random=1084443430285&lmt=1082467020&format=468x60_as&output=html&url=http%3A%2F%2Fwww.ethereal.com%2Fdownload.html&color_bg=FFFFFF&color_text=333333&color_link=000000&color_url=666633&color_border=666633 HTTP/1.1\r\n
+Host: pagead2.googlesyndication.com\r\n
+User-Agent: Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.6) Gecko/20040113\r\n
+Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,image/jpeg,image/gif;q=0.2,*/*;q=0.1\r\n
+Accept-Language: en-us,en;q=0.5\r\n
+Accept-Encoding: gzip,deflate\r\n
+Accept-Charset: ISO-8859-1,utf-8;q=0.7,*;q=0.7\r\n
+Keep-Alive: 300\r\n
+Connection: keep-alive\r\n
+Referer: http://www.ethereal.com/download.html\r\n
+\r\n
+
 SERVER Timestamp: Thu May 13 05:17:11 CDT 2004 Context: 
 MessageType: RESPONSE
 HTTP/1.1 200 OK\r\n

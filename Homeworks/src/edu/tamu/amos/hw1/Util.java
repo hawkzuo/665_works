@@ -140,6 +140,8 @@ public class Util {
         if (session == null) {
             return;
         }
+        session.generateOperations();
+
         // Print out some information
         StringBuilder output = generateSessionSummary(session);
 
@@ -162,6 +164,7 @@ public class Util {
         if (session == null) {
             return;
         }
+        session.generateOperations();
         // Print out some information
         StringBuilder output = generateSessionSummary(session);
 
@@ -183,6 +186,7 @@ public class Util {
         if (session == null) {
             return;
         }
+        session.generateOperations();
         // Print out some information
         StringBuilder output = generateSessionSummary(session);
 

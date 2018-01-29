@@ -25,6 +25,8 @@ public class Session {
     private List<String> operationsHeadersList;
     private List<String> operationsList;
 
+    private List<PcapPacket> packets;
+
     private byte[] serverIP;
     private byte[] clientIP;
     private int serverPort;
@@ -51,7 +53,8 @@ public class Session {
         this.operationsList = new ArrayList<>();
         this.operationsFlag = new ArrayList<>();
         this.operationsHeadersList = new ArrayList<>();
-
+        this.packets = new ArrayList<>();
+        packets.add(head);
         // HTTP
         this.clientHTTPFields = new HashMap<>();
         this.serverHTTPFields = new HashMap<>();
@@ -90,27 +93,78 @@ public class Session {
         if (tcp.source() == serverPort) serverPacketNumber++;
         else clientPacketNumber++;
 
+        packets.add(element);
         // HTTP separate
-        if (applicationType.equals("HTTP")) {
-            generateOperationForHTTP(element, tcp);
-            return;
+//        if (applicationType.equals("HTTP")) {
+//            generateOperationForHTTP(element, tcp);
+//            return;
+//        }
+//
+//        if (!connectionEstablished) {
+//            if (tcp.flags() == 18) {
+//                connectionEstablishingFlags[0] = true;
+//            } else if (tcp.flags() == 16) {
+//                connectionEstablishingFlags[1] = true;
+//            }
+//            connectionEstablished = connectionEstablishingFlags[0] && connectionEstablishingFlags[1];
+//        } else {
+//            if(applicationType.equals("FTP")) {
+//                generateOperationForFTP(element, tcp);
+//            } else if (applicationType.equals("TELNET")) {
+//                generateOperationForTELNET(element, tcp);
+//            }
+//        }
+    }
+
+    public void generateOperations() {
+        packets.sort(new Comparator<PcapPacket>() {
+            @Override
+            public int compare(PcapPacket o1, PcapPacket o2) {
+                Tcp tcp1 = new Tcp();
+                Tcp tcp2 = new Tcp();
+                o1.hasHeader(tcp1);
+                o2.hasHeader(tcp2);
+
+                Long seq1, seq2;
+                if (tcp1.source() == serverPort) {
+                    seq1 = tcp1.ack();
+                } else {
+                    seq1 = tcp1.seq();
+                }
+                if (tcp2.source() == serverPort) {
+                    seq2 = tcp2.ack();
+                } else {
+                    seq2 = tcp2.seq();
+                }
+
+
+                return Long.compare(seq1, seq2);
+            }
+        });
+        for (PcapPacket element : packets) {
+            Tcp tcp = new Tcp();
+            if (element.hasHeader(tcp)) {
+                switch (applicationType) {
+                    case "HTTP":
+                        generateOperationForHTTP(element, tcp);
+                        break;
+                    case "FTP":
+                        generateOperationForFTP(element, tcp);
+
+                        break;
+                    case "TELNET":
+                        generateOperationForTELNET(element, tcp);
+
+                        break;
+                }
+            }
         }
 
-        if (!connectionEstablished) {
-            if (tcp.flags() == 18) {
-                connectionEstablishingFlags[0] = true;
-            } else if (tcp.flags() == 16) {
-                connectionEstablishingFlags[1] = true;
-            }
-            connectionEstablished = connectionEstablishingFlags[0] && connectionEstablishingFlags[1];
-        } else {
-            if(applicationType.equals("FTP")) {
-                generateOperationForFTP(element, tcp);
-            } else if (applicationType.equals("TELNET")) {
-                generateOperationForTELNET(element, tcp);
-            }
-        }
     }
+
+
+
+
 
     private void generateOperationForTELNET(PcapPacket element, Tcp tcp) {
         // Client-side message is terminated by '\rNUL'
