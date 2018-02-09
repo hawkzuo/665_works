@@ -56,11 +56,155 @@ public class Solution {
     }
 
     private void processForAddition(int[] array) {
+        Integer leftHelper = null;
+        Integer rightHelper = null;
+
+        Interval expandInterval = new Interval(array[1], array[2]);
+        Interval floorInterval = internalData.floor(expandInterval);
+        if (floorInterval != null) {
+            // There exist a Node has "start" smaller or equal to constraint.start
+            if (floorInterval.start < expandInterval.start) {
+                if (floorInterval.end > expandInterval.start) {
+                    // [0,20] [1,X] => check the value of X with 20
+                    if (expandInterval.end > floorInterval.end) {
+                        // [0, 20] [1, X], X > 20
+                        // Start the combining loop from floorInterval, with threshold X, combining to floorInterval
+                        int originalFloorRight = floorInterval.end;
+
+                        Iterator<Interval> iterator = internalData.iterator();
+                        int shouldCheck = 0;
+                        while (iterator.hasNext()) {
+                            Interval step = iterator.next();
+                            if (shouldCheck == 1) {
+                                if (expandInterval.end >= step.end) {
+                                    // Remove step entirely
+                                    iterator.remove();
+                                } else if (expandInterval.end < step.start) {
+                                    // No more Intervals to combine
+                                    floorInterval.end = expandInterval.end;
+                                    break;
+                                } else {
+                                    // Combine the step and return
+                                    floorInterval.end = step.end;
+                                    iterator.remove();
+                                    break;
+                                }
+                            }
+                            if (step.equals(floorInterval)) {
+                                shouldCheck = 1;
+                            }
+                        }
+                        if (floorInterval.end == originalFloorRight) {
+                            // End of List reached
+                            floorInterval.end = expandInterval.end;
+                        }
+
+                    } else {
+                        // Nothing changes
+                    }
+                } else if (floorInterval.end <= expandInterval.start) {
+                    // [0,1] [3,X] => Ignore floorInterval && there's no interval such as [2,...]
+                    // Start the combining loop from floorInterval's next, with threshold X, combining to expandInterval
+
+                    Iterator<Interval> iterator = internalData.iterator();
+                    int shouldCheck = 0;
+                    while (iterator.hasNext()) {
+                        Interval step = iterator.next();
+                        if (shouldCheck == 1) {
+                            if (expandInterval.end >= step.end) {
+                                // Remove step entirely
+                                iterator.remove();
+                            } else if (expandInterval.end < step.start) {
+                                // No more Intervals to combine
+                                // Add expandInterval to Map
+                                break;
+                            } else {
+                                // Combine the step and return
+                                expandInterval.end = step.end;
+                                iterator.remove();
+                                break;
+                            }
+                        }
+                        if (step.equals(floorInterval)) {
+                            shouldCheck = 1;
+                        }
+                    }
+                    // Don't need to take care of largest situation
+                    internalData.add(expandInterval);
+
+
+
+
+                }
+            } else {
+                // [0,20] [0, X] => Compare X and 20, then proceed on combining loop
+                if (expandInterval.end > floorInterval.end) {
+                    // Start the combining loop from floorInterval, with threshold X, combining to floorInterval
+                    int originalFloorRight = floorInterval.end;
+
+                    Iterator<Interval> iterator = internalData.iterator();
+                    int shouldCheck = 0;
+                    while (iterator.hasNext()) {
+                        Interval step = iterator.next();
+                        if (shouldCheck == 1) {
+                            if (expandInterval.end >= step.end) {
+                                // Remove step entirely
+                                iterator.remove();
+                            } else if (expandInterval.end < step.start) {
+                                // No more Intervals to combine
+                                floorInterval.end = expandInterval.end;
+                                break;
+                            } else {
+                                // Combine the step and return
+                                floorInterval.end = step.end;
+                                iterator.remove();
+                                break;
+                            }
+                        }
+                        if (step.equals(floorInterval)) {
+                            shouldCheck = 1;
+                        }
+                    }
+                    if (floorInterval.end == originalFloorRight) {
+                        // End of List reached
+                        floorInterval.end = expandInterval.end;
+                    }
+                } else {
+                    // nothing changes
+                }
+            }
+        } else {
+            // Start the combining loop from the beginning with threshold X, combining to expandInterval
+            Iterator<Interval> iterator = internalData.iterator();
+            int shouldCheck = 1;
+            while (iterator.hasNext()) {
+                Interval step = iterator.next();
+                if (shouldCheck == 1) {
+                    if (expandInterval.end >= step.end) {
+                        // Remove step entirely
+                        iterator.remove();
+                    } else if (expandInterval.end < step.start) {
+                        // No more Intervals to combine
+                        // Add expandInterval to Map
+                        break;
+                    } else {
+                        // Combine the step and return
+                        expandInterval.end = step.end;
+                        iterator.remove();
+                        break;
+                    }
+                }
+            }
+            // Don't need to take care of largest situation
+            internalData.add(expandInterval);
+        }
+    }
+
+    private void loopForAddition(Interval expandInterval, Interval floorInterval, boolean shouldIncludeFloor, boolean shouldCombineFloor, int initialCheckFlag) {
 
     }
 
 
-    
     private void processForRemoval(int[] array) {
         Integer leftHelper = null;
         Integer rightHelper = null;
@@ -156,6 +300,19 @@ public class Solution {
             System.out.println(solution.process(new int[]{-1, 10, 21}));
             System.out.println(solution.process(new int[]{-1, 8, 9}));
             System.out.println(solution.process(new int[]{-1, 1, 11}));
+
+            System.out.println(solution.process(new int[]{1, 1, 5}));
+            System.out.println(solution.process(new int[]{1, 0, 1}));
+            System.out.println(solution.process(new int[]{1, 7, 11}));
+            System.out.println(solution.process(new int[]{1, 2, 3}));
+            System.out.println(solution.process(new int[]{1, 8, 9}));
+            System.out.println(solution.process(new int[]{1, 14, 19}));
+            System.out.println(solution.process(new int[]{1, 28, 29}));
+            System.out.println(solution.process(new int[]{1, 38, 39}));
+            System.out.println(solution.process(new int[]{1, 0, 15}));
+            System.out.println(solution.process(new int[]{1, 33, 43}));
+            System.out.println(solution.process(new int[]{-1, 20, 23}));
+            System.out.println(solution.process(new int[]{-1, 2, 11}));
 
 
 
