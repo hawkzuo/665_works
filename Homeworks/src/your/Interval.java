@@ -8,6 +8,11 @@ public class Interval {
      int start;
      int end;
 
+    @Override
+    public String toString() {
+        return String.format("[%d, %d]", start, end);
+    }
+
     public Interval(int from, int to) {
         this.start = from;
         this.end = to;
