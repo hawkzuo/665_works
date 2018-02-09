@@ -57,7 +57,7 @@ public class Solution {
         if (floorInterval != null) {
             // There exist a Node has "start" smaller or equal to constraint.start
             if (floorInterval.start < expandInterval.start) {
-                if (floorInterval.end > expandInterval.start) {
+                if (floorInterval.end >= expandInterval.start) {
                     // [0,20] [1,X] => check the value of X with 20
                     if (expandInterval.end > floorInterval.end) {
                         // [0, 20] [1, X], X > 20
@@ -66,7 +66,7 @@ public class Solution {
                     } else {
                         // Nothing changes
                     }
-                } else if (floorInterval.end <= expandInterval.start) {
+                } else if (floorInterval.end < expandInterval.start) {
                     // [0,1] [3,X] => Ignore floorInterval && there's no interval such as [2,...]
                     // Start the combining loop from floorInterval's next, with threshold X, combining to expandInterval
                     loopForAdditionToExpand(floorInterval, expandInterval, 0);
@@ -251,6 +251,7 @@ public class Solution {
         System.out.println(solution.process(new int[]{1, 33, 43}));
         System.out.println(solution.process(new int[]{-1, 20, 23}));
         System.out.println(solution.process(new int[]{-1, 2, 11}));
+        System.out.println(solution.process(new int[]{1, 2, 4}));
 
 
         System.out.println("Finished");
