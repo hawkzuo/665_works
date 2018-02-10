@@ -90,60 +90,106 @@ public class Solution {
     private void loopForAdditionToFloor(Interval floorInterval, Interval expandInterval) {
         int originalFloorRight = floorInterval.end;
 
-        Iterator<Interval> iterator = internalData.iterator();
-        int shouldCheck = 0;
+        Iterator<Interval> iterator = internalData.tailSet(floorInterval, false).iterator();
         while (iterator.hasNext()) {
             Interval step = iterator.next();
-            if (shouldCheck == 1) {
-                if (expandInterval.end >= step.end) {
-                    // Remove step entirely
-                    iterator.remove();
-                } else if (expandInterval.end < step.start) {
-                    // No more Intervals to combine
-                    floorInterval.end = expandInterval.end;
-                    break;
-                } else {
-                    // Combine the step and return
-                    floorInterval.end = step.end;
-                    iterator.remove();
-                    break;
-                }
-            }
-            if (step.equals(floorInterval)) {
-                shouldCheck = 1;
+            if (expandInterval.end >= step.end) {
+                // Remove step entirely
+                iterator.remove();
+            } else if (expandInterval.end < step.start) {
+                // No more Intervals to combine
+                floorInterval.end = expandInterval.end;
+                break;
+            } else {
+                // Combine the step and return
+                floorInterval.end = step.end;
+                iterator.remove();
+                break;
             }
         }
         if (floorInterval.end == originalFloorRight) {
             // End of List reached
             floorInterval.end = expandInterval.end;
         }
+
+//        Iterator<Interval> iterator = internalData.iterator();
+//        int shouldCheck = 0;
+//        while (iterator.hasNext()) {
+//            Interval step = iterator.next();
+//            if (shouldCheck == 1) {
+//                if (expandInterval.end >= step.end) {
+//                    // Remove step entirely
+//                    iterator.remove();
+//                } else if (expandInterval.end < step.start) {
+//                    // No more Intervals to combine
+//                    floorInterval.end = expandInterval.end;
+//                    break;
+//                } else {
+//                    // Combine the step and return
+//                    floorInterval.end = step.end;
+//                    iterator.remove();
+//                    break;
+//                }
+//            }
+//            if (step.equals(floorInterval)) {
+//                shouldCheck = 1;
+//            }
+//        }
+//        if (floorInterval.end == originalFloorRight) {
+//            // End of List reached
+//            floorInterval.end = expandInterval.end;
+//        }
     }
 
     private void loopForAdditionToExpand(Interval floorInterval, Interval expandInterval, int initialCheckFlag) {
-        Iterator<Interval> iterator = internalData.iterator();
-        int shouldCheck = initialCheckFlag;
+        Iterator<Interval> iterator;
+        if (floorInterval == null) {
+            iterator = internalData.iterator();
+        } else {
+            iterator = internalData.tailSet(floorInterval, false).iterator();
+        }
         while (iterator.hasNext()) {
             Interval step = iterator.next();
-            if (shouldCheck == 1) {
-                if (expandInterval.end >= step.end) {
-                    // Remove step entirely
-                    iterator.remove();
-                } else if (expandInterval.end < step.start) {
-                    // No more Intervals to combine
-                    break;
-                } else {
-                    // Combine the step
-                    expandInterval.end = step.end;
-                    iterator.remove();
-                    break;
-                }
-            }
-            if (step.equals(floorInterval)) {
-                shouldCheck = 1;
+            if (expandInterval.end >= step.end) {
+                // Remove step entirely
+                iterator.remove();
+            } else if (expandInterval.end < step.start) {
+                // No more Intervals to combine
+                break;
+            } else {
+                // Combine the step
+                expandInterval.end = step.end;
+                iterator.remove();
+                break;
             }
         }
         // Don't need to take care of largest situation
         internalData.add(expandInterval);
+
+//        Iterator<Interval> iterator = internalData.iterator();
+//        int shouldCheck = initialCheckFlag;
+//        while (iterator.hasNext()) {
+//            Interval step = iterator.next();
+//            if (shouldCheck == 1) {
+//                if (expandInterval.end >= step.end) {
+//                    // Remove step entirely
+//                    iterator.remove();
+//                } else if (expandInterval.end < step.start) {
+//                    // No more Intervals to combine
+//                    break;
+//                } else {
+//                    // Combine the step
+//                    expandInterval.end = step.end;
+//                    iterator.remove();
+//                    break;
+//                }
+//            }
+//            if (step.equals(floorInterval)) {
+//                shouldCheck = 1;
+//            }
+//        }
+//        // Don't need to take care of largest situation
+//        internalData.add(expandInterval);
     }
 
     private void processForRemoval(int[] array) {
@@ -188,30 +234,52 @@ public class Solution {
     }
 
     private void loopForRemoval(Interval constraintInterval, Interval floorInterval, boolean shouldIncludeFloor, int initialCheckFlag) {
-        Iterator<Interval> iterator = internalData.iterator();
-        int shouldCheck = initialCheckFlag;
+        Iterator<Interval> iterator;
+        if (floorInterval == null) {
+            iterator = internalData.iterator();
+        } else {
+            iterator = internalData.tailSet(floorInterval, shouldIncludeFloor).iterator();
+        }
+
         while (iterator.hasNext()) {
             Interval step = iterator.next();
-            if (step.equals(floorInterval) && shouldIncludeFloor) {
-                shouldCheck = 1;
-            }
-            if (shouldCheck == 1) {
-                if (constraintInterval.end >= step.end) {
-                    // Remove step entirely
-                    iterator.remove();
-                } else if (constraintInterval.end <= step.start) {
-                    // No more Intervals to remove
-                    break;
-                } else {
-                    // Update step Interval's start value
-                    step.start = constraintInterval.end;
-                    break;
-                }
-            }
-            if (step.equals(floorInterval) && !shouldIncludeFloor) {
-                shouldCheck = 1;
+            if (constraintInterval.end >= step.end) {
+                // Remove step entirely
+                iterator.remove();
+            } else if (constraintInterval.end <= step.start) {
+                // No more Intervals to remove
+                break;
+            } else {
+                // Update step Interval's start value
+                step.start = constraintInterval.end;
+                break;
             }
         }
+//        Brute-Force Version
+//        Iterator<Interval> iterator = internalData.iterator();
+//        int shouldCheck = initialCheckFlag;
+//        while (iterator.hasNext()) {
+//            Interval step = iterator.next();
+//            if (step.equals(floorInterval) && shouldIncludeFloor) {
+//                shouldCheck = 1;
+//            }
+//            if (shouldCheck == 1) {
+//                if (constraintInterval.end >= step.end) {
+//                    // Remove step entirely
+//                    iterator.remove();
+//                } else if (constraintInterval.end <= step.start) {
+//                    // No more Intervals to remove
+//                    break;
+//                } else {
+//                    // Update step Interval's start value
+//                    step.start = constraintInterval.end;
+//                    break;
+//                }
+//            }
+//            if (step.equals(floorInterval) && !shouldIncludeFloor) {
+//                shouldCheck = 1;
+//            }
+//        }
     }
 
     private boolean preProcessInput(int[] step) {
